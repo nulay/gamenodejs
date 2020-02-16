@@ -45,7 +45,8 @@ exports.checkLoginAccount = function(req, resp){
             var password = post_data["password"];
 
             // If user name and password is correct.
-            if(user_name === 'jerry' && password === 'dev2qa.com')
+            var curent_user = user(user_name,password);
+if(is_user(curent_user))
             {
                 resp.writeHead(200, {'Content-Type':'text/html'});
 
@@ -138,12 +139,22 @@ function user(name, age, gender) {
 
 }
 
-person.equilsCreds = function(personA, personB) {
-	if(personA.name == personB.name &&
-		personA.password == personB.password){
+user.equilscreds = function(personB) {
+	if(this.name == personB.name &&
+           this.password == personB.password){
 			return true;
 
 		}
-	return false;
+	   return false;
 
         }
+
+function is_user(user){
+if (global.users.size === 0) return false;
+   for(i==0 ; i<global.users.size ;i++){
+if(user.equils_creds(global.users[i])){
+return true;
+}
+}
+return false;
+}
