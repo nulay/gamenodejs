@@ -123,14 +123,15 @@ function buildLoginPage(req, resp, error_message) {
     resp.end(login_page_data);
 }
 
-function user(name, age, gender) {
+function user(name, password, age, gender) {
     this.name = name;
-	this.password = password;
+    this.password = password;
     this.age = age;
     this.gender = gender;
 
     this.toString = function() {
       return this.name + " " +
+             
              this.age + " years old" +
              (this.gender == 'M' ? " man" : " woman");
     };
