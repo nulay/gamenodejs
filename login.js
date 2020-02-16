@@ -2,7 +2,7 @@
  * New node file
  */
 
-global.users = [];
+var user = require('./user');
 var http_util = require('./util/http_util');
 
 /* Return login form page to client request.
@@ -45,9 +45,9 @@ exports.checkLoginAccount = function(req, resp){
             var password = post_data["password"];
 
             // If user name and password is correct.
-            var curent_user = user(user_name,password);
+            var curent_user = user.user(user_name,password);
             
-            if(is_user(curent_user))
+            if(user.is_user(curent_user))
             {
                 resp.writeHead(200, {'Content-Type':'text/html'});
 
@@ -124,41 +124,3 @@ function buildLoginPage(req, resp, error_message) {
     resp.end(login_page_data);
 }
 
-function user(name, password, age, gender) {
-    this.name = name;
-    this.password = password;
-    this.age = age;
-    this.gender = gender;
-
-    this.toString = function() {
-      return this.name + " " +
-             
-             this.age + " years old" +
-             (this.gender == 'M' ? " man" : " woman");
-    };
-
-    return this;
-
-}
-
-user.equils_creds = function(personB) {
-	if(this.name == personB.name &&
-           this.password == personB.password){
-			return true;
-
-		}
-	   return false;
-
-        }
-
-function is_user(user){
-console.log('check user');
-console.log(user.toString());
-if (global.users.length === 0) return false;
-   for(i==0 ; i<global.users.length ;i++){
-if(user.equils_creds(global.users[i])){
-return true;
-}
-}
-return false;
-}
