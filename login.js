@@ -46,7 +46,7 @@ exports.checkLoginAccount = function(req, resp){
 
             // If user name and password is correct.
             var curent_user = user(user_name,password);
-            curent_user.toString();
+            
             if(is_user(curent_user))
             {
                 resp.writeHead(200, {'Content-Type':'text/html'});
@@ -152,9 +152,10 @@ user.equils_creds = function(personB) {
         }
 
 function is_user(user){
-log('check user');
-if (global.users.size === 0) return false;
-   for(i==0 ; i<global.users.size ;i++){
+console.log('check user');
+console.log(user.toString());
+if (global.users.length === 0) return false;
+   for(i==0 ; i<global.users.length ;i++){
 if(user.equils_creds(global.users[i])){
 return true;
 }
