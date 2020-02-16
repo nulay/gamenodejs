@@ -140,7 +140,7 @@ function user(name, password, age, gender) {
 
 }
 
-user.equilscreds = function(personB) {
+user.equils_creds = function(personB) {
 	if(this.name == personB.name &&
            this.password == personB.password){
 			return true;
@@ -151,6 +151,7 @@ user.equilscreds = function(personB) {
         }
 
 function is_user(user){
+log('check user');
 if (global.users.size === 0) return false;
    for(i==0 ; i<global.users.size ;i++){
 if(user.equils_creds(global.users[i])){
