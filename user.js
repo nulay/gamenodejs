@@ -1,0 +1,40 @@
+global.users = [];
+
+function user(name, password, age, gender) {
+    this.name = name;
+    this.password = password;
+    this.age = age;
+    this.gender = gender;
+
+    this.toString = function() {
+      return this.name + " " +
+             
+             this.age + " years old" +
+             (this.gender == 'M' ? " man" : " woman");
+    };
+
+    return this;
+
+}
+
+user.equils_creds = function(personB) {
+	if(this.name == personB.name &&
+           this.password == personB.password){
+			return true;
+
+		}
+	   return false;
+
+        }
+
+function is_user(user){
+console.log('check user');
+console.log(user.toString());
+if (global.users.length === 0) return false;
+   for(i==0 ; i<global.users.length ;i++){
+if(user.equils_creds(global.users[i])){
+return true;
+}
+}
+return false;
+}
