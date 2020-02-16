@@ -46,7 +46,8 @@ exports.checkLoginAccount = function(req, resp){
 
             // If user name and password is correct.
             var curent_user = user(user_name,password);
-if(is_user(curent_user))
+            curent_user.toString();
+            if(is_user(curent_user))
             {
                 resp.writeHead(200, {'Content-Type':'text/html'});
 
