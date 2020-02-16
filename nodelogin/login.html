@@ -1,0 +1,105 @@
+ CodeShack
+HTML CSS JavaScript jQuery PHP Python MySQL
+Basic Login System with Node.js, Express, and MySQL
+Updated on August 21, 2019 by David Adams
+Basic Login System with Node.js, Express, and MySQL
+For this tutorial we'll be doing something a little different, instead of developing applications with PHP we'll be creating a login system with Node.js, Express, and MySQL.
+
+Subscribers have been asking for a Node.js tutorial, so I thought hey why not create a login system similar to that of the PHP login system tutorial I published a few months back, so here it is.
+
+The Basic and Advanced packages include additional features and a download link to the source code, you can view screenshots below.
+
+Node.js Login Form
+Advanced Node.js Login Form
+Advanced Node.js Registration Form
+Advanced Node.js Login Home
+Advanced Node.js Login Profile
+Advanced Node.js Login Edit Profile
+What you will learn in this Tutorial
+Establishing a connection to a MySQL database and selecting rows using MySQL queries.
+Creating GET and POST requests with Node.js and Express.
+Sending and receiving data from the client using Node and Express.
+Creating session variables for clients, this will determine if a user is logged in or not.
+Why create a login system with Node.js over something like PHP?
+Node.js is a powerful open-source server environment using JavaScript as its core scripting language, Node.js is still fairly new to the web, web developers around the world are using it more and more each year, some say Node.js is the future for websites and applications.
+
+Node.js's package manager already has over 450,000 packages available for you to download, those numbers alone prove how fast it's growing.
+
+If you are familiar with JavaScript, you will enjoy developing applications with Node.js.
+
+Unlike PHP, Node.js does not require Apache or Nginx, Node.js is its own environment.
+
+Requirements
+MySQL Server
+Node.js
+Express - Install with command: npm install express.
+Express Sessions - Install with command: npm install express-session.
+MySQL for Node.js - Install with command: npm install mysql.
+File Structure
+\-- nodelogin
+  |-- login.html
+  |-- login.js
+
+Getting Started
+Create a new directory called nodelogin, you can create this anywhere on your computer.
+
+Run the command: npm init from inside the directory, it will prompt us to enter a package name, enter: login.
+
+When it prompts to enter the entry point enter login.js.
+
+Now we need to install the packages listed in the requirements, while still in the command line run the commands listed in the requirements above.
+
+We should now have a new directory called: node_modules with all the modules installed.
+
+Creating the Login System
+Create a new file called: login.html.
+
+login.html
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Login Form Tutorial</title>
+		<style>
+		.login-form {
+			width: 300px;
+			margin: 0 auto;
+			font-family: Tahoma, Geneva, sans-serif;
+		}
+		.login-form h1 {
+			text-align: center;
+			color: #4d4d4d;
+			font-size: 24px;
+			padding: 20px 0 20px 0;
+		}
+		.login-form input[type="password"],
+		.login-form input[type="text"] {
+			width: 100%;
+			padding: 15px;
+			border: 1px solid #dddddd;
+			margin-bottom: 15px;
+			box-sizing:border-box;
+		}
+		.login-form input[type="submit"] {
+			width: 100%;
+			padding: 15px;
+			background-color: #535b63;
+			border: 0;
+			box-sizing: border-box;
+			cursor: pointer;
+			font-weight: bold;
+			color: #ffffff;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="login-form">
+			<h1>Login Form</h1>
+			<form action="auth" method="POST">
+				<input type="text" name="username" placeholder="Username" required>
+				<input type="password" name="password" placeholder="Password" required>
+				<input type="submit">
+			</form>
+		</div>
+	</body>
+</html>
