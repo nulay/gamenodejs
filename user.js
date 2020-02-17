@@ -26,7 +26,7 @@ function is_user(user){
     console.log('check user '+global.users.length);
     console.log(user.toString());
     if (global.users.length === 0) return false;
-    for(i==0 ; i<global.users.length ;i++){
+    for(i = 0 ; i<global.users.length ;i++){
       if(user.equils_creds(global.users[i])){
          return true;
       }
@@ -38,7 +38,7 @@ function is_user(user){
 function is_user_name(user){
     console.log(user.toString());
     if (global.users.length === 0) return false;
-    for(i==0 ; i<global.users.length ;i++){
+    for(i = 0 ; i<global.users.length ;i++){
        if(user.name == global.users[i].name){
           return true;
        }
