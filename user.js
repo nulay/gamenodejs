@@ -23,7 +23,7 @@ user.equils_creds = function(personB) {
 }
 
 function is_user(user){
-    console.log('check user');
+    console.log('check user '+global.users.length);
     console.log(user.toString());
     if (global.users.length === 0) return false;
     for(i==0 ; i<global.users.length ;i++){
