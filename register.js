@@ -50,6 +50,9 @@ console.log(userf + " && "+ userf.is_user);
             
 if(!userf.is_user_name(curent_user))
             {
+global.users[global.users.length] = curent_user;
+
+
                 resp.writeHead(200, {'Content-Type':'text/html'});
 
     var page_title = "Register Success";
