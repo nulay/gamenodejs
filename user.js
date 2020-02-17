@@ -10,17 +10,19 @@ var user = function (name, password, age,gender) {
       return this.name + " " +
              this.age + " years old" +
              (this.gender == 'M' ? " man" : " woman");
-    }
-    return this;
-}
-
-user.prototype.equils_creds = function(personB) {
+    };
+   this.equils_creds = function(personB) {
    if(this.name == personB.name &&
       this.password == personB.password){
 	return true;
    }
    return false;
+};
+
+    return this;
 }
+
+
 
 function is_user(userb){
     console.log('check user '+global.users.length);
