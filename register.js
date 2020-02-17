@@ -43,7 +43,7 @@ exports.registerSubmit = function (req, resp) {
             // Get password from post data.
             var password = post_data["password"];
 
-consol.log(user_name+":"+password);
+console.log(user_name+":"+password);
 
             // If user name and password is correct.
             var curent_user = user.user(user_name,password);
