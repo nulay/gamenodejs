@@ -1,6 +1,6 @@
 global.users = [];
 
-function user(name, password, age,gender) {
+var user = function (name, password, age,gender) {
     this.name = name;
     this.password = password;
     this.age = age;
@@ -22,12 +22,12 @@ user.equils_creds = function(personB) {
    return false;
 }
 
-function is_user(user){
+function is_user(userb){
     console.log('check user '+global.users.length);
     console.log(user.toString());
     if (global.users.length === 0) return false;
     for(i = 0 ; i<global.users.length ;i++){
-      if(user.equils_creds(global.users[i])){
+      if(userb.equils_creds(global.users[i])){
          return true;
       }
     }
