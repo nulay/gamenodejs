@@ -47,5 +47,5 @@ function is_user_name(user){
 }
 
 module.exports = user;
-module.exports = is_user;
-module.exports = is_user_name;
+module.exports.is_user = is_user;
+module.exports.is_user_name = is_user_name;
