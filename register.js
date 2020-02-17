@@ -44,11 +44,11 @@ exports.registerSubmit = function (req, resp) {
             var password = post_data["password"];
 
 console.log(user_name+":"+password);
-console.log(user + " && "+ userf);
+console.log(userf + " && "+ userf.is_user);
             // If user name and password is correct.
             var curent_user = user(user_name,password);
             
-if(!is_user_name(curent_user))
+if(!userf.is_user_name(curent_user))
             {
                 resp.writeHead(200, {'Content-Type':'text/html'});
 
