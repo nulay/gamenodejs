@@ -14,7 +14,7 @@ var user = function (name, password, age,gender) {
     return this;
 }
 
-user.equils_creds = function(personB) {
+user.prototype.equils_creds = function(personB) {
    if(this.name == personB.name &&
       this.password == personB.password){
 	return true;
