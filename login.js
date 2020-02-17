@@ -45,7 +45,7 @@ exports.checkLoginAccount = function(req, resp){
             var password = post_data["password"];
 
             // If user name and password is correct.
-            var curent_user = user.user(user_name,password);
+            var curent_user = user(user_name,password);
             
             if(user.is_user(curent_user))
             {
