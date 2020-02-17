@@ -2,7 +2,7 @@
  * New node file
  */
 
-
+var user = require('./user');
 var http_util = require('./util/http_util');
 
 
@@ -15,7 +15,40 @@ exports.showRegisterPage = function (req, resp) {
 /* Exported function also used to send a register success message to client. */
 exports.registerSubmit = function (req, resp) {
 
-    resp.writeHead(200, {'Content-Type':'text/html'});
+// Use node query string module to parse login form post data.
+   var query_string = require('querystring');
+
+   // If client use post method to request.
+    if (req.method == 'POST') {
+
+       var req_body = '';
+
+        req.on('data', function (data) {
+            req_body += data;
+
+            // If the POST data is too much then destroy the connection to avoid attack.
+            // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+            if (req_body.length > 1e6)
+                req.connection.destroy();
+        });
+
+        req.on('end', function () {
+
+           // Parse post data from request body, return a JSON string contains all post data.
+            var post_data = query_string.parse(req_body);
+
+            // Get user name from post data.
+            var user_name = post_data["user_name"];
+
+            // Get password from post data.
+            var password = post_data["password"];
+
+            // If user name and password is correct.
+            var curent_user = user.user(user_name,password);
+            
+if(!user.is_user_name(curent_user))
+            {
+                resp.writeHead(200, {'Content-Type':'text/html'});
 
     var page_title = "Register Success";
 
@@ -26,6 +59,27 @@ exports.registerSubmit = function (req, resp) {
     var page_data = http_util.buildPage(page_title, page_menu, page_content);
 
     resp.end(page_data);
+            }else
+            {
+               resp.writeHead(200, {'Content-Type':'text/html'});
+
+    var page_title = "User with this name exist!";
+
+    var page_menu = http_util.pageMenu();
+
+    var page_content = "User with this name exist! Select another name.";
+
+    var page_data = http_util.buildPage(page_title, page_menu, page_content);
+
+    resp.end(page_data);
+            }
+
+
+            
+        });
+    }
+
+    
 }
 
 
