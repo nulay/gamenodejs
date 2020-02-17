@@ -45,3 +45,7 @@ function is_user_name(user){
     }
     return false;
 }
+
+module.exports = user;
+module.exports = is_user;
+module.exports = is_user_name;
