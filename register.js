@@ -102,6 +102,7 @@ function buildRegisterPage(req, resp, error_message) {
     register_form += "<form method='post' action='/register-submit'>" +
         "User Name : <input type='text' name='user_name' value='{user_name}'/><br/><br/>" +
         "Password :<input type='password' name='password' value='{password}'/><br/><br/>" +
+        "Repeat password :<input type='r_password' name='r_password' value='{r_password}'/><br/><br/>" +
         "Email :<input type='text' name='email' value='{email}'/><br/><br/>" +
         "<input type='submit' value='Register'/><br/><br/>" +
         "</form>";
