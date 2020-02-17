@@ -1,6 +1,6 @@
 global.users = [];
 
-function user(name, password, age, gender) {
+function user(name, password) {
     this.name = name;
     this.password = password;
     this.age = age;
