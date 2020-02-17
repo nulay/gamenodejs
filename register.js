@@ -2,7 +2,7 @@
  * New node file
  */
 
-var user = require('./user');
+var userf = require('./user');
 var http_util = require('./util/http_util');
 
 
@@ -46,9 +46,9 @@ exports.registerSubmit = function (req, resp) {
 console.log(user_name+":"+password);
 
             // If user name and password is correct.
-            var curent_user = user.user(user_name,password);
+            var curent_user = userf.user(user_name,password);
             
-if(!user.is_user_name(curent_user))
+if(!userf.is_user_name(curent_user))
             {
                 resp.writeHead(200, {'Content-Type':'text/html'});
 
