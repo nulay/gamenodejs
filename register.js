@@ -44,7 +44,7 @@ exports.registerSubmit = function (req, resp) {
             var password = post_data["password"];
 
 console.log(user_name+":"+password);
-
+console.log(userf.user + "555"+ userf);
             // If user name and password is correct.
             var curent_user = userf.user(user_name,password);
             
