@@ -12,7 +12,7 @@ var user = function (name, password, age,gender) {
              (this.gender == 'M' ? " man" : " woman");
     };
    this.equils_creds = function(personB) {
-console.log(this.toString());
+console.log("users: "+this.toString());
 console.log(personB.toString());
    if(this.name == personB.name &&
       this.password == personB.password){
