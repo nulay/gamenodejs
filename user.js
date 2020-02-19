@@ -45,7 +45,7 @@ function is_user_name(user){
     console.log(user.toString());
     if (global.users.length === 0) return false;
     for(i = 0 ; i<global.users.length ;i++){
-    console.log(global.users[i].toString);
+    console.log(global.users[i].toString());
 
        if(user.name == global.users[i].name){
           return true;
