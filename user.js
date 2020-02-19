@@ -38,6 +38,7 @@ function is_user(userb){
 
 
 function is_user_name(user){
+    console.log('count user in global list: '+global.users.length);
     console.log(user.toString());
     if (global.users.length === 0) return false;
     for(i = 0 ; i<global.users.length ;i++){
