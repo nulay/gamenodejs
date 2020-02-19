@@ -50,7 +50,7 @@ console.log(user_name+":"+password);
 if(!userf.is_user_name(curent_user))
             {
 console.log("add cu:"+curent_user.toString());
-global.users[global.users.length] = new user(user_name,password);
+global.users[global.users.length] = new userf.user(user_name,password);
 
 
                 resp.writeHead(200, {'Content-Type':'text/html'});
