@@ -25,8 +25,8 @@ var user = function (name, password, age,gender) {
 
 
 function is_user(userb){
-    console.log('check user '+global.users.length);
-    console.log(user.toString() + " " + user);
+    console.log('count user in global list: '+global.users.length);
+    console.log(user.toString());
     if (global.users.length === 0) return false;
     for(i = 0 ; i<global.users.length ;i++){
       if(userb.equils_creds(global.users[i])){
