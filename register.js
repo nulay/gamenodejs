@@ -49,6 +49,7 @@ console.log(user_name+":"+password);
             
 if(!userf.is_user_name(curent_user))
             {
+console.log("add cu:"+curent_user.toString());
 global.users[global.users.length] = curent_user;
 
 
