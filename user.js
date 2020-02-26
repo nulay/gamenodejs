@@ -1,4 +1,5 @@
-global.users = [];
+loc users = [];
+var fs = require("fs");
 
 var user = function (name, password, age,gender) {
     this.name = name;
@@ -13,7 +14,8 @@ var user = function (name, password, age,gender) {
     }
 
     this.save = function(functioncb){
-       global.users[global.users.length] = new userf(user_name,password);
+       users[users.length] = new userf(user_name,password);
+       writeuserstofile();
        functioncb();
     }
 
@@ -36,15 +38,42 @@ var user = function (name, password, age,gender) {
     return this;
 }
 
+function writeuserstofile(){
+fs.writeFile("users.json",JSON.stringify(users), (err) => {
+  if (err) console.log(err);
+  console.log("Successfully Written to File.");
+});
+}
+
+function readuserfromfile(){
+
+fs.readFile('users.json', (err, data) => {
+    if (err) throw err;
+    users = JSON.parse(data);
+    console.log('reading is executed count records are ' +global.users.length );
+});
+}
+
+loc readusisdone == false;
+
+function getusers(){
+if (users.length === 0 && !readusisdone){
+readuserfromfile();
+readusisdone = true;
+}
+if (users.length === 0) return null;
+return users;
+}
+
 function finduserbysotialid(id){
     console.log('finduserbyid id is: '+id);
-    if (global.users.length === 0) return null;
-    for(i = 0 ; i<global.users.length ;i++){
-      if(global.users[i].sotialid.length>0){
-         for(y = 0 ; y<global.users[i].sotialid.length ;y++){
-           if(global.users[i].sotialid[y] == id){
+    if (getusers() == null) return null;
+    for(i = 0 ; i<users.length ;i++){
+      if(users[i].sotialid.length>0){
+         for(y = 0 ; y<users[i].sotialid.length ;y++){
+           if(users[i].sotialid[y] == id){
 
-              return global.users[i];
+              return users[i];
            }
          }   
       }
@@ -55,11 +84,11 @@ function finduserbysotialid(id){
 
 
 function is_user(userb){
-    console.log('count user in global list: '+global.users.length);
+    console.log('count user in list: '+ users.length);
     console.log(user.toString());
-    if (global.users.length === 0) return false;
-    for(i = 0 ; i<global.users.length ;i++){
-      if(userb.equils_creds(global.users[i])){
+    if (getusers() == null) return false;
+    for(i = 0 ; i< users.length ;i++){
+      if(userb.equils_creds(users[i])){
 
          return true;
       }
@@ -69,13 +98,13 @@ function is_user(userb){
 
 
 function is_user_name(user){
-    console.log('count user in global list: '+global.users.length);
+    console.log('count user in list: '+users.length);
     console.log(user.toString());
-    if (global.users.length === 0) return false;
-    for(i = 0 ; i<global.users.length ;i++){
-    console.log(global.users[i].toString());
+    if (getusers() == null) return false;
+    for(i = 0 ; i<users.length ;i++){
+    console.log(users[i].toString());
 
-       if(user.name == global.users[i].name){
+       if(user.name == users[i].name){
           return true;
        }
     }
