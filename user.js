@@ -5,6 +5,17 @@ var user = function (name, password, age,gender) {
     this.password = password;
     this.age = age;
     this.gender = gender;
+    this.sotialid = [];
+
+    this.findOne = function(objusauth, funccheck){
+       usert = finduserbysotialid(objusauth.id);
+       funccheck(null, usert);
+    }
+
+    this.save = function(functioncb){
+       global.users[global.users.length] = new userf(user_name,password);
+       functioncb();
+    }
 
     this.toString = function() {
       return this.name + " " +
@@ -12,8 +23,9 @@ var user = function (name, password, age,gender) {
              (this.gender == 'M' ? " man" : " woman");
     };
    this.equils_creds = function(personB) {
-console.log("users: "+this.toString());
-console.log(personB.toString());
+   console.log("users: "+this.toString());
+   console.log(personB.toString());
+
    if(this.name == personB.name &&
       this.password == personB.password){
 	return true;
@@ -22,6 +34,22 @@ console.log(personB.toString());
 };
 
     return this;
+}
+
+function finduserbysotialid(id){
+    console.log('finduserbyid id is: '+id);
+    if (global.users.length === 0) return null;
+    for(i = 0 ; i<global.users.length ;i++){
+      if(global.users[i].sotialid.length>0){
+         for(y = 0 ; y<global.users[i].sotialid.length ;y++){
+           if(global.users[i].sotialid[y] == id){
+
+              return global.users[i];
+           }
+         }   
+      }
+    }
+    return null;
 }
 
 
