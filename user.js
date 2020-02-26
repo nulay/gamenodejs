@@ -1,4 +1,4 @@
-loc users = [];
+var users = [];
 var fs = require("fs");
 
 var user = function (name, password, age,gender) {
@@ -54,7 +54,7 @@ fs.readFile('users.json', (err, data) => {
 });
 }
 
-loc readusisdone == false;
+var readusisdone == false;
 
 function getusers(){
 if (users.length === 0 && !readusisdone){
