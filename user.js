@@ -1,9 +1,10 @@
 var users = [];
 var fs = require("fs");
 
-var user = function (name, password, age,gender) {
+var user = function (name, password, email,age,gender) {
     this.name = name;
     this.password = password;
+    this.email=email;
     this.age = age;
     this.gender = gender;
     this.sotialid = [];
@@ -11,7 +12,10 @@ var user = function (name, password, age,gender) {
     this.findOne = function(objusauth, funccheck){
        usert = finduserbysotialid(objusauth.id);
        funccheck(null, usert);
-    }
+   }
+this.create = function(){
+       return new User(username, password, email);
+}
 
     this.save = function(functioncb){
        users[users.length] = new userf(user_name,password);
