@@ -18,6 +18,10 @@ var user = function (name, password, email,age,gender) {
       funccb(this);
    };
 
+   this.catch = function(funccb){
+      funccb(this);
+   };
+
    this.save = function(functioncb){
        users[users.length] = new userf(user_name,password);
        writeuserstofile();
