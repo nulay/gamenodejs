@@ -117,20 +117,20 @@ function then(user, funccb){
          funccb(this)
       }
       return user;
-};
+}
 
 function catch(user, funccb){
       if(funccb!=null){
          funccb(this);
       }
       return user;
-};
+}
 
-function save(functioncb){
+function save(user_name,password,functioncb){
        users[users.length] = new userf(user_name,password);
        writeuserstofile();
        functioncb();
-};
+}
 
 module.exports = user;
 module.exports.is_user = is_user;
