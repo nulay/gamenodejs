@@ -9,24 +9,7 @@ var user = function (name, password, email,age,gender) {
     this.gender = gender;
     this.sotialid = [];
 
-    this.findOne = function(objusauth, funccheck){
-       usert = finduserbysotialid(objusauth.id);
-       funccheck(null, usert);
-   };
-   
-   this.then = function(funccb){
-      funccb(this);
-   };
-
-   this.catch = function(funccb){
-      funccb(this);
-   };
-
-   this.save = function(functioncb){
-       users[users.length] = new userf(user_name,password);
-       writeuserstofile();
-       functioncb();
-   };
+    
 
    this.toString = function() {
       return this.name + " " +
@@ -124,8 +107,36 @@ function create(auth){
     return new user(auth.username, auth.password, auth.email);
 }
 
+function findOne (objusauth, funccheck){
+       usert = finduserbysotialid(objusauth.id);
+       funccheck(null, usert);
+}
+   
+function then(user, funccb){
+      if(funccb!=null){
+         funccb(this)
+      }
+      return user;
+};
+
+function catch(user, funccb){
+      if(funccb!=null){
+         funccb(this);
+      }
+      return user;
+};
+
+function save(functioncb){
+       users[users.length] = new userf(user_name,password);
+       writeuserstofile();
+       functioncb();
+};
 
 module.exports = user;
 module.exports.is_user = is_user;
 module.exports.is_user_name = is_user_name;
 module.exports.create = create;
+module.exports.catch = catch;
+module.exports.save = save;
+module.exports.then = then;
+module.exports.findOne = findOne;
