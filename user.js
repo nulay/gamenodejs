@@ -8,7 +8,7 @@ var user = function (name, password, email,age,gender) {
     this.age = age;
     this.gender = gender;
     this.sotialid = [];
-    this.sup = this;
+    
 
     this.catch = function(user, funccb){
       if(funccb!=null){
@@ -38,16 +38,16 @@ var user = function (name, password, email,age,gender) {
    this.findOne = function(objusauth, funccheck){
        usert = finduserbysotialid(objusauth.id);
        funccheck(null, usert);
-       return sup;
+       return super;
    };
 
     this.then = function(funccb){
-      funccb(this);
-      return sup;
+      funccb(super);
+      return super;
    };
 
     this.catch = function(funccb){
-      funccb(sup);
+      funccb(super);
    };
 
     this.save = function(functioncb){
@@ -56,7 +56,6 @@ var user = function (name, password, email,age,gender) {
        functioncb();
        return users[users.length-1] ;
    };
-    return this;
 }
 
 function writeUsersToFile(){
