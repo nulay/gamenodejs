@@ -38,22 +38,22 @@ var user = function (name, password, email,age,gender) {
    this.findOne = function(objusauth, funccheck){
        usert = finduserbysotialid(objusauth.id);
        funccheck(null, usert);
-       return super;
+       return this;
    };
 
     this.then = function(funccb){
-      funccb(super);
-      return super;
+      funccb(this);
+      return this;
    };
 
     this.catch = function(funccb){
-      funccb(super);
+      funccb(this);
    };
 
     this.save = function(functioncb){
        users[users.length] = new userf(user_name,password);
        writeuserstofile();
-       functioncb();
+       functioncb(this);
        return users[users.length-1] ;
    };
 }
