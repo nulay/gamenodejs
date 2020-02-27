@@ -12,22 +12,19 @@ var user = function (name, password, email,age,gender) {
     this.findOne = function(objusauth, funccheck){
        usert = finduserbysotialid(objusauth.id);
        funccheck(null, usert);
-   }
-this.create = function(){
-       return new User(username, password, email);
-}
+   };
 
-    this.save = function(functioncb){
+   this.save = function(functioncb){
        users[users.length] = new userf(user_name,password);
        writeuserstofile();
        functioncb();
-    }
+   };
 
-    this.toString = function() {
+   this.toString = function() {
       return this.name + " " +
              this.age + " years old" +
              (this.gender == 'M' ? " man" : " woman");
-    };
+   };
    this.equils_creds = function(personB) {
    console.log("users: "+this.toString());
    console.log(personB.toString());
@@ -115,6 +112,11 @@ function is_user_name(user){
     return false;
 }
 
+function create(){
+       return new User(username, password, email);
+   }
+
+module.exports.create = create;
 module.exports = user;
 module.exports.is_user = is_user;
 module.exports.is_user_name = is_user_name;
