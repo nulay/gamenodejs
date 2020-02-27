@@ -58,7 +58,7 @@ fs.readFile('users.json', (err, data) => {
 });
 }
 
-var readusisdone == false;
+var readusisdone = false;
 
 function getusers(){
 if (users.length === 0 && !readusisdone){
