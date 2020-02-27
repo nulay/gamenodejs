@@ -13,6 +13,10 @@ var user = function (name, password, email,age,gender) {
        usert = finduserbysotialid(objusauth.id);
        funccheck(null, usert);
    };
+   
+   this.then = function(funccb){
+      funccb(this);
+   };
 
    this.save = function(functioncb){
        users[users.length] = new userf(user_name,password);
