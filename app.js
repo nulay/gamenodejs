@@ -65,6 +65,7 @@ app.route('/signup')
         res.sendFile(__dirname + '/public/signup.html');
     })
     .post((req, res) => {
+        console.log('create user');
         User.create({
             username: req.body.username,
             email: req.body.email,
@@ -72,6 +73,7 @@ app.route('/signup')
         })
         .then(user => {
             req.session.user = user.dataValues;
+            console.log('go to dashboard');
             res.redirect('/dashboard');
         })
         .catch(error => {
