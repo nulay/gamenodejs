@@ -59,7 +59,8 @@ var user = function (name, password, email,age,gender) {
     return this;
 }
 
-function writeuserstofile(){
+function writeUsersToFile(){
+   console.log('Save users to file');
    fs.writeFile("users.json",JSON.stringify(users), (err) => {
       if (err) console.log(err);
       console.log("Successfully Written to File.");
@@ -132,7 +133,10 @@ function is_user_name(user){
 }
 
 function create(auth){
-    return new user(auth.username, auth.password, auth.email);
+    var us = new user(auth.username, auth.password, auth.email);
+    users[users.length] = us;
+    writeUsersToFile();
+    return us
 }
 
 
