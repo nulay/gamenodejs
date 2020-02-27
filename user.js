@@ -25,45 +25,45 @@ var user = function (name, password, email,age,gender) {
              this.age + " years old" +
              (this.gender == 'M' ? " man" : " woman");
    };
-   this.equils_creds = function(personB) {
-   console.log("users: "+this.toString());
-   console.log(personB.toString());
 
-   if(this.name == personB.name &&
-      this.password == personB.password){
+   this.equils_creds = function(personB) {
+      console.log("users: "+this.toString());
+      console.log(personB.toString());
+
+      if(this.name == personB.name &&
+        this.password == personB.password){
 	return true;
-   }
-   return false;
-};
+      }
+      return false;
+   };
 
     return this;
 }
 
 function writeuserstofile(){
-fs.writeFile("users.json",JSON.stringify(users), (err) => {
-  if (err) console.log(err);
-  console.log("Successfully Written to File.");
-});
+   fs.writeFile("users.json",JSON.stringify(users), (err) => {
+      if (err) console.log(err);
+      console.log("Successfully Written to File.");
+   });
 }
 
 function readuserfromfile(){
-
-fs.readFile('users.json', (err, data) => {
-    if (err) throw err;
-    users = JSON.parse(data);
-    console.log('reading is executed count records are ' +global.users.length );
-});
+   fs.readFile('users.json', (err, data) => {
+     if (err) throw err;
+     users = JSON.parse(data);
+     console.log('reading is executed count records are ' +global.users.length );
+   });
 }
 
 var readusisdone = false;
 
 function getusers(){
-if (users.length === 0 && !readusisdone){
-readuserfromfile();
-readusisdone = true;
-}
-if (users.length === 0) return null;
-return users;
+   if (users.length === 0 && !readusisdone){
+      readuserfromfile();
+      readusisdone = true;
+   }
+   if (users.length === 0) return null;
+   return users;
 }
 
 function finduserbysotialid(id){
@@ -113,10 +113,11 @@ function is_user_name(user){
 }
 
 function create(auth){
-       return new user(auth.username, auth.password, auth.email);
-   }
+    return new user(auth.username, auth.password, auth.email);
+}
 
-module.exports.create = create;
+
 module.exports = user;
 module.exports.is_user = is_user;
 module.exports.is_user_name = is_user_name;
+module.exports.create = create;
