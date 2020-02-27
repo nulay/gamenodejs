@@ -9,7 +9,7 @@ var user = function (name, password, email,age,gender) {
     this.gender = gender;
     this.sotialid = [];
 
-    this.findOne = function(objusauth, funccheck){
+    this.findOne1 = function(objusauth, funccheck){
        usert = finduserbysotialid(objusauth.id);
        funccheck(null, usert);
    };
