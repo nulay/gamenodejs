@@ -112,8 +112,8 @@ function is_user_name(user){
     return false;
 }
 
-function create(){
-       return new User(username, password, email);
+function create(auth){
+       return new User(auth.username, auth.password, auth.email);
    }
 
 module.exports.create = create;
