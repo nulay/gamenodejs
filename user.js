@@ -116,6 +116,7 @@ function create(auth){
 function findOne (objusauth, funccheck){
        usert = finduserbysotialid(objusauth.id);
        funccheck(null, usert);
+       return usert;
 }
    
 function then(user, funccb){
@@ -130,6 +131,7 @@ function save(user_name,password,functioncb){
        users[users.length] = new userf(user_name,password);
        writeuserstofile();
        functioncb();
+       return users[users.length-1];
 }
 
 module.exports = user;
