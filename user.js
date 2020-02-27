@@ -9,7 +9,13 @@ var user = function (name, password, email,age,gender) {
     this.gender = gender;
     this.sotialid = [];
 
-    
+    this.catch = function(user, funccb){
+      if(funccb!=null){
+         funccb(this);
+      }
+      return user;
+    };
+
 
    this.toString = function() {
       return this.name + " " +
@@ -119,12 +125,6 @@ function then(user, funccb){
       return user;
 }
 
-function catch(user, funccb){
-      if(funccb!=null){
-         funccb(this);
-      }
-      return user;
-}
 
 function save(user_name,password,functioncb){
        users[users.length] = new userf(user_name,password);
@@ -136,7 +136,6 @@ module.exports = user;
 module.exports.is_user = is_user;
 module.exports.is_user_name = is_user_name;
 module.exports.create = create;
-module.exports.catch = catch;
 module.exports.save = save;
 module.exports.then = then;
 module.exports.findOne = findOne;
