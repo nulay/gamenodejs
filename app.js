@@ -108,7 +108,7 @@ app.route('/login')
 // route for user's dashboard
 app.get('/dashboard', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
-         fs.readFile("/dashboard.html", "utf8", function(error, data){
+         fs.readFile("./dashboard.html", "utf8", function(error, data){
                  
         let message = "Hello "+req.session.user.name+"!"; 
          console.log(message);
