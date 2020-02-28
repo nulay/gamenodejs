@@ -13,8 +13,8 @@ var user = function (name, password, email,age,gender) {
     this.validPassword = function(password){
       //need to hide
 
-       this.password = password;
-   }
+      return this.password == password;
+   };
 
    this.toString = function() {
       return this.name + " " +
