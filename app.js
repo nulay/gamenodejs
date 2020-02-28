@@ -114,7 +114,7 @@ app.get('/dashboard', (req, res) => {
          console.log(message);
         let header = "Главная страница";
         data = data.replace("{message}", message);
-        res.send(data).end();
+        res.send(data);
 
     })
         //res.sendFile(__dirname + '/public/dashboard.html');
