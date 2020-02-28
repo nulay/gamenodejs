@@ -137,7 +137,7 @@ function findOne (objusauth, funccheck){
 
  function then(user, funccb){
       if(funccb!=null){
-         funccb(this)
+         funccb(user)
       }
       return user;
 }
