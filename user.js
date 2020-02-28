@@ -143,7 +143,7 @@ function save(user_name,password,functioncb){
 }
 
 
-function catch (funccb){
+function catche (funccb){
       if(funccb!=null){
          funccb(this)
       }
@@ -157,5 +157,5 @@ module.exports.create = create;
 module.exports.save = save;
 module.exports.then = then;
 module.exports.findOne = findOne;
-module.exports.catch = catch;
+module.exports.catche = catche;
 
