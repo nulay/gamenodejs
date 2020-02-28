@@ -93,15 +93,16 @@ function is_user(userb){
 }
 
 
-function is_user_name(user){
+function is_user_name(name){
     console.log('count user in list: '+users.length);
     console.log(user.toString());
     if (getusers() == null) return null;
+    console.log('count user in list: ' + users.length);
     for(i = 0 ; i<users.length ;i++){
        console.log(users[i].toString());
 
-       if(user.name == users[i].name){
-          return user;
+       if(name == users[i].name){
+          return users[i];
        }
     }
     return null;
