@@ -115,6 +115,7 @@ function getUserByName(name){
 }
 
 function create(auth){
+    getusers();
     var us = new user(auth.username, auth.password, auth.email);
     users[users.length] = us;
     writeUsersToFile();
@@ -143,16 +144,6 @@ function findOne (objusauth, funccheck){
       }
       return user;
 }
-
-
-function save(user_name,password,functioncb){
-        getusers();
-       users[users.length] = new userf(user_name,password);
-       writeuserstofile();
-       functioncb();
-       return users[users.length-1];
-}
-
 
 function catche (funccb){
       if(funccb!=null){
