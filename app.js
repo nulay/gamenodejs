@@ -72,7 +72,7 @@ app.route('/signup')
             password: req.body.password
         });
         if(usert!=null){
-            req.session.user = user.dataValues;
+            req.session.user = JSON.stringify(usert);
             console.log('go to dashboard');
             res.redirect('/dashboard');
         }else{
