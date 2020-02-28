@@ -154,7 +154,7 @@ function catche (funccb){
 
 module.exports = user;
 module.exports.is_user = is_user;
-module.exports.is_user_name = is_user_name;
+module.exports.getUserByName = getUserByName;
 module.exports.create = create;
 module.exports.save = save;
 module.exports.then = then;
