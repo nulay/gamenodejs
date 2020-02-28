@@ -93,14 +93,12 @@ function is_user(userb){
 }
 
 
-function is_user_name(name){
-    console.log('count user in list: '+users.length);
+function getUserByName(name){
+    console.log('count user in list befor: '+users.length);
     console.log(user.toString());
     if (getusers() == null) return null;
-    console.log('count user in list: ' + users.length);
+    console.log('count user in list after: ' + users.length);
     for(i = 0 ; i<users.length ;i++){
-       console.log(users[i].toString());
-
        if(name == users[i].name){
           return users[i];
        }
@@ -123,7 +121,7 @@ function findOne (objusauth, funccheck){
           usert = finduserbysotialid(objusauth.id);
        }
        if(objusauth.name!=null){
-          usert = is_user_name(objusauth.name);
+          usert = getUserByName(objusauth.name);
        }
        if (funccheck){
           funccheck(null, usert);
