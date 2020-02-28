@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var morgan = require('morgan');
 var User = require('./user');
+const fs = require("fs");
 
 // invoke an instance of express application.
 var app = express();
@@ -72,7 +73,7 @@ app.route('/signup')
             password: req.body.password
         });
         if(usert!=null){
-            req.session.user = JSON.stringify(usert);
+            req.session.user = usert;
             console.log('go to dashboard');
             res.redirect('/dashboard');
         }else{
@@ -97,7 +98,7 @@ app.route('/login')
             } else if (!user.validPassword(password)) {
                 res.redirect('/login');
             } else {
-                req.session.user =JSON.stringify(user);
+                req.session.user = user;
                 res.redirect('/dashboard');
             }
         });
@@ -107,7 +108,15 @@ app.route('/login')
 // route for user's dashboard
 app.get('/dashboard', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
-        res.sendFile(__dirname + '/public/dashboard.html');
+         fs.readFile("/dashboard.html", "utf8", function(error, data){
+                 
+        let message = "Hello "+req.session.user.name+"!"; 
+        let header = "Главная страница";
+        data = data.replace("{message}", message);
+        res.end(data);
+
+    })
+        //res.sendFile(__dirname + '/public/dashboard.html');
     } else {
         res.redirect('/login');
     }
