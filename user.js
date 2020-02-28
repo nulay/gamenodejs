@@ -156,7 +156,6 @@ module.exports = user;
 module.exports.is_user = is_user;
 module.exports.getUserByName = getUserByName;
 module.exports.create = create;
-module.exports.save = save;
 module.exports.then = then;
 module.exports.findOne = findOne;
 module.exports.catche = catche;
