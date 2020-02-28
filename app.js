@@ -91,7 +91,7 @@ app.route('/login')
             password = req.body.password;
 
         var usert = User.findOne({'name':username});
-        User.then(usert, function (usert) {
+        User.then(usert, function (user) {
             if (!user) {
                 res.redirect('/login');
             } else if (!user.validPassword(password)) {
