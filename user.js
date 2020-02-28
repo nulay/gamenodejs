@@ -10,13 +10,11 @@ var user = function (name, password, email,age,gender) {
     this.sotialid = [];
     
 
-    this.catch = function(user, funccb){
-      if(funccb!=null){
-         funccb(this);
-      }
-      return user;
-    };
+    this.validPassword = function(password){
+      //need to hide
 
+       this.password = password;
+   }
 
    this.toString = function() {
       return this.name + " " +
@@ -98,15 +96,15 @@ function is_user(userb){
 function is_user_name(user){
     console.log('count user in list: '+users.length);
     console.log(user.toString());
-    if (getusers() == null) return false;
+    if (getusers() == null) return null;
     for(i = 0 ; i<users.length ;i++){
-    console.log(users[i].toString());
+       console.log(users[i].toString());
 
        if(user.name == users[i].name){
-          return true;
+          return user;
        }
     }
-    return false;
+    return null;
 }
 
 function create(auth){
@@ -119,7 +117,12 @@ function create(auth){
 
 
 function findOne (objusauth, funccheck){
-       usert = finduserbysotialid(objusauth.id);
+       if(objusauth.id!=null){
+          usert = finduserbysotialid(objusauth.id);
+       }
+       if(objusauth.name!=null){
+          usert = is_user_name(objusauth.name);
+       }
        funccheck(null, usert);
        return usert;
 }
