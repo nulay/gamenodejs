@@ -47,9 +47,9 @@ function readuserfromfile(){
      users = JSON.parse(data);
     if(users && users.length>0){
       for(i = 0 ; i<users.length ;i++){
-       var copy = Object.assign(new user(), users[i]);
+        var copy = Object.assign(new user(), users[i]);
         users[i]=copy;
-console.log('Copy exsec'+copy.toString());
+        console.log('Copy exsecuted : '+users[i].toString());
       }
      }
      console.log('reading is executed count records are ' + users.length );
