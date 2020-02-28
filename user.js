@@ -1,19 +1,21 @@
 var users = [];
 var fs = require("fs");
+const crypto = require('crypto');
+const config = require('config');
+
 
 var user = function (name, password, email,age,gender) {
     this.name = name;
-    this.password = password;
+    this.password = pbkdf2(password, config.get('myprivatekey'), config.get('iterations') );
     this.email=email;
     this.age = age;
     this.gender = gender;
     this.sotialid = [];
-    
 
-    this.validPassword = function(password){
+    this.validPassword = function(passwordNew){
       //need to hide
 
-      return this.password == password;
+      return this.password == pbkdf2(passwordNew, config.get('myprivatekey'), config.get('iterations') );
    };
 
    this.toString = function() {
