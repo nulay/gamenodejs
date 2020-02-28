@@ -111,6 +111,7 @@ app.get('/dashboard', (req, res) => {
          fs.readFile("/dashboard.html", "utf8", function(error, data){
                  
         let message = "Hello "+req.session.user.name+"!"; 
+         console.log(message);
         let header = "Главная страница";
         data = data.replace("{message}", message);
         res.end(data);
