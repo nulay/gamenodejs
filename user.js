@@ -6,7 +6,7 @@ const config = require('config');
 
 var user = function (name, password, email,age,gender) {
     this.name = name;
-    this.password = (password): crypto.pbkdf2Sync(password, config.get('myprivatekey'), config.get('iterations'), 64, 'sha512').toString('hex')?password;
+    this.password = (password)? crypto.pbkdf2Sync(password, config.get('myprivatekey'), config.get('iterations'), 64, 'sha512').toString('hex') : password;
     this.email=email;
     this.age = age;
     this.gender = gender;
