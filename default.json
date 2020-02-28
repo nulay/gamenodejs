@@ -1,3 +1,5 @@
 {
- "myprivatekey": "myprivatekey"
+ "myprivatekey": "imixgame",
+ "salt":"imixgame",
+ "iterations" : 100
 }
