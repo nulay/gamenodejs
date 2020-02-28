@@ -146,6 +146,7 @@ function findOne (objusauth, funccheck){
 
 
 function save(user_name,password,functioncb){
+        getusers();
        users[users.length] = new userf(user_name,password);
        writeuserstofile();
        functioncb();
