@@ -28,6 +28,12 @@
 
         <div class="container row">
            <h1>Hi, Welcome to your Dashboard</h1>
+
+
+<% if (user) { %>
+      <div class="user">Hello <%= user.name %></div>
+    <% } %>
+
         </div>
     </body>
 </html>
