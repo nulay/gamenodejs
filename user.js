@@ -45,6 +45,13 @@ function writeUsersToFile(){
 function readuserfromfile(){
     var data = fs.readFileSync('users.json');
      users = JSON.parse(data);
+    if(users && users.length>0){
+      for(i = 0 ; i<users.length ;i++){
+        var nuser = new user();
+        Object.assign(nuser, users[i]);
+        users[i]=nuser;
+      }
+     }
      console.log('reading is executed count records are ' + users.length );
    
 }
