@@ -108,8 +108,8 @@ app.route('/login')
 // route for user's dashboard
 app.get('/dashboard', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
-         var data = fs.readFileSync( __dirname, "../public/dashboard.html", "utf8");
-                 
+         var data = fs.readFileSync( __dirname, "/public/dashboard.html", "utf8");
+                 console.log(data);
         let message = "Hello "+req.session.user.name+"!"; 
          console.log(message);
         let header = "Главная страница";
