@@ -34,28 +34,6 @@ var user = function (name, password, email,age,gender) {
       }
       return false;
    };
-
-   this.findOne = function(objusauth, funccheck){
-       usert = finduserbysotialid(objusauth.id);
-       funccheck(null, usert);
-       return this;
-   };
-
-    this.then = function(funccb){
-      funccb(this);
-      return this;
-   };
-
-    this.catch = function(funccb){
-      funccb(this);
-   };
-
-    this.save = function(functioncb){
-       users[users.length] = new userf(user_name,password);
-       writeuserstofile();
-       functioncb(this);
-       return users[users.length-1] ;
-   };
 }
 
 function writeUsersToFile(){
@@ -140,8 +118,41 @@ function create(auth){
 
 
 
+function findOne (objusauth, funccheck){
+       usert = finduserbysotialid(objusauth.id);
+       funccheck(null, usert);
+       return usert;
+}
+
+ function then(user, funccb){
+      if(funccb!=null){
+         funccb(this)
+      }
+      return user;
+}
+
+
+function save(user_name,password,functioncb){
+       users[users.length] = new userf(user_name,password);
+       writeuserstofile();
+       functioncb();
+       return users[users.length-1];
+}
+
+
+function catch (funccb){
+      if(funccb!=null){
+         funccb(this)
+      }
+   };
+
+
 module.exports = user;
 module.exports.is_user = is_user;
 module.exports.is_user_name = is_user_name;
 module.exports.create = create;
+module.exports.save = save;
+module.exports.then = then;
+module.exports.findOne = findOne;
+module.exports.catch = catch;
 
