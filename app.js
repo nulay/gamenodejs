@@ -66,19 +66,18 @@ app.route('/signup')
     })
     .post((req, res) => {
         console.log('create user');
-        User.create({
+        var usert = User.create({
             username: req.body.username,
             email: req.body.email,
             password: req.body.password
-        })
-        .then(user => {
+        });
+        if(usert!=null){
             req.session.user = user.dataValues;
             console.log('go to dashboard');
             res.redirect('/dashboard');
-        })
-        .catch(error => {
+        }else{
             res.redirect('/signup');
-        });
+        }
     });
 
 
@@ -91,13 +90,14 @@ app.route('/login')
         var username = req.body.username,
             password = req.body.password;
 
-        User.findOne({ where: { name: username } }).then(function (user) {
+        var usert = User.findOne({'name':username});
+        User.then(usert, function (usert) {
             if (!user) {
                 res.redirect('/login');
             } else if (!user.validPassword(password)) {
                 res.redirect('/login');
             } else {
-                req.session.user = user.dataValues;
+                req.session.user =JSON.stringify(user);
                 res.redirect('/dashboard');
             }
         });
