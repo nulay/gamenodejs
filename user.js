@@ -46,7 +46,7 @@ function readuserfromfile(){
    fs.readFile('users.json', (err, data) => {
      if (err) throw err;
      users = JSON.parse(data);
-     console.log('reading is executed count records are ' +global.users.length );
+     console.log('reading is executed count records are ' + users.length );
    });
 }
 
