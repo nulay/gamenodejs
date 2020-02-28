@@ -6,7 +6,7 @@ const config = require('config');
 
 var user = function (name, password, email,age,gender) {
     this.name = name;
-    this.password = pbkdf2(password, config.get('myprivatekey'), config.get('iterations') );
+    this.password = this.password == crypto.pbkdf2Sync(passwordNew, config.get('myprivatekey'), config.get('iterations'), 64, 'sha512').toString('hex');
     this.email=email;
     this.age = age;
     this.gender = gender;
@@ -15,7 +15,7 @@ var user = function (name, password, email,age,gender) {
     this.validPassword = function(passwordNew){
       //need to hide
 
-      return this.password == pbkdf2(passwordNew, config.get('myprivatekey'), config.get('iterations') );
+      return this.password == crypto.pbkdf2Sync(passwordNew, config.get('myprivatekey'), config.get('iterations'), 64, 'sha512').toString('hex');
    };
 
    this.toString = function() {
