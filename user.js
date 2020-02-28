@@ -117,13 +117,16 @@ function create(auth){
 
 
 function findOne (objusauth, funccheck){
+       var usert=null;
        if(objusauth.id!=null){
           usert = finduserbysotialid(objusauth.id);
        }
        if(objusauth.name!=null){
           usert = is_user_name(objusauth.name);
        }
-       funccheck(null, usert);
+       if (funccheck){
+          funccheck(null, usert);
+       }
        return usert;
 }
 
