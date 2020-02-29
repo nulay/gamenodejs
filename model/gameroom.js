@@ -1,20 +1,35 @@
-class Room {
-  constructor(roomName, roomType) {
-    this.roomName = roomName;
-    this.roomType = roomType;
+class GameRoom {
+  _gameStarted=false;
+  
+
+  constructor(roomName, roomType, maxCountUser, openRoom) {
+    this._roomName = roomName;
+    this._roomType = roomType;
+    this._maxCountUser = maxCountUser;
+    this_openRoom = openRoom;
   }
+
+  isStartGame() {
+     return _gameStarted;
+  }
+
   get users() {
-    return this._users;
+    return this._roomUsers;
   }
 
   //add user
-  addUser(user) {
-    this._users[this._users.length] = user;
+  addUser(roomUser) {
+    if(this_gameStarted) retutrn false;
+    if(this._roomUsers.length >= this._maxCountUser) retutrn false;
+    this._roomUsers[this._roomUsers.length] = roomUser;
+    return true;
   }
 
   //Remove user
-  removeUser(UserRoom user){
-
+  removeUser(roomUser){
+    this._roomUsers = this._roomUsers.filter(function(value, index, arr){
+         return value != roomUser;
+    });
   }
 
   //Get room number
@@ -27,7 +42,7 @@ class Room {
     this._numberRoom=numberRoom;
   }
 
-  //Check allow rom for specific user
+  //Check allow room for specific user
   isPermission(userRoom){
 
   }
@@ -61,5 +76,4 @@ class Room {
   get listViewUser(){
     return this._listViewUser;
   }
-
 }
