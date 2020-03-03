@@ -153,8 +153,7 @@ app.use(function (req, res, next) {
 
 
 // route for room
-app.route('/gameroom')
-    .get(sessionChecker, (req, res) => {
+app.get('/gameroom', (req, res) => {
         res.sendFile(__dirname + '/game/public/gameroom.html');
     });
 
