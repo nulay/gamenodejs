@@ -141,5 +141,35 @@ app.use(function (req, res, next) {
 });
 
 
+
+
+
+
+
+//===========Game==========
+
+
+
+// route for room
+app.route('/gameroom')
+    .get(sessionChecker, (req, res) => {
+        res.sendFile(__dirname + '/game/public/gameroom.html');
+    });
+
+// route for room
+app.route('/game')
+    .get(sessionChecker, (req, res) => {
+        res.sendFile(__dirname + '/game/public/game.html');
+    });
+
+// route for room
+app.route('/games/monopoly/gameinfo')
+    .get(sessionChecker, (req, res) => {
+        res.send("{'users':[]}");
+    });
+
+
+
+
 // start the express server
 app.listen(app.get('port'), () => console.log(`App started on port ${app.get('port')}`));
