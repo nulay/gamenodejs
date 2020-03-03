@@ -7,6 +7,8 @@ var morgan = require('morgan');
 var User = require('./user');
 const fs = require("fs");
 
+global.rooms = [];
+
 // invoke an instance of express application.
 var app = express();
 
@@ -155,6 +157,13 @@ app.route('/gameroom')
     .get(sessionChecker, (req, res) => {
         res.sendFile(__dirname + '/game/public/gameroom.html');
     });
+
+// route for room /games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
+app.route('/games/room/getAllRoom')
+    .get(sessionChecker, (req, res) => {
+        res.send("['numberRoom':1,'typeRoom':'monopoly','countUsers':2,'maxCountUser':6]");
+    });
+
 
 // route for room
 app.route('/game')
