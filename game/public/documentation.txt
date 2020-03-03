@@ -1,0 +1,6 @@
+=======gameroom api=========
+
+/games/room/userdata
+/games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
+/games/monopoly/createroom.html?countgameuser="+this.countUs;
+/games/monopoly/"+numberRoom+"/joinRoom.html
