@@ -138,10 +138,7 @@ app.get('/logout', (req, res) => {
 });
 
 
-// route for handling 404 requests(unavailable routes)
-app.use(function (req, res, next) {
-  res.status(404).send("Sorry can't find that!")
-});
+
 
 
 
@@ -155,8 +152,8 @@ app.use(function (req, res, next) {
 
 // route for room
 app.get('/gameroom', (req, res) => {
-       // res.sendFile(__dirname + '/game/public/gameroom.html');
-        res.sendFile(__dirname + '/public/dashboard.html');
+       res.sendFile(__dirname + '/game/public/gameroom.html');
+       // res.sendFile(__dirname + '/public/dashboard.html');
  });
 
 // route for room /games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
@@ -179,6 +176,12 @@ app.route('/games/monopoly/gameinfo')
     });
 
 
+
+
+// route for handling 404 requests(unavailable routes)
+app.use(function (req, res, next) {
+  res.status(404).send("Sorry can't find that!")
+});
 
 
 // start the express server
