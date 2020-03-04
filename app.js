@@ -155,8 +155,9 @@ app.use(function (req, res, next) {
 
 // route for room
 app.get('/gameroom', (req, res) => {
-        res.sendFile(__dirname + '/game/public/gameroom.html');
-    });
+       // res.sendFile(__dirname + '/game/public/gameroom.html');
+        res.sendFile(__dirname + '/public/dashboard.html');
+ });
 
 // route for room /games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
 app.route('/games/room/getAllRoom')
