@@ -7,6 +7,10 @@ var morgan = require('morgan');
 var User = require('./user');
 const fs = require("fs");
 
+app.use(express.static('public'));
+app.use(express.static('game/public'));
+
+
 global.rooms = [];
 
 // invoke an instance of express application.
