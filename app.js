@@ -159,7 +159,7 @@ app.get('/gameroom', (req, res) => {
 // route for room /games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
 app.route('/games/room/getAllRoom')
     .get(sessionChecker, (req, res) => {
-        res.json({['numberRoom':1,'typeRoom':'monopoly','countUsers':2,'maxCountUser':6]});
+        res.json([{'numberRoom':1,'typeRoom':'monopoly','countUsers':2,'maxCountUser':6}]);
     });
 
 
