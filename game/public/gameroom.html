@@ -97,7 +97,7 @@
                 if(data!=null){
                     for(var i=0;i<data.length;i++){
                         var buttonD=$('<button value="Присоединится">Присоединится</button>');
-                        var elD=$('<div><input type="hidden" value="'+data[i].numberRoom+'"><span>data[i].typeRoom+' #'+(parseInt(data[i].numberRoom)+1)+' ('+data[i].countUsers+'/'+data[i].maxCountUser+') '+'</span></div>');
+                        var elD=$('<div><input type="hidden" value="'+data[i].numberRoom+'"><span>'+data[i].typeRoom+' #'+(parseInt(data[i].numberRoom)+1)+' ('+data[i].countUsers+'/'+data[i].maxCountUser+') '+'</span></div>');
                         elD.append(buttonD);
                         $('#listGames').empty().append(elD);
                         thisEl.createCl(buttonD,data[i].numberRoom);
