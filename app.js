@@ -4,9 +4,23 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var morgan = require('morgan');
+var path = require('path');
 var User = require('./user');
 const fs = require("fs");
 
+var mime = {
+    html: 'text/html',
+    txt: 'text/plain',
+    css: 'text/css',
+    gif: 'image/gif',
+    jpg: 'image/jpeg',
+    png: 'image/png',
+    svg: 'image/svg+xml',
+    js: 'application/javascript'
+};
+
+var dirs1 = path.join(__dirname, 'public');
+var dirs2 = path.join(__dirname, 'game/public');
 
 global.rooms = [];
 
@@ -36,8 +50,8 @@ app.use(session({
     }
 }));
 
-app.use(express.static('public'));
-app.use(express.static('game/public'));
+app.use(express.static(dirs1));
+app.use(express.static(dirs1));
 
 // This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
@@ -56,6 +70,23 @@ var sessionChecker = (req, res, next) => {
         next();
     }    
 };
+
+app.get('*', function (req, res) {
+    var file = path.join(dir, req.path.replace(/\/$/, '/index.html'));
+    if (file.indexOf(dir + path.sep) !== 0) {
+        return res.status(403).end('Forbidden');
+    }
+    var type = mime[path.extname(file).slice(1)] || 'text/plain';
+    var s = fs.createReadStream(file);
+    s.on('open', function () {
+        res.set('Content-Type', type);
+        s.pipe(res);
+    });
+    s.on('error', function () {
+        res.set('Content-Type', 'text/plain');
+        res.status(404).end('Not found');
+    });
+});
 
 // route for Home-Page
 app.get('/', sessionChecker, (req, res) => {
