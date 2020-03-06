@@ -7,6 +7,7 @@ var morgan = require('morgan');
 var path = require('path');
 var User = require('./user');
 const fs = require("fs");
+var GameRoom = require("./model/gameroom");
 
 var mime = {
     html: 'text/html',
@@ -23,6 +24,7 @@ var dirs1 = path.join(__dirname, 'public');
 var dirs2 = path.join(__dirname, 'game/public');
 
 global.rooms = [];
+
 
 // invoke an instance of express application.
 var app = express();
@@ -190,9 +192,24 @@ app.get('/gameroom', (req, res) => {
 // route for room /games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
 app.route('/games/room/getAllRoom')
     .get(sessionChecker, (req, res) => {
-        res.json([]);
+        res.json(global.rooms);
        // res.json([{'numberRoom':1,'typeRoom':'monopoly','countUsers':2,'maxCountUser':6}]);
     });
+
+// route for room /games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
+app.route('/games/room/createRoom')
+    .post(sessionChecker, (req, res) => {
+          var user = req.session.user;
+          var typeRoom = req.session.user;
+
+
+          var gameRoom = new GameRoom(null,typeRoom,4,true);
+          gameRoom.addUser(user);
+
+          global.rooms[global.rooms.length]=gameRoom;
+          
+          res.json(global.rooms);
+  });
 
 
 // route for room
