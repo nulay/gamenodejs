@@ -118,7 +118,7 @@
                     }
                 }else{
                     jQuery('#listGames').empty();
-                    $(".creategame").dialog();
+                    $(".creategame").show();
                 }
             }).always(function(){
                 setTimeout(function(){thisEl.loadAllGame()},3000);
@@ -130,10 +130,7 @@
         },
         createGame:function(){
           //  document.location.href="/games/monopoly/createroom.html?countgameuser="+this.countUs;
-          $('#createForm').show();
- $('#createForm').ajaxForm(function() { 
-                alert("we create game!"); 
-            }); 
+         $("#createForm").dialog();
         },
         joinRoom:function(numberRoom){
             document.location.href="/games/monopoly/"+numberRoom+"/joinRoom.html";
