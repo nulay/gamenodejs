@@ -47,7 +47,7 @@
         countUs:2,
         init:function(){
             var thisEl=this;
-            var imgSel=$('<img src="/game/public/images/siluetsel.png" width="20"/>').attr("ind","2");
+            var imgSel=$('<img src="/images/siluetsel.png" width="20"/>').attr("ind","2");
             jQuery('#silImg').append(imgSel).append(imgSel.clone().attr("ind","2")).append(imgSel.clone().attr("ind","3")).append(imgSel.clone().attr("ind","4"));
             this.unsel(2);
             $('#silImg img').click(function(el){thisEl.unsel(parseInt($(el.target).attr('ind')))});
@@ -65,9 +65,9 @@
         unsel:function(ind){
             this.countUs=ind;
             var mi=$("#silImg img");
-            mi.attr('src','/game/public/images/siluetsel.png');
+            mi.attr('src','/images/siluetsel.png');
             for(var i=ind;i<mi.length;i++){
-                $(mi[i]).attr('src','/game/public/images/siluet.png');
+                $(mi[i]).attr('src','/images/siluet.png');
             }
         },
         loadUserData:function(){
