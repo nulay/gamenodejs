@@ -71,22 +71,22 @@ var sessionChecker = (req, res, next) => {
     }    
 };
 
-app.get('*', function (req, res) {
-    var file = path.join(dirs1, req.path.replace(/\/$/, '/index.html'));
-    if (file.indexOf(dirs1 + path.sep) !== 0) {
-        return res.status(403).end('Forbidden');
-    }
-    var type = mime[path.extname(file).slice(1)] || 'text/plain';
-    var s = fs.createReadStream(file);
-    s.on('open', function () {
-        res.set('Content-Type', type);
-        s.pipe(res);
-    });
-    s.on('error', function () {
-        res.set('Content-Type', 'text/plain');
-        res.status(404).end('Not found');
-    });
-});
+//app.get('*', function (req, res) {
+//    var file = path.join(dirs1, req.path.replace(/\/$/, '/index.html'));
+//    if (file.indexOf(dirs1 + path.sep) !== 0) {
+//        return res.status(403).end('Forbidden');
+//    }
+//    var type = mime[path.extname(file).slice(1)] || 'text/plain';
+//    var s = fs.createReadStream(file);
+//    s.on('open', function () {
+//        res.set('Content-Type', type);
+//        s.pipe(res);
+//    });
+//    s.on('error', function () {
+//        res.set('Content-Type', 'text/plain');
+//        res.status(404).end('Not found');
+//    });
+//});
 
 // route for Home-Page
 app.get('/', sessionChecker, (req, res) => {
