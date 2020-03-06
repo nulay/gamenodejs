@@ -127,7 +127,10 @@
         },
         createGame:function(){
           //  document.location.href="/games/monopoly/createroom.html?countgameuser="+this.countUs;
-          $('createForm').show();
+          $('#createForm').show();
+ $('#createForm').ajaxForm(function() { 
+                alert("we create game!"); 
+            }); 
         },
         joinRoom:function(numberRoom){
             document.location.href="/games/monopoly/"+numberRoom+"/joinRoom.html";
