@@ -94,7 +94,7 @@
                 dataType:"json",
                 type:"GET"
             }).done(function (data) {
-                if(data!=null){
+                if(data!=null && data.length != 0){
                     for(var i=0;i<data.length;i++){
                         var buttonD=$('<button value="Присоединится">Присоединится</button>');
                         var elD=$('<div><input type="hidden" value="'+data[i].numberRoom+'"><span>'+data[i].typeRoom+' #'+(parseInt(data[i].numberRoom)+1)+' ('+data[i].countUsers+'/'+data[i].maxCountUser+') '+'</span></div>');
@@ -103,7 +103,8 @@
                         thisEl.createCl(buttonD,data[i].numberRoom);
                     }
                 }else{
-                    jQuery('#listGames').empty().append('<div>hello</div>');
+                    jQuery('#listGames').empty();
+                    $(".creategame").show();
                 }
             }).always(function(){
                 setTimeout(function(){thisEl.loadAllGame()},3000);
