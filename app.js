@@ -191,7 +191,7 @@ app.route('/gameroom')
      })
      .post(sessionChecker, (req, res) => {
           var user = req.session.user;
-          var typeRoom = req.session.user;
+          var typeRoom = req.session.typegame;
 
 
           var gameRoom = new GameRoom(null,typeRoom,4,true);
@@ -205,7 +205,7 @@ app.route('/gameroom')
 // route for room /games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
 app.route('/games/room/getAllRoom')
     .get(sessionChecker, (req, res) => {
-        res.json(global.rooms);
+        res.json(JSON.stringify(global.rooms));
        // res.json([{'numberRoom':1,'typeRoom':'monopoly','countUsers':2,'maxCountUser':6}]);
     });
 
