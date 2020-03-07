@@ -134,8 +134,8 @@
         createGame:function(){
           //  document.location.href="/games/monopoly/createroom.html?countgameuser="+this.countUs;
           $('#createForm').dialog({
-                    autoOpen: false,
-                    resizable: false,
+                    autoOpen: true,
+                  //  resizable: false,
                    // width: 400,
                   //  show: { effect: 'drop', direction: "up" },
                   //  modal: true,
@@ -164,7 +164,7 @@
                         }
                     }]
                     
-                }).show();
+                });
         },
         joinRoom:function(numberRoom){
             document.location.href="/games/monopoly/"+numberRoom+"/joinRoom.html";
