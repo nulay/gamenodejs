@@ -44,19 +44,19 @@ YConsole.activate();
 
     <div style="margin: 20px">
         <div class="creategame" style="">
-            <button value="создать игру" id="butCreateGame">создать игру</button>
-            <div id="silImg" style="margin:5px 15px;"></div>
+            <button value="Создать игру" id="butCreateGame">Создать игру</button>
+            
         </div>
     </div>
 
     <form id="createForm" action="/gameroom" method="post" style="display:none;">
         Type game:
-        <select id="type" name="typegame">
-            <option value="monopolia">Monopolia</option>
-            <option value="imaginarium">Imaginarium</option>
-
+        <select id="typeGame" name="typegame">
+            
         </select>
 
+        <div id="silImg" style="margin:5px 15px;"></div>
+        <input type="hidden" name="countUs" value="2"/>
     </form>
 
     <div id="listGames" style="min-height: 500px;">
@@ -64,8 +64,61 @@ YConsole.activate();
     </div>
 
     <script type="application/javascript">
+     var Room = {
+            this.countUs = 2;
+            init: function() {
+                var thisEl = this;
+                var imgSel = $('<img src="/images/siluetsel.png" width="20"/>').attr("ind", "2");
+                jQuery('#silImg').append(imgSel).append(imgSel.clone().attr("ind", "2")).append(imgSel.clone().attr("ind", "3")).append(imgSel.clone().attr("ind", "4"));
+                this.unsel(2);
+                $('#silImg img').click(function(el) {
+                    thisEl.unsel(parseInt($(el.target).attr('ind')))
+                });
+                
+                this.loadUserData();
+                $('#butCreateGame').click(function() {
+                    thisEl.createGame();
+                });
+                this.createForm();
+            },
+            unselSiluet: function(el, ind) {
+                if (ind == 0) {
+                    unsel(ind);
+                }
+            },
+            unsel: function(ind) {
+                this.countUs = ind;
+                var mi = $("#silImg img");
+                mi.attr('src', '/images/siluetsel.png');
+                for (var i = ind; i < mi.length; i++) {
+                    $(mi[i]).attr('src', '/images/siluet.png');
+                }
+            },
+
+            loadRoomData: function() {
+                return;
+                var thisEl = this;
+                jQuery.ajax({
+                    url: "/room/gameData",
+                    dataType: "json",
+                    type: "GET"
+                }).done(function(data) {
+                    if (data != null) {
+                        //                    if(data.activeRooms.length>0){
+                        //                         $('#butCreateGame').attr("disabled","disabled");
+                        //                    }
+                    }
+                }).always(function() {
+                    setTimeout(function() {
+                        thisEl.loadUserData()
+                    }, 3000);
+                });
+            },
+      }
+
+
         var objRoom = {
-            countUs: 2,
+            
             init: function() {
                 var thisEl = this;
                 var imgSel = $('<img src="/images/siluetsel.png" width="20"/>').attr("ind", "2");
@@ -113,38 +166,8 @@ YConsole.activate();
                     }]
                 });
             },
-            unselSiluet: function(el, ind) {
-                if (ind == 0) {
-                    unsel(ind);
-                }
-            },
-            unsel: function(ind) {
-                this.countUs = ind;
-                var mi = $("#silImg img");
-                mi.attr('src', '/images/siluetsel.png');
-                for (var i = ind; i < mi.length; i++) {
-                    $(mi[i]).attr('src', '/images/siluet.png');
-                }
-            },
-            loadUserData: function() {
-                return;
-                var thisEl = this;
-                jQuery.ajax({
-                    url: "/games/room/userdata",
-                    dataType: "json",
-                    type: "GET"
-                }).done(function(data) {
-                    if (data != null) {
-                        //                    if(data.activeRooms.length>0){
-                        //                         $('#butCreateGame').attr("disabled","disabled");
-                        //                    }
-                    }
-                }).always(function() {
-                    setTimeout(function() {
-                        thisEl.loadUserData()
-                    }, 3000);
-                });
-            },
+            
+            
             loadAllGame: function() {
                 var thisEl = this;
                 jQuery.ajax({
@@ -170,6 +193,29 @@ YConsole.activate();
                     }, 3000);
                 });
             },
+            loadTypeRoom: function() {
+                var thisEl = this;
+                jQuery.ajax({
+                    url: "/typeRoom",
+                    dataType: "json",
+                    type: "GET"
+                }).done(function(data) {
+                    console.log(data);
+                    if (data != null && data.length != 0) {
+                        for (var i = 0; i < data.length; i++) {
+
+                            $('#typeGame').append('<option value="'+typeGame+'">'+typeGame+'</option>');
+                            
+                            Room.init();
+
+                            
+                        }
+                    } else {
+                        jQuery('#listGames').append('<div style="color:red">Ошибка загрузки данных</>');                        
+                    }
+                });
+            }, 
+
             createCl: function(buttonD, numberRoom) {
                 var thisEl = this;
                 buttonD.click(function() {
