@@ -6,7 +6,7 @@ class GameRoom {
     this._roomName = roomName;
     this._roomType = roomType;
     this._maxCountUser = maxCountUser;
-    this_openRoom = openRoom;
+    this._openRoom = openRoom;
   }
 
   isStartGame() {
