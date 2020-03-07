@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <form id="createForm" action="/gameroom" method="post" style="display:none;">
+    <form id="createForm" action="/gameroom" method="post" style="">
         Type game:
         <select id="type" name="typegame">
             <option value="monopolia">Monopolia</option>
@@ -149,18 +149,17 @@
                     dataType: "json",
                     type: "GET"
                 }).done(function(data) {
+                    console.log(data);
                     if (data != null && data.length != 0) {
                         for (var i = 0; i < data.length; i++) {
-                            var buttonD = $('<button value="Присоединится">Присоединится</button>');
+                            var buttonD = $('<button value="Присоединиться">Присоединиться</button>');
                             var elD = $('<div><input type="hidden" value="' + data[i].numberRoom + '"><span>' + data[i].typeRoom + ' #' + (parseInt(data[i].numberRoom) + 1) + ' (' + data[i].countUsers + '/' + data[i].maxCountUser + ') ' + '</span></div>');
                             elD.append(buttonD);
                             $('#listGames').empty().append(elD);
                             thisEl.createCl(buttonD, data[i].numberRoom);
                         }
                     } else {
-                        jQuery('#listGames').empty();
-                        $('.creategame').show();
-
+                        jQuery('#listGames').empty();                        
                     }
                 }).always(function() {
                     setTimeout(function() {
