@@ -184,21 +184,12 @@ var gameSettings = [{"typeGame" = "monopolia", "maxCountUser"=4},{"typeGame" = "
 
 
 // route for room
-app.get('/gameroom', (req, res) => {
+.route('/gameroom')
+    .get(sessionChecker, (req, res) => {
        res.sendFile(__dirname + '/game/public/gameroom.html');
        // res.sendFile(__dirname + '/public/dashboard.html');
- });
-
-// route for room /games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
-app.route('/games/room/getAllRoom')
-    .get(sessionChecker, (req, res) => {
-        res.json(global.rooms);
-       // res.json([{'numberRoom':1,'typeRoom':'monopoly','countUsers':2,'maxCountUser':6}]);
-    });
-
-// route for room /games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
-app.route('/games/room/createRoom')
-    .post(sessionChecker, (req, res) => {
+     })
+     .post(sessionChecker, (req, res) => {
           var user = req.session.user;
           var typeRoom = req.session.user;
 
@@ -209,7 +200,14 @@ app.route('/games/room/createRoom')
           global.rooms[global.rooms.length]=gameRoom;
           
           res.json(global.rooms);
-  });
+});
+
+// route for room /games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
+app.route('/games/room/getAllRoom')
+    .get(sessionChecker, (req, res) => {
+        res.json(global.rooms);
+       // res.json([{'numberRoom':1,'typeRoom':'monopoly','countUsers':2,'maxCountUser':6}]);
+    });
 
 
 // route for room
