@@ -7,8 +7,8 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
  
-<script type="text/javascript" src="js/YConsole-compiled.js"></script>
-<script type="text/javascript" >YConsole.show();</script>
+  <script type="text/javascript" src="js/YConsole-compiled.js"></script>
+  <script type="text/javascript" >YConsole.show();</script>
     </head>
     <body class="container">
         <div class="page-header">
@@ -42,14 +42,14 @@
     </div>
 </div>
 
-<form id="createForm" action="/createroom" method="post" style= "display:none;"> 
+<form id="createForm" action="/gameroom" method="post" style="display:none;"> 
     Type game:
-<select id="type" name="typegame">
-  <option value="monopolia">Monopolia</option>
-  <option value="imaginarium">Imaginarium</option>
+   <select id="type" name="typegame">
+     <option value="monopolia">Monopolia</option>
+     <option value="imaginarium">Imaginarium</option>
   
-</select>
-    <input type="submit" value="Создать игру" /> 
+   </select>
+   <input type="submit" value="Создать игру" /> 
 </form>
 
 <div id="listGames" style="min-height: 500px;">
@@ -118,7 +118,41 @@
                     }
                 }else{
                     jQuery('#listGames').empty();
-                    $(".creategame").show();
+                   $("#createForm").dialog({
+                    autoOpen: false,
+                    resizable: false,
+                    width: 400,
+                    show: { effect: 'drop', direction: "up" },
+                    modal: true,
+                    draggable: true,
+                    
+                    buttons: [{
+                        text: "Создать игру",
+                        "class": "btn-add-properties",
+                        click: function () {
+                            var form = $('form', this);
+                            $.post(form.prop('action'),
+                                   form.serialize(),
+                                   function (response) {
+                                       alert("success" + response);
+                                   })
+                                   .fail(function () {
+                                       alert("error");
+                                   });
+                            $("#dialog-edit").dialog('close');
+                        }
+                    },{
+                        text: "Отмена",
+                        "class": "btn-add-properties",
+                        click: function () {
+                            
+                            $("#createForm").dialog('close');
+                        }]
+                    }
+                });
+
+
+
                 }
             }).always(function(){
                 setTimeout(function(){thisEl.loadAllGame()},3000);
