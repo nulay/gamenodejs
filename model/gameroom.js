@@ -77,3 +77,6 @@ class GameRoom {
     return this._listViewUser;
   }
 }
+
+
+module.exports = GameRoom
