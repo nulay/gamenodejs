@@ -10,6 +10,9 @@
 
     <script type="text/javascript" src="js/YConsole-compiled.js"></script>
     <script type="text/javascript">
+YConsole.activate();
+   console.log("first intercepted log.");
+   YConsole.docking="bottom";
         YConsole.show();
     </script>
 </head>
@@ -94,7 +97,7 @@
                             $.post(form.prop('action'),
                                     form.serialize(),
                                     function(response) {
-                                        alert("success" + response);
+                                        alert("success " + response);
                                     })
                                 .fail(function() {
                                     alert("error");
