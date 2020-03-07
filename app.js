@@ -213,7 +213,7 @@ app.route('/gameroom')
 // route for room /games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
 app.route('/games/room/getAllRoom')
     .get(sessionCheckerFalse, (req, res) => {
-        res.json(JSON.stringify(global.rooms));
+        res.json(global.rooms);
        // res.json([{'numberRoom':1,'typeRoom':'monopoly','countUsers':2,'maxCountUser':6}]);
     });
 
