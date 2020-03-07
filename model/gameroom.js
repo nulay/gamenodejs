@@ -1,6 +1,6 @@
 class GameRoom {
   _gameStarted=false;
-  
+  _roomUsers=[];
 
   constructor(roomName, roomType, maxCountUser, openRoom) {
     this._roomName = roomName;
