@@ -197,7 +197,7 @@ app.route('/gameroom')
        res.sendFile(__dirname + '/game/public/gameroom.html');
        // res.sendFile(__dirname + '/public/dashboard.html');
      })
-     .post(sessionChecker, (req, res) => {
+     .post(sessionCheckerFalse, (req, res) => {
           var user = req.session.user;
           var typeRoom = req.session.typegame;
 
