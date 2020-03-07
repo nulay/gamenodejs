@@ -117,22 +117,15 @@ YConsole.activate();
       }
 
 
-        var objRoom = {
-            
+        var objRoom = {            
             init: function() {
                 var thisEl = this;
-                var imgSel = $('<img src="/images/siluetsel.png" width="20"/>').attr("ind", "2");
-                jQuery('#silImg').append(imgSel).append(imgSel.clone().attr("ind", "2")).append(imgSel.clone().attr("ind", "3")).append(imgSel.clone().attr("ind", "4"));
-                this.unsel(2);
-                $('#silImg img').click(function(el) {
-                    thisEl.unsel(parseInt($(el.target).attr('ind')))
-                });
+                this.loadTypeRoom();
                 this.loadAllGame();
-                this.loadUserData();
+                this.createForm();
                 $('#butCreateGame').click(function() {
                     thisEl.createGame();
-                });
-                this.createForm();
+                });                
             },
             createForm: function() {
                 this.dialog = $('#createForm').dialog({
@@ -206,7 +199,10 @@ YConsole.activate();
 
                             $('#typeGame').append('<option value="'+typeGame+'">'+typeGame+'</option>');
                             
-                            Room.init();
+
+                            //maxCountUser
+                            Room.init(data.maxCountUser);
+
 
                             
                         }
