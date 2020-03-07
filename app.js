@@ -180,7 +180,7 @@ app.get('/logout', (req, res) => {
 
 
 //===========Game==========
-var gameSettings = [{"typeGame" = "monopolia", "maxCountUser"=4},{"typeGame" = "imaginarium", "maxCountUser"=6}];
+var gameSettings = [{"typeGame" : "monopolia", "maxCountUser":4},{"typeGame" : "imaginarium", "maxCountUser":6}];
 
 
 // route for room
