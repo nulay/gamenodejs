@@ -72,6 +72,14 @@ var sessionChecker = (req, res, next) => {
         next();
     }    
 };
+var sessionCheckerFalse= (req, res, next) => {
+    if (req.session.user && req.cookies.user_sid) {
+        next()
+    } else {
+        res.redirect('/login');
+    }    
+};
+
 
 //app.get('*', function (req, res) {
 //    var file = path.join(dirs1, req.path.replace(/\/$/, '/index.html'));
@@ -185,7 +193,7 @@ var gameSettings = [{"typeGame" : "monopolia", "maxCountUser":4},{"typeGame" : "
 
 // route for room
 app.route('/gameroom')
-    .get(sessionChecker, (req, res) => {
+    .get(sessionCheckerFalse, (req, res) => {
        res.sendFile(__dirname + '/game/public/gameroom.html');
        // res.sendFile(__dirname + '/public/dashboard.html');
      })
@@ -204,7 +212,7 @@ app.route('/gameroom')
 
 // route for room /games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
 app.route('/games/room/getAllRoom')
-    .get(sessionChecker, (req, res) => {
+    .get(sessionCheckerFalse, (req, res) => {
         res.json(JSON.stringify(global.rooms));
        // res.json([{'numberRoom':1,'typeRoom':'monopoly','countUsers':2,'maxCountUser':6}]);
     });
@@ -212,13 +220,13 @@ app.route('/games/room/getAllRoom')
 
 // route for room
 app.route('/game')
-    .get(sessionChecker, (req, res) => {
+    .get(sessionCheckerFalse, (req, res) => {
         res.sendFile(__dirname + '/game/public/game.html');
     });
 
 // route for room
 app.route('/games/monopoly/gameinfo')
-    .get(sessionChecker, (req, res) => {
+    .get(sessionCheckerFalse, (req, res) => {
         res.send("{'users':[]}");
     });
 
