@@ -184,7 +184,7 @@ var gameSettings = [{"typeGame" : "monopolia", "maxCountUser":4},{"typeGame" : "
 
 
 // route for room
-.route('/gameroom')
+app.route('/gameroom')
     .get(sessionChecker, (req, res) => {
        res.sendFile(__dirname + '/game/public/gameroom.html');
        // res.sendFile(__dirname + '/public/dashboard.html');
