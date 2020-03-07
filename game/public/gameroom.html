@@ -133,7 +133,7 @@
         },
         createGame:function(){
           //  document.location.href="/games/monopoly/createroom.html?countgameuser="+this.countUs;
-         $("#createForm").dialog({
+          $('#createForm').dialog({
                     autoOpen: false,
                     resizable: false,
                     width: 400,
@@ -141,29 +141,7 @@
                     modal: true,
                     draggable: true,
                     
-                    buttons: [{
-                        text: "Создать игру",
-                        "class": "btn-add-properties",
-                        click: function () {
-                            var form = $('form', this);
-                            $.post(form.prop('action'),
-                                   form.serialize(),
-                                   function (response) {
-                                       alert("success" + response);
-                                   })
-                                   .fail(function () {
-                                       alert("error");
-                                   });
-                            $("#dialog-edit").dialog('close');
-                        }
-                    },{
-                        text: "Отмена",
-                        "class": "btn-add-properties",
-                        click: function () {
-                            
-                            $("#createForm").dialog('close');
-                        }
-                    }]
+                    
                 }).show();
         },
         joinRoom:function(numberRoom){
