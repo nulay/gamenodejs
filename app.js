@@ -231,7 +231,11 @@ app.route('/games/monopoly/gameinfo')
     });
 
 
-
+// route for room
+app.route('/typeRoom')
+    .get(sessionCheckerFalse, (req, res) => {
+        res.json(gameSettings);
+    });
 
 // route for handling 404 requests(unavailable routes)
 app.use(function (req, res, next) {
