@@ -7,7 +7,7 @@ var morgan = require('morgan');
 var path = require('path');
 var User = require('./user');
 const fs = require("fs");
-var GameRoom = require("./model/gameroom").GameRoom;
+var GameRoom = require("./model/gameroom");
 
 var mime = {
     html: 'text/html',
