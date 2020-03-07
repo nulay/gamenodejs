@@ -176,7 +176,7 @@
             },
             createGame: function() {
                 //  document.location.href="/games/monopoly/createroom.html?countgameuser="+this.countUs;
-                this.dialog.show();
+                this.dialog.dialog('open');
             },
             joinRoom: function(numberRoom) {
                 document.location.href = "/games/monopoly/" + numberRoom + "/joinRoom.html";
