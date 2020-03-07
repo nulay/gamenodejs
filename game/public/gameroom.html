@@ -118,7 +118,22 @@
                     }
                 }else{
                     jQuery('#listGames').empty();
-                   $("#createForm").dialog({
+                    $('.creategame').show();
+
+
+
+                }
+            }).always(function(){
+                setTimeout(function(){thisEl.loadAllGame()},3000);
+            });
+        }, 
+        createCl:function(buttonD,numberRoom){
+            var thisEl=this;
+            buttonD.click(function(){thisEl.joinRoom(numberRoom);});
+        },
+        createGame:function(){
+          //  document.location.href="/games/monopoly/createroom.html?countgameuser="+this.countUs;
+         $("#createForm").dialog({
                     autoOpen: false,
                     resizable: false,
                     width: 400,
@@ -150,21 +165,6 @@
                         }
                     }]
                 }).show();
-
-
-
-                }
-            }).always(function(){
-                setTimeout(function(){thisEl.loadAllGame()},3000);
-            });
-        }, 
-        createCl:function(buttonD,numberRoom){
-            var thisEl=this;
-            buttonD.click(function(){thisEl.joinRoom(numberRoom);});
-        },
-        createGame:function(){
-          //  document.location.href="/games/monopoly/createroom.html?countgameuser="+this.countUs;
-         $("#createForm").dialog();
         },
         joinRoom:function(numberRoom){
             document.location.href="/games/monopoly/"+numberRoom+"/joinRoom.html";
