@@ -19,7 +19,7 @@ class GameRoom {
 
   //add user
   addUser(roomUser) {
-    if(this._gameStarted) retutrn false;
+    if(this._gameStarted) return false;
     if(this._roomUsers.length >= this._maxCountUser) retutrn false;
     this._roomUsers[this._roomUsers.length] = roomUser;
     return true;
