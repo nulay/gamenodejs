@@ -160,8 +160,7 @@
                     url: "/games/room/getAllRoom",
                     dataType: "json",
                     type: "GET"
-                }).done(function(data) {
-                    console.log(data);
+                }).done(function(data) {                   
                     if (data != null && data.length != 0) {
                         for (var i = 0; i < data.length; i++) {
                             var buttonD = $('<button value="Присоединиться">Присоединиться</button>');
