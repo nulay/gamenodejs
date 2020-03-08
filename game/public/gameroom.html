@@ -74,7 +74,7 @@
                 }
                 this.unsel(2);
                 $('#silImg img').click(function(el) {
-                    thisEl.unsel(parseInt($(el.target).attr('ind')))
+                    thisEl.unsel(parseInt($(el.target).attr('ind')));1
                 });
             },
             unselSiluet: function(el, ind) {
@@ -110,7 +110,7 @@
             changeRoom:function(el){
                console.log(el);
                console.log(el.value);
-               for(int i=0; i<this.gameSett.length;i++){
+               for(var i=0; i<this.gameSett.length;i++){
                   if (this.gameSett[i].typeGame == el.value){
                      //maxCountUser
                      Room.init(this.gameSett[i].maxCountUser);
