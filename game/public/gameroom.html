@@ -63,9 +63,9 @@
     </div>
 
     <script type="application/javascript">
-     var Room = {
-            countUs : 2,
+     var Room = {            
             init: function(maxuser) {
+                this.countUs = 2;
                 var thisEl = this;
                 var imgSel = $('<img src="/images/siluetsel.png" width="20"/>').attr("ind", "2");
                 jQuery('#silImg').empty().append(imgSel);
@@ -74,7 +74,7 @@
                 }
                 this.unsel(2);
                 $('#silImg img').click(function(el) {
-                    thisEl.unsel(parseInt($(el.target).attr('ind')));1
+                    thisEl.unsel(parseInt($(el.target).attr('ind')));
                 });
             },
             unselSiluet: function(el, ind) {
@@ -84,6 +84,7 @@
             },
             unsel: function(ind) {
                 $('.countUs').val(ind);
+                console.log('unsel='+$('.countUs').val());
                 this.countUs = ind;
                 var mi = $("#silImg img");
                 mi.attr('src', '/images/siluetsel.png');
