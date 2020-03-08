@@ -71,6 +71,9 @@ class GameRoom {
   get maxCountUser(){
     return this.maxCountUser;
   }
+  set maxCountUser(maxCountUser){
+    this.maxCountUser=maxCountUser;
+  }
     
   //List traced users for game
   get listViewUser(){
