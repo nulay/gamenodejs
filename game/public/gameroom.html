@@ -49,14 +49,14 @@ YConsole.activate();
         </div>
     </div>
 
-    <form id="createForm" action="/gameroom" method="post" style="display:none;">
+    <form id="createForm" action="/gameroom" method="post" style="">
         Type game:
         <select id="typeGame" name="typegame">
             
         </select>
 
         <div id="silImg" style="margin:5px 15px;"></div>
-        <input type="hidden" name="countUs" value="2"/>
+        <input type="hidden" name="countUs" class="countUs" value="2"/>
     </form>
 
     <div id="listGames" style="min-height: 500px;">
@@ -66,20 +66,17 @@ YConsole.activate();
     <script type="application/javascript">
      var Room = {
             this.countUs = 2;
-            init: function() {
+            init: function(maxuser) {
                 var thisEl = this;
                 var imgSel = $('<img src="/images/siluetsel.png" width="20"/>').attr("ind", "2");
-                jQuery('#silImg').append(imgSel).append(imgSel.clone().attr("ind", "2")).append(imgSel.clone().attr("ind", "3")).append(imgSel.clone().attr("ind", "4"));
+                jQuery('#silImg').empty().append(imgSel);
+                for(var i=1;i<maxuser;i++){
+                   jQuery('#silImg').append(imgSel.clone().attr("ind", ""+(i+1)))
+                }
                 this.unsel(2);
                 $('#silImg img').click(function(el) {
                     thisEl.unsel(parseInt($(el.target).attr('ind')))
                 });
-                
-                this.loadUserData();
-                $('#butCreateGame').click(function() {
-                    thisEl.createGame();
-                });
-                this.createForm();
             },
             unselSiluet: function(el, ind) {
                 if (ind == 0) {
@@ -87,34 +84,15 @@ YConsole.activate();
                 }
             },
             unsel: function(ind) {
+                $('.countUs').val(ind);
                 this.countUs = ind;
                 var mi = $("#silImg img");
                 mi.attr('src', '/images/siluetsel.png');
                 for (var i = ind; i < mi.length; i++) {
                     $(mi[i]).attr('src', '/images/siluet.png');
                 }
-            },
-
-            loadRoomData: function() {
-                return;
-                var thisEl = this;
-                jQuery.ajax({
-                    url: "/room/gameData",
-                    dataType: "json",
-                    type: "GET"
-                }).done(function(data) {
-                    if (data != null) {
-                        //                    if(data.activeRooms.length>0){
-                        //                         $('#butCreateGame').attr("disabled","disabled");
-                        //                    }
-                    }
-                }).always(function() {
-                    setTimeout(function() {
-                        thisEl.loadUserData()
-                    }, 3000);
-                });
-            },
-      }
+            }
+        }
 
 
         var objRoom = {            
@@ -122,10 +100,24 @@ YConsole.activate();
                 var thisEl = this;
                 this.loadTypeRoom();
                 this.loadAllGame();
-                this.createForm();
-                $('#butCreateGame').click(function() {
+                //this.createForm();
+                $('#typeGame').change(function(){
+                           thisEl.changeRoom();    
+                });
+                $('#butCreateGame').click(function(el) {
                     thisEl.createGame();
                 });                
+            },
+            changeRoom:function(el){
+               console.log(el);
+               console.log(el.value);
+               for(int i=0; i<this.gameSett.length;i++){
+                  if (this.gameSett[i].typeGame == el.value){
+                     //maxCountUser
+                     Room.init(this.gameSett[i].maxCountUser);
+                  }
+               }
+
             },
             createForm: function() {
                 this.dialog = $('#createForm').dialog({
@@ -195,15 +187,13 @@ YConsole.activate();
                 }).done(function(data) {
                     console.log(data);
                     if (data != null && data.length != 0) {
+                        this.gameSett = data;
                         for (var i = 0; i < data.length; i++) {
 
-                            $('#typeGame').append('<option value="'+typeGame+'">'+typeGame+'</option>');
+                            $('#typeGame').append('<option value="'+data[i].typeGame+'">'+data[i].typeGame+'</option>');
                             
 
-                            //maxCountUser
-                            Room.init(data.maxCountUser);
-
-
+                            
                             
                         }
                     } else {
