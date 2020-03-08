@@ -188,7 +188,7 @@ app.get('/logout', (req, res) => {
 
 
 //===========Game==========
-var gameSettings = [{"typeGame" : "monopolia", "maxCountUser":4},{"typeGame" : "imaginarium", "maxCountUser":6}];
+var roomSettings = [{"typeGame" : "monopolia", "maxCountUser":4},{"typeGame" : "imaginarium", "maxCountUser":6}];
 
 
 // route for room
@@ -200,9 +200,13 @@ app.route('/gameroom')
      .post(sessionCheckerFalse, (req, res) => {
           var user = req.session.user;
           var typeRoom = req.session.typegame;
-
-
-          var gameRoom = new GameRoom(null,typeRoom,4,true);
+          var curentSett=null;
+          for(var i=0;i<roomSettings.length;i++){
+            if(typeRoom==roomSettings[i].typeGame){
+              curentSett=roomSettings[i];
+            }
+          }
+          var gameRoom = new GameRoom(global.rooms.length, typeRoom, curentSett.maxCountUser, true);
           gameRoom.addUser(user);
 
           global.rooms[global.rooms.length]=gameRoom;
@@ -234,7 +238,7 @@ app.route('/games/monopoly/gameinfo')
 // route for room
 app.route('/typeRoom')
     .get(sessionCheckerFalse, (req, res) => {
-        res.json(gameSettings);
+        res.json(roomSettings);
     });
 
 // route for handling 404 requests(unavailable routes)
