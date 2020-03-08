@@ -200,8 +200,9 @@ app.route('/gameroom')
      .post(sessionCheckerFalse, (req, res) => {
           var user = req.session.user;
           var typeRoom = req.session.typegame;
+          var countUs = req.session.countUs;
           
-          var gameRoom = new GameRoom(global.rooms.length, typeRoom, req.session.countUs, true);
+          var gameRoom = new GameRoom(global.rooms.length, typeRoom, countUs, true);
           gameRoom.addUser(user);
 
           global.rooms[global.rooms.length]=gameRoom;
