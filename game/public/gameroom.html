@@ -113,7 +113,7 @@
                console.log(el);
                console.log(el.val());
                for(var i=0; i<this.gameSett.length;i++){
-                  if (this.gameSett[i].typeGame == el.value){
+                  if (this.gameSett[i].typeGame == el.val()){
                      //maxCountUser
                      Room.init(this.gameSett[i].maxCountUser);
                   }
