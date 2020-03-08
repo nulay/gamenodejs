@@ -44,11 +44,9 @@
 
     <form id="createForm" action="/gameroom" method="post" style="">
         Type game:
-        <select id="typeGame" name="typegame">
-            
+        <select id="typeGame" name="typegame">          
         </select>
-
-        <div id="silImg" style="margin:5px 15px;"></div>
+        Count of users : <div id="silImg" style="margin:5px 15px;"></div>
         <input type="hidden" name="countUs" class="countUs" value="2"/>
     </form>
     <div style="margin: 20px">
@@ -213,7 +211,7 @@
             },
             createGame: function() {
                 //  document.location.href="/games/monopoly/createroom.html?countgameuser="+this.countUs;
-                this.dialog.dialog('open');
+                //this.dialog.dialog('open');
             },
             joinRoom: function(numberRoom) {
                 document.location.href = "/games/monopoly/" + numberRoom + "/joinRoom.html";
