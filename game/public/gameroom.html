@@ -50,7 +50,7 @@
            Count of users : <div id="silImg" style="margin:5px 15px;"></div>
            <input type="hidden" name="countUs" class="countUs" value="2"/>
         </div>
-        <input type="submit" value="Создать игру" id="butCreateGame">Создать игру</submit>
+        <input type="submit" value="Создать игру"/>
             
     </form>
     
@@ -101,10 +101,7 @@
                 $('#typeGame').change(function(){
                            console.log(JSON.stringify(thisEl));
                            thisEl.changeRoom();    
-                });
-                $('#butCreateGame').click(function() {
-                    thisEl.createGame();
-                });              
+                });               
                 // this is the id of the form
                 $("#createForm").submit(function(e) {
                      e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -218,17 +215,12 @@
                     }
                 });
             }, 
-
             createCl: function(buttonD, numberRoom) {
                 var thisEl = this;
                 buttonD.click(function() {
                     thisEl.joinRoom(numberRoom);
                 });
-            },
-            createGame: function() {
-                //  document.location.href="/games/monopoly/createroom.html?countgameuser="+this.countUs;
-                //this.dialog.dialog('open');
-            },
+            },            
             joinRoom: function(numberRoom) {
                 document.location.href = "/games/monopoly/" + numberRoom + "/joinRoom.html";
             }
