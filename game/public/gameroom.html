@@ -188,7 +188,7 @@
                 }).done(function(data) {
                     console.log(data);
                     if (data != null && data.length != 0) {
-                        this.gameSett = data;
+                        thisEl.gameSett = data;
                         for (var i = 0; i < data.length; i++) {
 
                             $('#typeGame').append('<option value="'+data[i].typeGame+'">'+data[i].typeGame+'</option>');
