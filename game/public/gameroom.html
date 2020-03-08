@@ -10,10 +10,10 @@
 
     <script type="text/javascript" src="js/YConsole-compiled.js"></script>
     <script type="text/javascript">
-YConsole.activate();
-   console.log("first intercepted log.");
-   YConsole.docking="bottom";
-        YConsole.show();
+           YConsole.activate();
+           console.log("first intercepted log.");
+           YConsole.docking="bottom";
+        // YConsole.show();
     </script>
 </head>
 
@@ -71,7 +71,7 @@ YConsole.activate();
                 var imgSel = $('<img src="/images/siluetsel.png" width="20"/>').attr("ind", "2");
                 jQuery('#silImg').empty().append(imgSel);
                 for(var i=1;i<maxuser;i++){
-                   jQuery('#silImg').append(imgSel.clone().attr("ind", ""+(i+1)))
+                   jQuery('#silImg').append(imgSel.clone().attr("ind", ""+(i+1)));
                 }
                 this.unsel(2);
                 $('#silImg img').click(function(el) {
