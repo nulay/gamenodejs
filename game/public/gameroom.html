@@ -103,11 +103,12 @@
                 $('#typeGame').change(function(){
                            thisEl.changeRoom();    
                 });
-                $('#butCreateGame').click(function(el) {
+                $('#butCreateGame').click(function() {
                     thisEl.createGame();
                 });                
             },
-            changeRoom:function(el){
+            changeRoom:function(){
+               var el=$('typeGame');
                console.log(el);
                console.log(el.value);
                for(var i=0; i<this.gameSett.length;i++){
