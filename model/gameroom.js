@@ -1,45 +1,45 @@
 class GameRoom {
-  _gameStarted=false;
-  _roomUsers=[];
+  gameStarted=false;
+  roomUsers=[];
 
   constructor(roomName, roomType, maxCountUser, openRoom) {
-    this._roomName = roomName;
-    this._roomType = roomType;
-    this._maxCountUser = maxCountUser;
-    this._openRoom = openRoom;
+    this.roomName = roomName;
+    this.roomType = roomType;
+    this.maxCountUser = maxCountUser;
+    this.openRoom = openRoom;
   }
 
   isStartGame() {
-     return _gameStarted;
+     return this.gameStarted;
   }
 
   get users() {
-    return this._roomUsers;
+    return this.roomUsers;
   }
 
   //add user
   addUser(roomUser) {
-    if(this._gameStarted) return false;
-    if(this._roomUsers.length >= this._maxCountUser) return false;
-    this._roomUsers[this._roomUsers.length] = roomUser;
+    if(this.gameStarted) return false;
+    if(this.roomUsers.length >= this.maxCountUser) return false;
+    this.roomUsers[this.roomUsers.length] = roomUser;
     return true;
   }
 
   //Remove user
   removeUser(roomUser){
-    this._roomUsers = this._roomUsers.filter(function(value, index, arr){
+    this.roomUsers = this.roomUsers.filter(function(value, index, arr){
          return value != roomUser;
     });
   }
 
   //Get room number
   get numberRoom(){
-    return this._numberRoom;
+    return this.numberRoom;
   }
   
   //set room number
   set numberRoom(numberRoom){
-    this._numberRoom=numberRoom;
+    this.numberRoom=numberRoom;
   }
 
   //Check allow room for specific user
@@ -49,7 +49,7 @@ class GameRoom {
 
   //Check that room is opened for entrance
   isOpenRoom(){
-    return this._openRoom;
+    return this.openRoom;
   }
 
   //count people in room
@@ -64,17 +64,17 @@ class GameRoom {
     
   //Max count user that can be to room
   set MaxCountUser(maxCountUser){
-    this._maxCountUser=maxCountUser;
+    this.maxCountUser=maxCountUser;
   }
   
   //Max count active user that can be to room
   get maxCountUser(){
-    return this._maxCountUser;
+    return this.maxCountUser;
   }
     
   //List traced users for game
   get listViewUser(){
-    return this._listViewUser;
+    return this.listViewUser;
   }
 }
 
