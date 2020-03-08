@@ -13,7 +13,7 @@
            YConsole.activate();
            console.log("first intercepted log.");
            YConsole.docking="bottom";
-        // YConsole.show();
+           YConsole.show();
     </script>
 </head>
 
@@ -42,13 +42,6 @@
         <!-- /.container-fluid -->
     </nav>
 
-    <div style="margin: 20px">
-        <div class="creategame" style="">
-            <button value="Создать игру" id="butCreateGame">Создать игру</button>
-            
-        </div>
-    </div>
-
     <form id="createForm" action="/gameroom" method="post" style="">
         Type game:
         <select id="typeGame" name="typegame">
@@ -58,6 +51,12 @@
         <div id="silImg" style="margin:5px 15px;"></div>
         <input type="hidden" name="countUs" class="countUs" value="2"/>
     </form>
+    <div style="margin: 20px">
+        <div class="creategame" style="">
+            <button value="Создать игру" id="butCreateGame">Создать игру</button>
+            
+        </div>
+    </div>
 
     <div id="listGames" style="min-height: 500px;">
 
