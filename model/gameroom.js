@@ -62,11 +62,6 @@ class GameRoom {
     return this.users;
   }
   
-  //Max count active user that can be to room
-  get maxCountUser(){
-    return this.maxCountUser;
-  }
-  
   //List traced users for game
   get listViewUser(){
     return this.listViewUser;
