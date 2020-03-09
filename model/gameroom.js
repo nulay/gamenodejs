@@ -2,10 +2,10 @@ class GameRoom {
   gameStarted=false;
   roomUsers=[];
 
-  constructor(roomName, roomType, maxCountUserd, openRoom) {
+  constructor(roomName, roomType, maxCountUser, openRoom) {
     this.roomName = roomName;
     this.roomType = roomType;
-    this.maxCountUser = maxCountUserd;
+    this.maxCountUser = maxCountUser;
     this.openRoom = openRoom;
   }
 
@@ -63,7 +63,7 @@ class GameRoom {
   }
     
   //Max count user that can be to room
-  set MaxCountUser(maxCountUser){
+  set maxCountUser(maxCountUser){
     this.maxCountUser=maxCountUser;
   }
   
@@ -71,10 +71,7 @@ class GameRoom {
   get maxCountUser(){
     return this.maxCountUser;
   }
-  set maxCountUser(maxCountUser){
-    this.maxCountUser=maxCountUser;
-  }
-    
+  
   //List traced users for game
   get listViewUser(){
     return this.listViewUser;
