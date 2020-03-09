@@ -63,7 +63,7 @@ class GameRoom {
   }
     
   //Max count user that can be to room
-  set maxCountUser(maxCountUser){
+  set maxCountUser2(maxCountUser){
     this.maxCountUser=maxCountUser;
   }
   
