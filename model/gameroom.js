@@ -2,10 +2,10 @@ class GameRoom {
   gameStarted=false;
   roomUsers=[];
 
-  constructor(roomName, roomType, maxCountUser, openRoom) {
+  constructor(roomName, roomType, maxCountUserd, openRoom) {
     this.roomName = roomName;
     this.roomType = roomType;
-    this.maxCountUser = maxCountUser;
+    this.maxCountUser = maxCountUserd;
     this.openRoom = openRoom;
   }
 
