@@ -2,9 +2,9 @@ class GameRoom {
   gameStarted=false;
   roomUsers=[];
 
-  constructor(roomName, roomType, maxCountUserd, openRoom) {
-    this.roomName = roomName;
-    this.roomType = roomType;
+  constructor(nameRoom, typeRoom, maxCountUserd, openRoom) {
+    this.nameRoom = nameRoom;
+    this.typeRoom = typeRoom;
     this.maxCountUser = maxCountUserd;
     this.openRoom = openRoom;
   }
@@ -30,16 +30,6 @@ class GameRoom {
     this.roomUsers = this.roomUsers.filter(function(value, index, arr){
          return value != roomUser;
     });
-  }
-
-  //Get room number
-  get numberRoom(){
-    return this.numberRoom;
-  }
-  
-  //set room number
-  set numberRoom(numberRoom){
-    this.numberRoom=numberRoom;
   }
 
   //Check allow room for specific user
