@@ -178,10 +178,10 @@
 
                         for (var i = 0; i < data.length; i++) {
                             var buttonD = $('<button value="Присоединиться">Присоединиться</button>');
-                            var elD = $('<div><input type="hidden" value="' + data[i].numberRoom + '"><span>' + data[i].typeRoom + ' #' + (parseInt(data[i].numberRoom) + 1) + ' (' + data[i].countUsers + '/' + data[i].maxCountUser + ') ' + '</span></div>');
+                            var elD = $('<div><input type="hidden" value="' + data[i].nameRoom + '"><span>' + data[i].typeRoom + ' ' + (parseInt(data[i].nameRoom) + 1) + ' (' + data[i].roomUsers.length + '/' + data[i].maxCountUser + ') ' + '</span></div>');
                             elD.append(buttonD);
                             $('#listGames').append(elD);
-                            thisEl.createCl(buttonD, data[i].numberRoom);
+                            thisEl.createCl(buttonD, data[i].nameRoom);
                         }
                     } else {
                         jQuery('#listGames').empty();                        
