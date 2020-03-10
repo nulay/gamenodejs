@@ -183,7 +183,7 @@
                     if (data != null && data.length != 0) {
                         for (var i = 0; i < data.length; i++) {
                         	var elD = $('<div><input type="hidden" value="' + data[i].nameRoom + '"><span>' + data[i].typeRoom + ' ' + (parseInt(data[i].nameRoom) + 1) + ' (' + data[i].roomUsers.length + '/' + data[i].maxCountUser + ') ' + '</span></div>');
-                        	if(data.roomUsers != null && thisEl.isUserInList(data.roomUsers)){
+                        	if(data[i].roomUsers != null && thisEl.isUserInList(data[i].roomUsers)){
                                    var buttonD = $('<a href="/gotogame">Перейти в игру</a>');
                             
                                    elD.append(buttonD);
