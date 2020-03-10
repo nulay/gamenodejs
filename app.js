@@ -118,7 +118,7 @@ app.route('/signup')
             password: req.body.password
         });
         if(usert!=null){
-            req.session.user = usert;
+            req.session.user = new RoomUser(usert.name);
             console.log('go to dashboard');
             res.redirect('/dashboard');
         }else{
@@ -143,7 +143,7 @@ app.route('/login')
             } else if (!user.validPassword(password)) {
                 res.redirect('/login');
             } else {
-                req.session.user = user;
+                req.session.user = new RoomUser(user.name);
                 res.redirect('/dashboard');
             }
         });
@@ -235,9 +235,10 @@ app.route('/games/monopoly/gameinfo')
 
 
 // route for room
-app.route('/typeRoom')
+app.route('/roomInfo')
     .get(sessionCheckerFalse, (req, res) => {
-        res.json(roomSettings);
+    	var roomInfo = {"user" : req.session.user, "roomSettings" : roomSettings};
+        res.json(roomInfo);
     });
 
 // route for handling 404 requests(unavailable routes)
