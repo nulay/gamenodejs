@@ -164,9 +164,9 @@
                     }]
                 });
             },              
-            isUserInList(users){
+            isUserInList: function(users){
             	for(var i=0; i<users.length;i++){
-            	   if(this.user.name==users[i]){
+            	   if(this.user.name == users[i]){
             	       return true;
             	   }
             	}
