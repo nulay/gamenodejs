@@ -8,6 +8,7 @@ var path = require('path');
 var User = require('./user');
 const fs = require("fs");
 var GameRoom = require("./model/gameroom");
+var RoomUser = require("./model/roomuser");
 
 var mime = {
     html: 'text/html',
@@ -203,7 +204,9 @@ app.route('/gameroom')
           var countUs = req.body.countUs;
     
           var gameRoom = new GameRoom(global.rooms.length, typeRoom, countUs, true);
-          gameRoom.addUser(user);
+          var roomUser = new RoomUser(user.name);
+
+           gameRoom.addUser(roomUser);
 
           global.rooms[global.rooms.length]=gameRoom;
           
