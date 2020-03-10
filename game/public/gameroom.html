@@ -165,10 +165,10 @@
                 });
             },              
             isUserInList: function(users){
-                 console.log(JSON.stringify(users));
-                  console.log(JSON.stringify(this.user));
+                //console.log(JSON.stringify(users));
+                //console.log(JSON.stringify(this.user));
             	for(var i=0; i<users.length;i++){
-            	   if(this.user.name == users[i]){
+            	   if(this.user.name == users[i].name){
             	       return true;
             	   }
             	}
