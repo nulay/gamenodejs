@@ -95,7 +95,7 @@
         var objRoom = {            
             init: function() {
                 var thisEl = this;
-                this.loadTypeRoom();
+                this.loadRoomSettings();
                 this.loadAllGame();
                 //this.createForm();
                 $('#typeGame').change(function(){
@@ -148,7 +148,7 @@
                             $.post(form.prop('action'),
                                     form.serialize(),
                                     function(response) {
-                                        alert("success " + response);
+                                       alert("Game is created");
                                     })
                                 .fail(function() {
                                     alert("error");
@@ -163,9 +163,15 @@
                         }
                     }]
                 });
+            },              
+            isUserInList(users){
+            	for(var i=0; i<users.length;i++){
+            	   if(this.user.name==users[i]){
+            	       return true;
+            	   }
+            	}
+                return false;
             },
-            
-            
             loadAllGame: function() {
                 var thisEl = this;
                 jQuery.ajax({
@@ -175,43 +181,46 @@
                 }).done(function(data) {      
                     $('#listGames').empty();
                     if (data != null && data.length != 0) {
-
                         for (var i = 0; i < data.length; i++) {
-                            var buttonD = $('<button value="Присоединиться">Присоединиться</button>');
-                            var elD = $('<div><input type="hidden" value="' + data[i].nameRoom + '"><span>' + data[i].typeRoom + ' ' + (parseInt(data[i].nameRoom) + 1) + ' (' + data[i].roomUsers.length + '/' + data[i].maxCountUser + ') ' + '</span></div>');
-                            elD.append(buttonD);
+                        	var elD = $('<div><input type="hidden" value="' + data[i].nameRoom + '"><span>' + data[i].typeRoom + ' ' + (parseInt(data[i].nameRoom) + 1) + ' (' + data[i].roomUsers.length + '/' + data[i].maxCountUser + ') ' + '</span></div>');
+                        	if(data.roomUsers != null && thisEl.isUserInList(data.roomUsers)){
+                                   var buttonD = $('<a href="/gotogame">Перейти в игру</a>');
+                            
+                                   elD.append(buttonD);
+                         	}else{
+                                  var buttonD = $('<button value="Присоединиться">Присоединиться</button>');
+                            
+                                  elD.append(buttonD);
+                            }
                             $('#listGames').append(elD);
                             thisEl.createCl(buttonD, data[i].nameRoom);
                         }
                     } else {
                         jQuery('#listGames').empty();                        
-                    }
+                  
                 }).always(function() {
                     setTimeout(function() {
                         thisEl.loadAllGame()
                     }, 3000);
                 });
             },
-            loadTypeRoom: function() {
+            loadRoomSettings: function() {
                 var thisEl = this;
                 jQuery.ajax({
-                    url: "/typeRoom",
+                    url: "/roomInfo",
                     dataType: "json",
                     type: "GET"
                 }).done(function(data) {
                     console.log(data);
-                    if (data != null && data.length != 0) {
-                        thisEl.gameSett = data;
-                        for (var i = 0; i < data.length; i++) {
-
-                            $('#typeGame').append('<option value="'+data[i].typeGame+'">'+data[i].typeGame+'</option>');
-                            
-
-                            
-                            
+                    if (data != null) {
+                        thisEl.gameSett = data.roomSettings;
+                        thisEl.user = data.user;
+                        if (thisEl.gameSett.length ] != null && thisEl.gameSett.length != 0) {
+                           for (var i = 0; i < thisEl.gameSett.length; i++) {
+                               $('#typeGame').append('<option value="'+thisEl.gameSett[i].typeGame+'">'+thisEl.gameSett[i].typeGame+'</option>');                                                                        
+                           }
+                           Room.init(thisEl.gameSett[0].maxCountUser);
                         }
-                        Room.init(thisEl.gameSett[0].maxCountUser);
-
                     } else {
                         jQuery('#listGames').append('<div style="color:red">Ошибка загрузки данных</>');                        
                     }
