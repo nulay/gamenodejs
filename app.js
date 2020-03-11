@@ -1,4 +1,3 @@
-
 var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -179,16 +178,7 @@ app.get('/logout', (req, res) => {
     }
 });
 
-
-
-
-
-
-
-
-
-
-//===========Game==========
+//===========Room==========
 var roomSettings = [{"typeGame" : "monopolia", "maxCountUser":4},{"typeGame" : "imaginarium", "maxCountUser":6}];
 
 
@@ -213,39 +203,102 @@ app.route('/gameroom')
           res.json(global.rooms);
 });
 
+//Join to room
+app.route('jointoroom')
+    .post(sessionCheckerFalse, (req, res) => {
+           var user = req.session.user;
+           var nameRoom = req.body.nameRoom;
+           var roomForJoin = null;
+           for(var i=0;i<global.rooms.length,i++){
+                  if(global.rooms[i].nameRoom==nameRoom){
+                     roomForJoin = global.rooms[i];
+                     breack;
+                }
+           }
+          
+          var roomUser = new RoomUser(user.name);
+
+           if(roomForJoin.addUser(roomUser) == true){
+           res.json({'success':true});
+}else{   
+            res.json({'success':false});
+}
+     });
+
 // route for room /games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
-app.route('/games/room/getAllRoom')
+app.route('/games/room/getaallroom')
     .get(sessionCheckerFalse, (req, res) => {
         res.json(global.rooms);
        // res.json([{'numberRoom':1,'typeRoom':'monopoly','countUsers':2,'maxCountUser':6}]);
     });
 
-
 // route for room
-app.route('/game')
-    .get(sessionCheckerFalse, (req, res) => {
-        res.sendFile(__dirname + '/game/public/game.html');
-    });
-
-// route for room
-app.route('/games/monopoly/gameinfo')
-    .get(sessionCheckerFalse, (req, res) => {
-        res.send("{'users':[]}");
-    });
-
-
-// route for room
-app.route('/roomInfo')
+app.route('/roominfo')
     .get(sessionCheckerFalse, (req, res) => {
     	var roomInfo = {"user" : req.session.user, "roomSettings" : roomSettings};
         res.json(roomInfo);
     });
 
+//===========Game==========
+
+
+// route for game
+app.route('/game/{nameroom}')
+    .get(sessionCheckerFalse, (req, res) => {
+        req.session.curentGame=nameroom;
+        res.sendFile(__dirname + '/game/public/game.html');
+    });
+
+// game info room.maxCountUser , data.userRoom.name like curent user
+app.route('/games/monopoly/gameinfo')
+    .get(sessionCheckerFalse, (req, res) => {
+        
+    });
+
+// listCardObj
+app.route('/games/monopoly/getCards')
+    .get(sessionCheckerFalse, (req, res) => {
+        
+    });
+
+
+// users who is gamer
+app.route('/games/monopoly/getStartGamers')
+    .get(sessionCheckerFalse, (req, res) => {
+        
+    });
+
+// main click process data.listAction[],
+app.route('/games/monopoly/loadgamedata')
+    .get(sessionCheckerFalse, (req, res) => {
+        
+    });
+
+// main send action process indFirm,  post:message,datas = {'indFirmUserChanger': this.listSelectFirm,'indFirm':this.listSelectFirm2,'moneyUserChanger':money1,'money':money2, 'userName':this.changePanel.userSelect.val()};
+app.route('/games/monopoly/actions/{actions}')
+    .get(sessionCheckerFalse, (req, res) => {
+        
+    }).post(sessionCheckerFalse, (req, res) => {
+        
+    });
+
+app.route('/games/monopoly/actions/getPossibleFirm/{action}')
+    .get(sessionCheckerFalse, (req, res) => {
+        
+    });
+
+app.route('/games/monopoly/actions/getPossibleFirmCh/{userName}')
+    .get(sessionCheckerFalse, (req, res) => {
+        
+    });
+
+
+//====================================
+
 // route for handling 404 requests(unavailable routes)
 app.use(function (req, res, next) {
   res.status(404).send("Sorry can't find that!")
 });
-
 
 // start the express server
 app.listen(app.get('port'), () => console.log(`App started on port ${app.get('port')}`));
