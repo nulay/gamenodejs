@@ -177,7 +177,7 @@
             loadAllGame: function() {
                 var thisEl = this;
                 jQuery.ajax({
-                    url: "/games/room/getAllRoom",
+                    url: "/games/room/getallroom",
                     dataType: "json",
                     type: "GET"
                 }).done(function(data) {      
@@ -209,7 +209,7 @@
             loadRoomSettings: function() {
                 var thisEl = this;
                 jQuery.ajax({
-                    url: "/roomInfo",
+                    url: "/roominfo",
                     dataType: "json",
                     type: "GET"
                 }).done(function(data) {
