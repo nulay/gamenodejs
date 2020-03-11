@@ -209,7 +209,7 @@ app.route('jointoroom')
            var user = req.session.user;
            var nameRoom = req.body.nameRoom;
            var roomForJoin = null;
-           for(var i=0;i<global.rooms.length,i++){
+           for(var i=0;i<global.rooms.length;i++){
                   if(global.rooms[i].nameRoom==nameRoom){
                      roomForJoin = global.rooms[i];
                      breack;
