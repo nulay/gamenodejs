@@ -243,9 +243,9 @@ app.route('/roominfo')
 
 
 // route for game
-app.route('/game/{nameroom}')
+app.route('/game/:nameroom')
     .get(sessionCheckerFalse, (req, res) => {
-        req.session.curentGame=nameroom;
+        req.session.curentGame=req.params.nameroom;
         res.sendFile(__dirname + '/game/public/game.html');
     });
 
@@ -275,8 +275,9 @@ app.route('/games/monopoly/loadgamedata')
     });
 
 // main send action process indFirm,  post:message,datas = {'indFirmUserChanger': this.listSelectFirm,'indFirm':this.listSelectFirm2,'moneyUserChanger':money1,'money':money2, 'userName':this.changePanel.userSelect.val()};
-app.route('/games/monopoly/actions/{actions}')
+app.route('/games/monopoly/actions/:actions')
     .get(sessionCheckerFalse, (req, res) => {
+      
         
     }).post(sessionCheckerFalse, (req, res) => {
         
