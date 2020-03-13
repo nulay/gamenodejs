@@ -151,12 +151,14 @@ class UserMonopolyImpl
     //@Override
     //public List<ActionUser> getAndClearActionsAllUser() {
     getAndClearActionsAllUser() {
-        synchronized (actionsAllUser) {
-            List<ActionUser> oldAU = new ArrayList<>();
-            oldAU.addAll(actionsAllUser);
-            actionsAllUser.clear();
+       // synchronized (actionsAllUser) {
+           // List<ActionUser> oldAU = new ArrayList<>();
+            oldAU =[];
+            Array.prototype.push.apply(oldAU, this.actionsAllUser);
+            //oldAU.addAll(actionsAllUser);
+            this.actionsAllUser.splice(0,this.actionsAllUser.length);
             return oldAU;
-        }
+       // }
     }
 
     //@Override
