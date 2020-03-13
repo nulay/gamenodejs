@@ -1,76 +1,100 @@
-class MonopolyGame implements GameMonopoly{
+class MonopolyGame{
+// implements GameMonopoly{
     //игровая комната
-    private Room room;
+    //private Room room;
+    var room;
     //Время начала игры
-    private Long timeStartGame;
-    private Long currentTime;
+    //private Long timeStartGame;
+    var timeStartGame;
+    //private Long currentTime;
+    var currentTime;
     //список ячеек по которым может передвигаться пользователь
-    @JsonIgnore
-    private List<Card> listCard;
-    private boolean startGame=false;
-    private String imageFolder;
-    private String imageCenter;
+    //++@JsonIgnore
+    //private List<Card> listCard;
+    var listCard = [];
+    //private boolean startGame=false;
+    var startGame=false;
+    //private String imageFolder;
+    var imageFolder;
+    //private String imageCenter;
+    var imageCenter;
     //штраф за обман
-    @JsonIgnore
-    private Integer penalty_cheating;
+    //++@JsonIgnore
+    //private Integer penalty_cheating;
+    var penalty_cheating;
     //Текущий пользователь
-    private UserMonopoly curentUser=null;
+    //private UserMonopoly curentUser=null;
+    var curentUser=null;
     //Деньги за круг
-    private int circleMoney;
+    //private int circleMoney;
+    var circleMoney;
     //стартовые деньги
-    private int startMoney;
+    //private int startMoney;
+    var startMoney;
     //возможный кредит
-    private int credit;
+    //private int credit;
+    var credit;
 
-
-    public MonopolyGame(List<Card> listCard) {
+    //public MonopolyGame(List<Card> listCard) {
+    constructor(listCard) {
         this.timeStartGame=new Date().getTime();
         this.listCard = listCard;
     }
 
-    public int getStartMoney() {
+    //public int getStartMoney() {
+    getStartMoney() {
         return startMoney;
     }
 
-    public void setStartMoney(int startMoney) {
+    //public void setStartMoney(int startMoney) {
+    setStartMoney(startMoney) {
         this.startMoney = startMoney;
     }
 
-    public int getCircleMoney() {
+    //public int getCircleMoney() {
+    var getCircleMoney() {
         return circleMoney;
     }
 
-    public void setCircleMoney(int circleMoney) {
+    //public void setCircleMoney(int circleMoney) {
+    setCircleMoney(circleMoney) {
         this.circleMoney = circleMoney;
     }
 
-    public List<Card> getListCard() {
+    //public List<Card> getListCard() {
+    getListCard() {
         return listCard;
     }
 
-    public void setListCard(List<Card> listCard) {
+    //public void setListCard(List<Card> listCard) {
+    setListCard(listCard) {
         this.listCard = listCard;
     }
 
-    public Long getTimeStartGame() {
+    //public Long getTimeStartGame() {
+    getTimeStartGame() {
         return timeStartGame;
     }
 
-    public void setTimeStartGame(Long timeStartGame) {
-        this.timeStartGame = timeStartGame;
+    //public void setTimeStartGame(Long timeStartGame) {
+    setTimeStartGame(timeStartGame) {
+         this.timeStartGame = timeStartGame;
     }
 
-    public Long getCurrentTime() {
+    //public Long getCurrentTime() {
+    getCurrentTime() {
         return currentTime;
     }
 
-    public void setCurrentTime(Long currentTime) {
+    //public void setCurrentTime(Long currentTime) {
+    setCurrentTime(currentTime) {
         this.currentTime = currentTime;
     }
 
-    @Override
-    public boolean addUser(UserRoom user) {
-        UserMonopoly mUser= (UserMonopoly) user;
+    //@Override
+    //public boolean addUser(UserRoom user) {
+    addUser(user) {
+        mUser = user;
         if(room.addUser(user)){
             mUser.setAvailableAction(EnumSet.noneOf(ActionMonopolyE.class));
             if(isOpenRoom()){
@@ -84,27 +108,32 @@ class MonopolyGame implements GameMonopoly{
         }
     }
 
-    @Override
-    public boolean removeUser(UserRoom user) {
+    //@Override
+    //public boolean removeUser(UserRoom user) {
+    removeUser(user) {
         return room.removeUser(user);
     }
 
-    @Override
-    public long getNumberRoom() {
+    //@Override
+    //public long getNumberRoom() {
+    getNumberRoom() {
         return room.getNumberRoom();
     }
 
-    @Override
-    public void setNumberRoom(long numberRoom) {
+    //@Override
+    //public void setNumberRoom(long numberRoom) {
+    setNumberRoom(numberRoom) {
         this.room.setNumberRoom(numberRoom);
     }
 
-    @Override
-    public boolean isPermission(UserRoom user) {
+    //@Override
+    //public boolean isPermission(UserRoom user) {
+    isPermission(user) {
         return room.isPermission(user);
     }
 
-    public boolean isOpenRoom() {
+    //public boolean isOpenRoom() {
+    isOpenRoom() {
         return room.isOpenRoom();
     }
 
