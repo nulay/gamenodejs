@@ -1,4 +1,4 @@
-class UserMonopolyImpl 
+class UserMonopoly
 //extends DefaultUserRoom implements UserMonopoly{
     //money
     //private int 
@@ -27,7 +27,7 @@ class UserMonopolyImpl
     //++@JsonIgnore
     //list bought cards(firm)
     //++private List<Card> 
-    var listBuyCard;
+    var listBuyCard=[];
     //louse
     //private boolean 
     var loose=false;
@@ -94,38 +94,44 @@ class UserMonopolyImpl
     }
 
     //public int getMoney() {
-    get money() {
+    getMoney() {
         return money;
     }
 
     //public void setMoney(int money) {
-    set money(money) {
+    setMoney(money) {
         this.money = money;
     }
 
     //public int getPenalty() {
-    //    return penalty;
-    //}
+    getPenalty() {
+        return penalty;
+    }
 
     //public void setPenalty(int penalty) {
-    //    this.penalty = penalty;
-    //}
+    setPenalty(penalty) {
+        this.penalty = penalty;
+    }
 
     //public int getIndexPosition() {
-    //    return indexPosition;
-    //}
+    getIndexPosition() {
+        return indexPosition;
+    }
 
     //public void setIndexPosition(int indexPosition) {
-    //    this.indexPosition = indexPosition;
-    //}
+    setIndexPosition(indexPosition) {
+        this.indexPosition = indexPosition;
+    }
 
     //public int getCredit() {
-    //    return credit;
-    //}
+    getCredit() {
+        return credit;
+    }
 
     //public void setCredit(int credit) {
-    //    this.credit = credit;
-    //}
+    setCredit(credit) {
+        this.credit = credit;
+    }
 
     //public boolean isActivGamer() {
     isActivGamer() {
@@ -133,8 +139,9 @@ class UserMonopolyImpl
     }
 
     //public void setActivGamer(boolean activGamer) {
-    //    this.activGamer = activGamer;
-    //}
+    setActivGamer(activGamer) {
+        this.activGamer = activGamer;
+    }
     
     //@Override
     //public boolean isGoForward() {
@@ -143,8 +150,9 @@ class UserMonopolyImpl
     }
     //@Override
     //public void setGoForward(boolean goForward) {
-    //    this.goForward = goForward;
-    //}
+    setGoForward(goForward) {
+        this.goForward = goForward;
+    }
 
 
     //@JsonIgnore
@@ -167,23 +175,27 @@ class UserMonopolyImpl
        return this.actionsAllUser[this.actionsAllUser.length]=actionUser;
     }
 
-    @Override
-    public boolean isLoose() {
+    //@Override
+    //public boolean isLoose() {
+    isLoose() {
         return loose;
     }
 
-    @Override
-    public void setLoose(boolean key) {
+    //@Override
+    //public void setLoose(boolean key) {
+    setLoose( key) {
         this.loose=key;
     }
 
-    @Override
-    public void setWin(boolean key) {
+    //@Override
+    //public void setWin(boolean key) {
+    setWin(key) {
         this.win=key;
     }
 
-    @Override
-    public void throwDouble(boolean yes) {
+    //@Override
+    //public void throwDouble(boolean yes) {
+    throwDouble(yes)
         if(yes) {
             this.throwDouble += 1;
         }else {
@@ -191,62 +203,73 @@ class UserMonopolyImpl
         }
     }
 
-    @Override
-    public int getCountThrowDouble() {
+    //@Override
+    //public int 
+    getCountThrowDouble() {
         return throwDouble;
     }
 
-    public boolean isWin() {
+    //public boolean isWin() {
+    isWin() {
         return win;
     }
 
-    public Set<Integer> getMonopByFilThisStep() {
-        return monopByFilThisStep;
+    //public Set<Integer> getMonopByFilThisStep() {
+    getMonopByFilThisStep() {
+      return monopByFilThisStep;
     }
 
-    @Override
-    public void setMonopByFilThisStep(Collection<Integer> monopByFilThisStep) {
-            this.monopByFilThisStep = (Set<Integer>) monopByFilThisStep;
+    //@Override
+    //public void setMonopByFilThisStep(Collection<Integer> monopByFilThisStep) {
+    setMonopByFilThisStep(monopByFilThisStep) {            
+        this.monopByFilThisStep = monopByFilThisStep;
     }
 
-
-    @Override
-    public boolean isMonopByFilThisStep(int numMonopoly) {
-        for(Integer monopN:monopByFilThisStep){
-            if(monopN.intValue()==numMonopoly){
+    //@Override
+    //public boolean isMonopByFilThisStep(int numMonopoly) {
+    isMonopByFilThisStep(numMonopoly)
+        for(var monopN : monopByFilThisStep){
+            if(monopN == numMonopoly){
                 return true;
             }
         }
         return false;
     }
 
-    public boolean isThrowCubs() {
+    //public boolean isThrowCubs() {
+    isThrowCubs() {
         return throwCubs;
     }
 
-    public void setThrowCubs(boolean throwCubs) {
-        this.throwCubs = throwCubs;
+    //public void setThrowCubs(boolean throwCubs) {
+    setThrowCubs(throwCubs) {
+       this.throwCubs = throwCubs;
     }
 
-    @Override
-    public void doChangeFirm() {
+    //@Override
+    //public void doChangeFirm() {
+    doChangeFirm() {
         this.changeFirmCount+=1;
     }
 
-    public void setChangeFirmCount(int changeFirmCount) {
-        this.changeFirmCount = changeFirmCount;
+    //public void setChangeFirmCount(int changeFirmCount) {
+    setChangeFirmCount(changeFirmCount) {
+       this.changeFirmCount = changeFirmCount;
     }
 
-    @Override
-    public int getChangeFirmCount() {
-        return changeFirmCount;
+    //@Override
+    //public int getChangeFirmCount() {
+    getChangeFirmCount() {
+        return this.changeFirmCount;
     }
 
-    public int getPrison() {
-        return prison;
+    //public int getPrison() {
+    getPrison() {
+        return this.prison;
     }
 
-    public void setPrison(int prison) {
+    //public void setPrison(int prison) {
+    setPrison(prison) {
         this.prison = prison;
     }
 }
