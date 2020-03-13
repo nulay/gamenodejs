@@ -245,14 +245,22 @@ app.route('/roominfo')
 // route for game
 app.route('/game/:nameroom')
     .get(sessionCheckerFalse, (req, res) => {
-        req.session.curentGame=req.params.nameroom;
+        req.session.curentGameName=req.params.nameroom;
         res.sendFile(__dirname + '/game/public/game.html');
     });
 
 // game info room.maxCountUser , data.userRoom.name like curent user
 app.route('/games/monopoly/gameinfo')
     .get(sessionCheckerFalse, (req, res) => {
-        
+        var curentGameName = req.session.curentGameName;
+        var curentGame = null;
+        for(var i=0; i<global.rooms.length;i++){
+          if(global.rooms[i].name == curentGameName){
+             curentGame=global.rooms[i];
+             break;
+          }
+        }
+        res.json(curentGame);
     });
 
 // listCardObj
