@@ -137,154 +137,171 @@ class MonopolyGame{
         return room.isOpenRoom();
     }
 
-    @Override
-    public int countPerson() {
+    //@Override
+    //public int countPerson() {
+    countPerson() {
         return room.countPerson();
     }
 
-    @Override
-    public List<UserMonopoly> getListUser() {
-        return (List<UserMonopoly>) room.getListUser();
+    //@Override
+    //public List<UserMonopoly> getListUser() {
+    getListUser() {
+        return room.getListUser();
     }
 
-    @Override
-    public void setMaxCountUser(int count) {
+    //@Override
+    //public void setMaxCountUser(int count) {
+    setMaxCountUser(count) {
         room.setMaxCountUser(count);
     }
 
-    @Override
-    public int getMaxCountUser() {
+    //@Override
+    //public int getMaxCountUser() {
+    getMaxCountUser() {
         return room.getMaxCountUser();
     }
 
-    @Override
-    public List<UserMonopoly> getListViewUser() {
-        return (List<UserMonopoly>)room.getListViewUser();
+    //@Override
+    //public List<UserMonopoly> getListViewUser() {
+    getListViewUser() {
+        return room.getListViewUser();
     }
 
-    public void startGame(){
-        startGame=true;
-        curentUser=getListUser().get(new SecureRandom().nextInt(getMaxCountUser()));
+    //public void startGame(){
+    startGame(){
+        this.startGame=true;
+        this.curentUser=getListUser().get(new SecureRandom().nextInt(getMaxCountUser()));
         nextGamer();
-        for(UserMonopoly user:getListUser()) {
+        for(var i= 0 i<getListUser().length; i++) {
+            var user = getListUser()[i];
             user.setMoney(getStartMoney());
             ActionUser.createInstance(this,user, START_GAME, "Hello in GameRoom");
         }
     }
 
-    @Override
-    public void nextGamer(){
-        curentUser.setActivGamer(false);
+    //@Override
+    //public void nextGamer(){
+    nextGamer(){
+        this.curentUser.setActivGamer(false);
         //чистим список монополий в которых был куплен филиал на текущем шаге
-        curentUser.getMonopByFilThisStep().clear();
+        this.curentUser.getMonopByFilThisStep().clear();
         if(isWinSomebody()){
             return;
         }
-        if(auction!=null){
-            auction.nextGamer();
+        if(this.auction!=null){
+            this.auction.nextGamer();
             return;
         }
-        if(curentUser.getCountThrowDouble()==0){
-            if(getListUser().get(getListUser().size()-1)==curentUser){
-                curentUser=getListUser().get(0);
+        if(this.curentUser.getCountThrowDouble()==0){
+            if(getListUser().get(getListUser().length-1)==this.curentUser){
+                curentUser=getListUser()[0];
             }else{
-                curentUser=getListUser().get(getListUser().indexOf(curentUser)+1);
+                curentUser=getListUser().get(getListUser().indexOf(this.curentUser)+1);
             }
         }
-        curentUser.setThrowCubs(false);
-        curentUser.getAvailableAction().clear();
+        this.curentUser.setThrowCubs(false);
+        this.curentUser.getAvailableAction().clear();
 
-        getListCard().get(curentUser.getIndexPosition()).dropInToCard(this,curentUser);
+        getListCard().get(this.curentUser.getIndexPosition()).dropInToCard(this,this.curentUser);
 
-        if(!canCheckPenalty(curentUser)){
-            curentUser.getAvailableAction().add(THROW_CUBE);
+        if(!canCheckPenalty(this.curentUser)){
+            this.curentUser.getAvailableAction().add(THROW_CUBE);
         }
-        giveTakeCredit(curentUser);
-        firmFilialSell(curentUser);
-        curentUser.setActivGamer(true);
-        if(curentUser.getPrison()!=0){
-            ActionUser.createInstance(this,curentUser, CHANGE_USER, curentUser);
+        giveTakeCredit(this.curentUser);
+        firmFilialSell(this.curentUser);
+        this.curentUser.setActivGamer(true);
+        if(this.curentUser.getPrison()!=0){
+            ActionUser.createInstance(this, this.curentUser, CHANGE_USER, this.curentUser);
             return;
         }
         canBuyFilial();
-        ActionUser.createInstance(this,curentUser, CHANGE_USER, curentUser);
+        ActionUser.createInstance(this, this.curentUser, CHANGE_USER, this.curentUser);
     }
 
-    private boolean isWinSomebody() {
+    //private boolean isWinSomebody() {
+    isWinSomebody() {
         //победа
-        if(getListUser().size()==1){
-            curentUser=getListUser().get(0);
-            ActionUser.createInstance(this,curentUser, WIN, curentUser);
-            curentUser.setActivGamer(true);
-            curentUser.setWin(true);
-            curentUser.getAvailableAction().clear();
-            curentUser.getAvailableAction().add(GAME_CLOSE);
+        if(getListUser().length==1){
+            this.curentUser=getListUser().[0];
+            ActionUser.createInstance(this, this.curentUser, WIN, this.curentUser);
+            this.curentUser.setActivGamer(true);
+            this.curentUser.setWin(true);
+            this.curentUser.getAvailableAction().clear();
+            this.curentUser.getAvailableAction().add(GAME_CLOSE);
             return true;
         }
         return false;
     }
 
-    public boolean isStartGame() {
+    ///public boolean isStartGame() {
+    isStartGame() {
         return startGame;
     }
 
-    public String getImageFolder() {
+    //public String getImageFolder() {
+    getImageFolder() {
         return imageFolder;
     }
 
-    public void setImageFolder(String imageFolder) {
+    //public void setImageFolder(String imageFolder) {
+    setImageFolder(imageFolder) {
         this.imageFolder = imageFolder;
     }
 
-    public String getImageCenter() {
+    //public String getImageCenter() {
+    getImageCenter() {
         return imageCenter;
     }
 
-    public void setImageCenter(String imageCenter) {
+    //public void setImageCenter(String imageCenter) {
+    setImageCenter(imageCenter) {
         this.imageCenter = imageCenter;
     }
 
-    @JsonIgnore
-    private SecureRandom rand=new SecureRandom();
+    //++@JsonIgnore
+    //private SecureRandom rand=new SecureRandom();
+    var rand=new SecureRandom();
 
     //Бросить кубик
-    public int[] throwCube() {
-        if(curentUser.getAvailableAction().contains(THROW_CUBE)){
-            curentUser.getAvailableAction().clear();
-            int[] toValue={rand.nextInt(6)+1,rand.nextInt(6)+1};
-            curentUser.throwDouble(toValue[0]==toValue[1]);
+    //public int[] throwCube() {
+    throwCube() {
+        if(this.curentUser.getAvailableAction().contains(THROW_CUBE)){
+            this.curentUser.getAvailableAction().clear();
+            var toValue={rand.nextInt(6)+1,rand.nextInt(6)+1};
+            this.curentUser.throwDouble(toValue[0]==toValue[1]);
             ActionUser.createInstance(this,curentUser, THROW_CUBE, toValue);
-            if(curentUser.getPrison()>0){
-                if(curentUser.getCountThrowDouble()==1){
+            if(this.curentUser.getPrison()>0){
+                if(this.curentUser.getCountThrowDouble()==1){
                     //выходит из тюрьмы
-                    curentUser.setPrison(0);
+                    this.curentUser.setPrison(0);
                 }else{
-                    curentUser.setPrison(curentUser.getPrison()+1);
+                    this.curentUser.setPrison(this.curentUser.getPrison()+1);
                     nextGamer();
                 }
             }
-            if(curentUser.getCountThrowDouble()==3){
+            if(this.curentUser.getCountThrowDouble()==3){
                 //устанавливаем выбрасывание кубика в 0 раз
-                goPrison(curentUser);
+                goPrison(this.curentUser);
                 nextGamer();
-                curentUser.throwDouble(false);
+                this.curentUser.throwDouble(false);
                 return toValue;
             }
             goToCard(toValue[0]+toValue[1]);
             return toValue;
         }else{
             //штраф
-            penaltyCheating(curentUser);
+            penaltyCheating(this.curentUser);
         }
         return null;
     }
 
-    private void goPrison(UserMonopoly user) {
-        user.setPrison(1);
+    //private void goPrison(UserMonopoly user) {
+    goPrison(user) {
+        var user.setPrison(1);
         CardPrison cP=getCardPrison();
         if(cP!=null) {
             user.setPenalty(cP.getPenalty());
-            user.setIndexPosition(listCard.indexOf(cP));
+            user.setIndexPosition(this.listCard.indexOf(cP));
             ActionUser.createInstance(this, user, GO_PRISON, user);
         }
     }
