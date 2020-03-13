@@ -162,8 +162,9 @@ class UserMonopolyImpl
     }
 
     //@Override
-    public boolean addActionUser(ActionUser actionUser) {
-        return this.actionsAllUser.add(actionUser);
+    //public boolean addActionUser(ActionUser actionUser) {
+    addActionUser(actionUser) {       
+       return this.actionsAllUser[this.actionsAllUser.length]=actionUser;
     }
 
     @Override
