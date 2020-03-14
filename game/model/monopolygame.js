@@ -326,8 +326,9 @@ class MonopolyGame{
     //public void buyFirm(){
     buyFirm(){
         if(this.curentUser.getAvailableAction().contains(BUY_FIRM)){
-            if(this.listCard.get(this.curentUser.getIndexPosition()) instanceof CardFirm) {
-                CardFirm cardF = (CardFirm) this.listCard.get(this.curentUser.getIndexPosition());
+            if(this.listCard.get(this.curentUser.getIndexPosition()).type == Card.CARD_FIRM) {
+                //CardFirm
+                var cardF = this.listCard.get(this.curentUser.getIndexPosition());
                 if(cardF.getUserOwner()==null && this.curentUser.getMoney()>=cardF.getPrice()) {
                     this.curentUser.setMoney(this.curentUser.getMoney() - cardF.getPrice());
                     cardF.setUserOwner(this.curentUser);
@@ -358,8 +359,9 @@ class MonopolyGame{
         if(this.curentUser.getAvailableAction().contains(PAY_PENALTY)){
             if(this.curentUser.getPenalty()!=0 && this.curentUser.getMoney()+this.curentUser.getPenalty()>=0){
                 Card c=getListCard().get(this.curentUser.getIndexPosition());
-                if(c instanceof CardFirm){
-                    CardFirm card=(CardFirm)c;
+                if(c.type == Card.CARD_FIRM){
+                    //CardFirm 
+                    var card=c;
                     card.getUserOwner().setMoney(card.getUserOwner().getMoney()-this.curentUser.getPenalty());
                     ActionUser.createInstance(this, this.curentUser, RECEIVE_INCOME, card.getUserOwner());
                 }
@@ -592,79 +594,86 @@ class MonopolyGame{
     //public Collection<Integer> getPossibleFirmCh(String nameUser){
     getPossibleFirmCh(nameUser){
         //Set<Integer> 
-        var lC=new HashSet<>();
+        var lC=[];
         UserMonopoly umFCH=getUserByName(nameUser);
         if(umFCH==null){
             return null;
         }
-        for(Card card:listCard){
-            if(card instanceof CardFirm){
-                CardFirm cf= (CardFirm) card;
-                if(cf.getUserOwner()!=null && umFCH.equals(cf.getUserOwner()) && !cf.isPut() && cf.getFilialStay()==0 && !isBuyFilialInMonopoly(cf.getNumMonopoly())){
-                    lC.add(getListCard().indexOf(cf));
+        for(const card of listCard){
+            if(card.type == Card.CARD_FIRM){
+                cf = card;
+                if(cf.getUserOwner()!=null && umFCH == cf.getUserOwner() && !cf.isPut() && cf.getFilialStay()==0 && !isBuyFilialInMonopoly(cf.getNumMonopoly())){
+                    lC[lC.length]=getListCard().indexOf(cf);
                 }
             }
         }
         return lC;
     }
 
-    @JsonIgnore
-    @Override
-    public Collection<Integer> getPossibleFirm(String type) {
-        Set<Integer> lC=new HashSet<>();
-        if((type.equals("PUT_FIRM") && curentUser.getAvailableAction().contains(PUT_FIRM)) || (type.equals("CHANGE_FIRM") && curentUser.getAvailableAction().contains(CHANGE_FIRM))) {
-            for(Card card:listCard){
-                if(card instanceof CardFirm){
-                    CardFirm cf= (CardFirm) card;
-                    if(cf.getUserOwner()!=null && curentUser.equals(cf.getUserOwner()) && !cf.isPut() && cf.getFilialStay()==0 && !isBuyFilialInMonopoly(cf.getNumMonopoly())){
-                        lC.add(getListCard().indexOf(cf));
+    //@JsonIgnore
+    //@Override
+    //public Collection<Integer> getPossibleFirm(String type) {
+    getPossibleFirm(type) {
+        var lC=[];
+        if((type == "PUT_FIRM" && this.curentUser.getAvailableAction().contains(PUT_FIRM)) || (type == CHANGE_FIRM && this.curentUser.getAvailableAction().contains(CHANGE_FIRM))) {
+            for(const card of listCard){
+                if(card.type == Card.CARD_FIRM){
+                    var cf = card;
+                    if(cf.getUserOwner()!=null && this.curentUser.equals(cf.getUserOwner()) && !cf.isPut() && cf.getFilialStay()==0 && !isBuyFilialInMonopoly(cf.getNumMonopoly())){
+                        lC[lC.length] = getListCard().indexOf(cf);
                     }
                 }
             }
         }
-        if(type.equals("REDEEM_FIRM") && curentUser.getAvailableAction().contains(REDEEM_FIRM)) {
-            for(Card card:listCard){
-                if(card instanceof CardFirm){
-                    CardFirm cf= (CardFirm) card;
-                    if(cf.getUserOwner()!=null && curentUser.equals(cf.getUserOwner()) && cf.isPut()){
-                        lC.add(getListCard().indexOf(cf));
+        if(type =="REDEEM_FIRM" && this.curentUser.getAvailableAction().contains(REDEEM_FIRM)) {
+            for(const card of listCard){
+                if(card.type() == Card.CARD_FIRM){
+                    //CardFirm 
+                    var cf= card;
+                    if(cf.getUserOwner()!=null && this.curentUser.equals(cf.getUserOwner()) && cf.isPut()){
+                        lC[lC.length] = getListCard().indexOf(cf);
                     }
                 }
             }
         }
-        if(type.equals("BUY_FILIAL") && curentUser.getAvailableAction().contains(BUY_FILIAL)) {
-            lC.addAll(canBuyFilial(curentUser));
+        if(type =="BUY_FILIAL" && this.curentUser.getAvailableAction().contains(BUY_FILIAL)) {
+            lC.addAll(canBuyFilial(this.curentUser));
         }
-        if(type.equals("SELL_FILIAL") && curentUser.getAvailableAction().contains(SELL_FILIAL)) {
-            lC.addAll(canSellFilial(curentUser));
+        if(type == "SELL_FILIAL" && curentUser.getAvailableAction().contains(SELL_FILIAL)) {
+            lC.addAll(canSellFilial(this.curentUser));
         }
         return lC;
     }
 
-    @JsonIgnore
-    public Map<Integer, Set<CardFirm>> getAllMonopoly(){
+   // @JsonIgnore
+   // public Map<Integer, Set<CardFirm>> getAllMonopoly(){
+    getAllMonopoly(){ 
         return getAllMonopoly(null);
     }
 
-    @JsonIgnore
-    public Map<Integer, Set<CardFirm>> getAllMonopoly(UserMonopoly user){
-        Map<Integer,Set<CardFirm>> listAllMonopoly=new HashMap<>();
-        Map<Integer,Set<CardFirm>> listUserMonopoly=new HashMap<>();
-        for(Card card:listCard) {
-            if (card instanceof CardFirm) {
-                CardFirm cf = (CardFirm) card;
+    //@JsonIgnore
+    //public Map<Integer, Set<CardFirm>> getAllMonopoly(UserMonopoly user){
+    getAllMonopoly(user){
+        //Map<Integer,Set<CardFirm>> 
+        listAllMonopoly={};
+        //Map<Integer,Set<CardFirm>>
+        listUserMonopoly={};
+        for(const card of listCard) {
+            if (card.type() == Card.CARD_FIRM) {
+                var cf = card;
                 if(cf.getUserOwner()!=null){
                     if(user!=null && !cf.getUserOwner().equals(user)){
                         continue;
                     }
-                    Set<CardFirm> lCard=listAllMonopoly.get(cf.getNumMonopoly());
+                    //Set<CardFirm>
+                    var lCard=listAllMonopoly[cf.getNumMonopoly()];
                     if(lCard==null){
-                        lCard=new HashSet<>();
-                        listAllMonopoly.put(cf.getNumMonopoly(),lCard);
+                        lCard=[];
+                        listAllMonopoly[cf.getNumMonopoly()]=lCard;
                     }
-                    lCard.add(cf);
-                    if(lCard.size()==cf.getCountFirmInMonopoly()) {
-                        listUserMonopoly.put(cf.getNumMonopoly(), lCard);
+                    lCard[lCard.length]=cf;
+                    if(lCard.length==cf.getCountFirmInMonopoly()) {
+                        listUserMonopoly[cf.getNumMonopoly()]=lCard;
                     }
                 }
             }
