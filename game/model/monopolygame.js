@@ -519,71 +519,80 @@ class MonopolyGame{
     }
 
 
-    @Override
-    public void sellFilial(Set<Integer> indFirm) {
-        if(curentUser.getAvailableAction().contains(SELL_FILIAL)){
-            Set<Integer> lICBF=canSellFilial(curentUser);
-            for(Integer indF:indFirm) {
-                boolean canSell=false;
-                for (Integer numFil : lICBF) {
-                    if(indF.equals(numFil)){
+    //@Override
+    //public void sellFilial(Set<Integer> indFirm) {
+    sellFilial(indFirm) {
+        if(this.curentUser.getAvailableAction().contains(SELL_FILIAL)){
+            //Set<Integer> 
+            lICBF=canSellFilial(this.curentUser);
+            for(const indF of indFirm) {
+                //boolean 
+                var canSell=false;
+                for (const numFil of lICBF) {
+                    if(indF ==numFil){
                         canSell=true;
                         break;
                     }
                 }
                 if(!canSell){
-                    penaltyCheating(curentUser);
+                    penaltyCheating(this.curentUser);
                     return;
                 }
             }
-            for(Integer indF:indFirm){
+            for(const indF of indFirm){
                 try {
-                    CardFirm cF=((CardFirm) getListCard().get(indF));
-                    cF.sellFilial(this, curentUser);
+                    //CardFirm 
+                    cF= getListCard()[indF];
+                    cF.sellFilial(this, this.curentUser);
                     // curentUser.getMonopByFilThisStep().add(cF.getNumMonopoly());
 
-                    ActionUser.createInstance(this,curentUser, SELL_FILIAL, cF);
+                    ActionUser.createInstance(this, this.curentUser, SELL_FILIAL, cF);
                 } catch (Exception e) {
                     //штраф
-                    penaltyCheating(curentUser);
+                    penaltyCheating(this.curentUser);
                 }
             }
-            curentUser.getAvailableAction().remove(SELL_FILIAL);
+            this.curentUser.getAvailableAction().remove(SELL_FILIAL);
             canSellFilial();
-            canCheckPenalty(curentUser);
+            canCheckPenalty(this.curentUser);
         }
     }
 
     //проверка на возможность пользователя оплатить штраф
-    public boolean canCheckPenalty(UserMonopoly userMonopoly){
-        if(Math.abs(curentUser.getPenalty())>0 && curentUser.getMoney()>=Math.abs(curentUser.getPenalty())){
-            curentUser.getAvailableAction().add(PAY_PENALTY);
+    //public boolean canCheckPenalty(UserMonopoly userMonopoly){
+    canCheckPenalty(userMonopoly){
+        if(Math.abs(this.curentUser.getPenalty())>0 && this.curentUser.getMoney()>=Math.abs(this.curentUser.getPenalty())){
+            this.curentUser.getAvailableAction().add(PAY_PENALTY);
             return true;
         }
         return false;
     }
 
-    @Override
-    public void gameClose(UserMonopoly user) {
+    //@Override
+    //public void gameClose(UserMonopoly user) {
+    gameClose(user) {
         synchronized (room.getListViewUser()){
             room.getListViewUser().remove(user);
         }
     }
 
     //проверяем куплин ли хоть один филиал в монополии
-    private boolean isBuyFilialInMonopoly(Integer numMonopoly) {
-        for(Card c:getListCard()) {
-            if(c instanceof CardFirm && ((CardFirm)c).getNumMonopoly()==numMonopoly && ((CardFirm)c).getFilialStay()>0) {
+    //private boolean isBuyFilialInMonopoly(Integer numMonopoly) {
+    isBuyFilialInMonopoly(numMonopoly) {
+        for(const c of getListCard()) {
+            if(c.type == Card.CARD_FIRM && c.getNumMonopoly()==numMonopoly && c.getFilialStay()>0) {
                 return true;
             }
         }
         return false;
     }
 
-    @JsonIgnore
-    @Override
-    public Collection<Integer> getPossibleFirmCh(String nameUser){
-        Set<Integer> lC=new HashSet<>();
+    //@JsonIgnore
+    //@Override
+    //public Collection<Integer> getPossibleFirmCh(String nameUser){
+    getPossibleFirmCh(nameUser){
+        //Set<Integer> 
+        var lC=new HashSet<>();
         UserMonopoly umFCH=getUserByName(nameUser);
         if(umFCH==null){
             return null;
