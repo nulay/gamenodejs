@@ -974,33 +974,33 @@ class MonopolyGame{
 
     public void goToCard(int countStep){
         int pos=0;
-        if(curentUser.isGoForward()){
-            pos=curentUser.getIndexPosition()+countStep;
+        if(this.curentUser.isGoForward()){
+            pos=this.curentUser.getIndexPosition()+countStep;
             if(pos>=listCard.size()){
                 pos=pos-listCard.size();
                 //выдать деньги за круг
                 getMoneybyCircle(curentUser);
                 //увеличить кредит на 50%
-                curentUser.setCredit((int)(curentUser.getCredit()*1.5));
+                curentUser.setCredit((int)(this.curentUser.getCredit()*1.5));
             }
         }else{
-            pos=curentUser.getIndexPosition()-(countStep);
+            pos=this.curentUser.getIndexPosition()-(countStep);
             if(pos<0){
                 pos=listCard.size()-1+pos;
             }
             //меняем направление на правильное
-            curentUser.setGoForward(true);
+            this.curentUser.setGoForward(true);
         }
-        curentUser.setThrowCubs(true);
-        curentUser.setIndexPosition(pos);
-        ActionUser.createInstance(this,curentUser, GO_SELL, countStep);
-        listCard.get(pos).transferCardForUser(this,curentUser);
-        if(curentUser.getPrison()>0){
+        this.curentUser.setThrowCubs(true);
+        this.curentUser.setIndexPosition(pos);
+        ActionUser.createInstance(this,this.curentUser, GO_SELL, countStep);
+        listCard.get(pos).transferCardForUser(this,this.curentUser);
+        if(this.curentUser.getPrison()>0){
             nextGamer();
             return;
         }
-        canCheckPenalty(curentUser);
-        giveTakeCredit(curentUser);
-        firmFilialSell(curentUser);
+        canCheckPenalty(this.curentUser);
+        giveTakeCredit(this.curentUser);
+        firmFilialSell(this.curentUser);
     }
 }
