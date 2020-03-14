@@ -682,20 +682,24 @@ class MonopolyGame{
     }
 
     //поиск пользователя по имени
-    private UserMonopoly getUserByName(String userName){
-        for(UserMonopoly um:getListUser()){
-            if(um.getName().equals(userName)){
+    //private UserMonopoly getUserByName(String userName){
+    getUserByName(userName){
+        for(const um of getListUser()){
+            if(um.getName() == userName){
                 return um;
             }
         }
         return null;
     }
 
-    private ChangeFirm objectOffers;
-    @Override
-    public void changeFirm(Set<Integer> indFirm, Set<Integer> indFirm2, int money, int money2, String userName) {
+    //private ChangeFirm objectOffers;
+    var objectOffers;
+    //@Override
+    //public void changeFirm(Set<Integer> indFirm, Set<Integer> indFirm2, int money, int money2, String userName) {
+    changeFirm(indFirm, indFirm2, money, money2, userName) {
         if(this.curentUser.getAvailableAction().contains(CHANGE_FIRM)){
-            UserMonopoly umA=getUserByName(userName);
+            //UserMonopoly 
+            var umA=getUserByName(userName);
             if(umA==null){
                 penaltyCheating(this.curentUser);
                 return;
@@ -713,24 +717,27 @@ class MonopolyGame{
         }
     }
 
-    public void changeFirm(ChangeFirm changeFirm) {
-        this.changeFirm(changeFirm.getIndFirmUserChanger(),changeFirm.getIndFirm(),changeFirm.getMoneyUserChanger(),changeFirm.getMoney(),changeFirm.getUserName());
+    //public void changeFirm(ChangeFirm changeFirm) {
+    changeFirm(changeFirm) {
+        this.changeFirmchangeFirm.getIndFirmUserChanger(),changeFirm.getIndFirm(),changeFirm.getMoneyUserChanger(),changeFirm.getMoney(),changeFirm.getUserName());
     }
 
-    public void changeFirm(ActionMonopolyE type){
+    //public void changeFirm(ActionMonopolyE type){
+        changeFirm(ActionMonopolyE settype){}
         if(this.curentUser.getAvailableAction().contains(EXCHANGE_OFFERS)){
             this.curentUser.getAvailableAction().clear();
-            UserMonopoly usCH=objectOffers.getUserChanger();
+            //UserMonopoly 
+             usCH=objectOffers.getUserChanger();
             if(type==CHANGE_FIRM_OK){
-                for (Integer indF:objectOffers.getIndFirmUserChanger()){
-                    ((CardFirm)getListCard().get(indF)).setUserOwner(objectOffers.getUser());
+                for (const  indF of objectOffers.getIndFirmUserChanger()){
+                    getListCard().get(indF).setUserOwner(objectOffers.getUser());
                     ActionUser.createInstance(this,objectOffers.getUser(), BUY_FIRM, getListCard().get(indF));
                 }
                 objectOffers.getUser().setMoney(objectOffers.getUser().getMoney() + objectOffers.getMoneyUserChanger());
                 usCH.setMoney(usCH.getMoney()-objectOffers.getMoneyUserChanger());
-                for (Integer indF:objectOffers.getIndFirm()){
-                    ((CardFirm)getListCard().get(indF)).setUserOwner(usCH);
-                    ActionUser.createInstance(this,usCH, BUY_FIRM, getListCard().get(indF));
+                for ( var indF:objectOffers.getIndFirm()){
+                    getListCard()[indF].setUserOwner(usCH);
+                    ActionUser.createInstance(this,usCH, BUY_FIRM, getListCard()[indF]);
                 }
                 objectOffers.getUser().setMoney(objectOffers.getUser().getMoney() - objectOffers.getMoney());
                 usCH.setMoney(usCH.getMoney()+objectOffers.getMoney());
@@ -743,9 +750,11 @@ class MonopolyGame{
             ActionUser.createInstance(this,this.curentUser, CHANGE_USER, this.curentUser);
             this.curentUser.setActivGamer(true);
             if(this.curentUser.isThrowCubs()) {
-                Card card=getListCard().get(this.curentUser.getIndexPosition());
-                if(card instanceof CardFirm) {
-                    CardFirm cardF=(CardFirm)card;
+                //Card 
+                card=getListCard()[this.curentUser.getIndexPosition()];;
+                if(card.type() == Card.CARD_FIRM) {
+                    //CardFirm 
+                    var cardF=card;
                     if (cardF.getUserOwner() == null) {
                         if (this.curentUser.getMoney() >= cardF.getPrice()) {
                             this.curentUser.getAvailableAction().add(BUY_FIRM);
@@ -769,7 +778,7 @@ class MonopolyGame{
             objectOffers=null;
         }
     }
-
+       
     public void canSellFilial(){
         this.curentUser.getAvailableAction().remove(SELL_FILIAL);
         Set<Integer> list=canSellFilial(z);
@@ -869,7 +878,7 @@ class MonopolyGame{
         synchronized (getListUser()){
             user.getAvailableAction().clear();
             for(Card card:getListCard()){
-                if(card instanceof CardFirm){
+                if(card.type() == Card.CARD_FIRM){
                     CardFirm cardF=(CardFirm)card;
                     if(cardF.getUserOwner()!=null && cardF.getUserOwner().equals(user)) {
                         cardF.returnInBank(this);
@@ -880,7 +889,7 @@ class MonopolyGame{
             //возврат денег тому на ячейки которого обанкротился , если такая есть
             if(user.getPenalty()<0){
                 Card c = getListCard().get(user.getIndexPosition());
-                if (c instanceof CardFirm) {
+                if (card.type() == Card.CARD_FIRM) {
                     CardFirm card = (CardFirm) c;
                     int retM=Math.abs(user.getPenalty());
                     if(retM>user.getMoney()){
@@ -950,7 +959,7 @@ class MonopolyGame{
     //проверка на возможность продать филиал или заложить или выкупить фирму
     public void firmFilialSell(UserMonopoly userMonopoly){
         for(Card card:getListCard()){
-            if(card instanceof CardFirm && ((CardFirm)card).getUserOwner()==userMonopoly){
+            if(card.type() == Card.CARD_FIRM && ((CardFirm)card).getUserOwner()==userMonopoly){
                 //заложить фирму
                 if(!((CardFirm)card).isPut() && ((CardFirm)card).getFilialStay()==0) {
                     userMonopoly.getAvailableAction().add(PUT_FIRM);
