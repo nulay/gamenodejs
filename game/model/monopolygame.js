@@ -317,60 +317,65 @@ class MonopolyGame{
 
     //получение денег за круг
     private void getMoneybyCircle(UserMonopoly curentUser) {
-        curentUser.setMoney(curentUser.getMoney() + circleMoney);
+        this.curentUser.setMoney(this.curentUser.getMoney() + circleMoney);
     }
 
-    @Override
-    public void buyFirm(){
-        if(curentUser.getAvailableAction().contains(BUY_FIRM)){
-            if(listCard.get(curentUser.getIndexPosition()) instanceof CardFirm) {
-                CardFirm cardF = (CardFirm) listCard.get(curentUser.getIndexPosition());
-                if(cardF.getUserOwner()==null && curentUser.getMoney()>=cardF.getPrice()) {
-                    curentUser.setMoney(curentUser.getMoney() - cardF.getPrice());
-                    cardF.setUserOwner(curentUser);
-                    ActionUser.createInstance(this,curentUser, BUY_FIRM, cardF);
-                    curentUser.getAvailableAction().clear();
+    //@Override
+    //public void buyFirm(){
+    buyFirm(){
+        if(this.curentUser.getAvailableAction().contains(BUY_FIRM)){
+            if(this.listCard.get(this.curentUser.getIndexPosition()) instanceof CardFirm) {
+                CardFirm cardF = (CardFirm) this.listCard.get(this.curentUser.getIndexPosition());
+                if(cardF.getUserOwner()==null && this.curentUser.getMoney()>=cardF.getPrice()) {
+                    this.curentUser.setMoney(this.curentUser.getMoney() - cardF.getPrice());
+                    cardF.setUserOwner(this.curentUser);
+                    ActionUser.createInstance(this, this.curentUser, BUY_FIRM, cardF);
+                    this.curentUser.getAvailableAction().clear();
                 }else{
                     //штраф
-                    penaltyCheating(curentUser);
+                    penaltyCheating(this.curentUser);
                 }
                 nextGamer();
             }
         }
     }
 
-    public void penaltyCheating(UserMonopoly user) {
-        ActionUser.createInstance(this,user, PENALTY_CHEATING, getPenalty_cheating());
+    //public void penaltyCheating(UserMonopoly user) 
+    penaltyCheating(user){
+        ActionUser.createInstance(this, user, PENALTY_CHEATING, getPenalty_cheating());
     }
 
-    public void penaltyCheating(UserMonopoly user, Object obj) {
+    //public void penaltyCheating(UserMonopoly user, Object obj) {
+    penaltyCheating(user, obj) {
         ActionUser.createInstance(this,user, PENALTY_CHEATING, obj);
     }
 
-    @Override
-    public void payPenalty() {
-        if(curentUser.getAvailableAction().contains(PAY_PENALTY)){
-            if(curentUser.getPenalty()!=0 && curentUser.getMoney()+curentUser.getPenalty()>=0){
-                Card c=getListCard().get(curentUser.getIndexPosition());
+    //@Override
+    //public void payPenalty() {
+    payPenalty() {
+        if(this.curentUser.getAvailableAction().contains(PAY_PENALTY)){
+            if(this.curentUser.getPenalty()!=0 && this.curentUser.getMoney()+this.curentUser.getPenalty()>=0){
+                Card c=getListCard().get(this.curentUser.getIndexPosition());
                 if(c instanceof CardFirm){
                     CardFirm card=(CardFirm)c;
-                    card.getUserOwner().setMoney(card.getUserOwner().getMoney()-curentUser.getPenalty());
-                    ActionUser.createInstance(this,curentUser, RECEIVE_INCOME, card.getUserOwner());
+                    card.getUserOwner().setMoney(card.getUserOwner().getMoney()-this.curentUser.getPenalty());
+                    ActionUser.createInstance(this, this.curentUser, RECEIVE_INCOME, card.getUserOwner());
                 }
-                curentUser.getAvailableAction().clear();
-                curentUser.setMoney(curentUser.getMoney()-Math.abs(curentUser.getPenalty()));
-                ActionUser.createInstance(this,curentUser, PAY_PENALTY, curentUser);
-                curentUser.setPenalty(0);
+                this.curentUser.getAvailableAction().clear();
+                this.curentUser.setMoney(this.curentUser.getMoney()-Math.abs(this.curentUser.getPenalty()));
+                ActionUser.createInstance(this, this.curentUser, PAY_PENALTY, this.curentUser);
+                this.curentUser.setPenalty(0);
                 //если был в тюрьме выходит из тюрьмы
-                curentUser.setPrison(0);
+                this.curentUser.setPrison(0);
                 nextGamer();
             }else{
-                penaltyCheating(curentUser);
+                penaltyCheating(this.curentUser);
             }
         }
     }
 
-    private Auction auction=null;
+    //private Auction 
+    var auction=null;
 
     @Override
     public void startAuction() {
