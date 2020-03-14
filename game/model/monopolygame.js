@@ -306,17 +306,19 @@ class MonopolyGame{
         }
     }
 
-    public CardPrison getCardPrison(){
-        for(Card card:listCard){
-            if(card instanceof CardPrison){
-                return (CardPrison) card;
+   // public CardPrison getCardPrison(){
+     getCardPrison(){
+        for(const card of this.listCard){
+            if(card.name == Card.CARD_PRISON){
+                return card;
             }
         }
         return null;
     }
 
     //получение денег за круг
-    private void getMoneybyCircle(UserMonopoly curentUser) {
+    //private void getMoneybyCircle(UserMonopoly curentUser) {
+    getMoneybyCircle(curentUser) {
         this.curentUser.setMoney(this.curentUser.getMoney() + circleMoney);
     }
 
@@ -377,10 +379,11 @@ class MonopolyGame{
     //private Auction 
     var auction=null;
 
-    @Override
-    public void startAuction() {
+    //@Override
+    //public void startAuction() {
+    startAuction() {
         if(curentUser.getAvailableAction().contains(AUCTION_START)) {
-            curentUser.getAvailableAction().clear();
+            this.curentUser.getAvailableAction().clear();
             auction = new Auction(this);
             nextGamer();
 
@@ -389,116 +392,126 @@ class MonopolyGame{
         }
     }
 
-    public void stopAuction() {
+    //public void stopAuction() {
+    stopAuction() {
         auction=null;
         nextGamer();
     }
 
-    @Override
-    public void putFirm(int[] indFirm) {
-        if(curentUser.getAvailableAction().contains(PUT_FIRM)) {
-            for(int i=0;i<Array.getLength(indFirm);i++) {
+    //@Override
+    //public void putFirm(int[] indFirm) {
+    putFirm(indFirm) {
+        if(this.curentUser.getAvailableAction().contains(PUT_FIRM)) {
+            for(int i=0; i < indFirm.length; i++) {
                 try {
-                    CardFirm cF = ((CardFirm) getListCard().get(Array.getInt(indFirm, i)));
-                    if(cF.putFirm(this, curentUser)) {
-                        ActionUser.createInstance(this, curentUser, PUT_FIRM, cF);
-                        firmFilialSell(curentUser);
+                    //CardFirm
+                    var cF = getListCard()[indFirm[i]];
+                    if(cF.putFirm(this, this.curentUser)) {
+                        ActionUser.createInstance(this, this.curentUser, PUT_FIRM, cF);
+                        firmFilialSell(this.curentUser);
                         canBuyFilial();
                     }
                 } catch (Exception e) {
-                    penaltyCheating(curentUser);
+                    penaltyCheating(this.curentUser);
                 }
             }
-            if(!canCheckPenalty(curentUser)){
-                Card card=listCard.get(getCurentUser().getIndexPosition());
-                if(card instanceof CardFirm) {
-                    if (((CardFirm)card).getUserOwner()==null && curentUser.getMoney() >= ((CardFirm)card).getPrice()) {
-                        curentUser.getAvailableAction().add(BUY_FIRM);
+            if(!canCheckPenalty(this.curentUser)){
+                var card=listCard.get(getCurentUser().getIndexPosition());
+                if(card.type == Card.CARD_FIRM) {
+                    if (card.getUserOwner()==null && this.curentUser.getMoney() >= card.getPrice()) {
+                        this.curentUser.getAvailableAction().add(BUY_FIRM);
                     }
                 }
             }
         }else{
-            penaltyCheating(curentUser);
+            penaltyCheating(this.curentUser);
         }
     }
 
-    @Override
-    public void redeemFirm(int[] indFirm) {
-        if(curentUser.getAvailableAction().contains(REDEEM_FIRM)) {
-            List<CardFirm> lCF=new ArrayList<>();
+    //@Override
+    //public void redeemFirm(int[] indFirm) {
+    redeemFirm(indFirm) {
+        if(this.curentUser.getAvailableAction().contains(REDEEM_FIRM)) {
+           // List<CardFirm> 
+            lCF=[];
             int price=0;
-            for(int i=0;i<Array.getLength(indFirm);i++) {
+            for(int i=0;i<indFirm.length;i++) {
                 try {
-                    CardFirm cF = ((CardFirm) getListCard().get(Array.getInt(indFirm, i)));
-                    lCF.add(cF);
+                    //CardFirm 
+                    var cF =  getListCard()[indFirm[i]]);
+                    lCF[lCF.length]=cF;
                     price+=cF.getPrice();
                 } catch (Exception e) {
-                    penaltyCheating(curentUser);
+                    penaltyCheating(this.curentUser);
                 }
             }
-            if(curentUser.getMoney()>price){
-                for(CardFirm cF:lCF) {
-                    if (cF.redeemFirm(this, curentUser)) {
-                        ActionUser.createInstance(this, curentUser, REDEEM_FIRM, cF);
-                        curentUser.getAvailableAction().remove(REDEEM_FIRM);
-                        firmFilialSell(curentUser);
+            if(this.curentUser.getMoney()>price){
+                for(const cF of lCF) {
+                    if (cF.redeemFirm(this, this.curentUser)) {
+                        ActionUser.createInstance(this, tjis.curentUser, REDEEM_FIRM, cF);
+                        this.curentUser.getAvailableAction().remove(REDEEM_FIRM);
+                        firmFilialSell(this.curentUser);
                         canBuyFilial();
                     }
                 }
             }else{
-                ActionUser.createInstance(this, curentUser, NOT_MONEY, price);
+                ActionUser.createInstance(this, this.curentUser, NOT_MONEY, price);
             }
         }else{
-            penaltyCheating(curentUser);
+            penaltyCheating(this.curentUser);
         }
     }
 
 
-    @Override
-    public void buyFilial(int[] indFirm) {
-        if(curentUser.getAvailableAction().contains(BUY_FILIAL)){
+    //@Override
+    //public void buyFilial(int[] indFirm) {
+    buyFilial(indFirm) {
+        if(this.curentUser.getAvailableAction().contains(BUY_FILIAL)){
             try {
-                Set<Integer> lICBF= canBuyFilial(curentUser);
-                List<Integer> lMon=new ArrayList<>();
-                for(int i=0;i<Array.getLength(indFirm);i++){
-                    boolean canBuy=false;
-                    for(int fN:lICBF){
-                        if(Array.getInt(indFirm, i)==fN){
-                            int numMon=((CardFirm)getListCard().get(fN)).getNumMonopoly();
-                            for(int fNM:lMon){
+                //Set<Integer> 
+                var lICBF= canBuyFilial(this.curentUser);
+                //List<Integer> 
+                var lMon=[];
+                for(int i=0;i<indFirm.length;i++){
+                    var canBuy=false;
+                    for(const fN of lICBF){
+                        if(indFirm[i]==fN){
+                            var numMon=getListCard()[fN].getNumMonopoly();
+                            for(const fNM of lMon){
                                 if(numMon==fNM){
                                     //нельзя покупать 2 филиала в одной монополии за один ход
                                     //штраф
-                                    penaltyCheating(curentUser);
+                                    penaltyCheating(this.curentUser);
                                     return;
                                 }
                             }
-                            lMon.add(numMon);
+                            lMon[lMon.length]=numMon;
                             canBuy=true;
                             break;
                         }
                     }
                     if(!canBuy){
-                        curentUser.getMonopByFilThisStep().remove(((CardFirm) getListCard().get(Array.getInt(indFirm, i))).getNumMonopoly());
+                        this.curentUser.getMonopByFilThisStep().remove(getListCard()[indFirm[i]].getNumMonopoly());
                         //штраф
-                        penaltyCheating(curentUser);
+                        penaltyCheating(this.curentUser);
                         return;
                     }
                 }
             } catch (Exception e) {
                 //штраф
-                penaltyCheating(curentUser);
+                penaltyCheating(this.curentUser);
                 return;
             }
-            for(int i=0;i<Array.getLength(indFirm);i++){
+            for(int i=0;i<indFirm.length;i++){
                 try {
-                    CardFirm cF=((CardFirm) getListCard().get(Array.getInt(indFirm, i)));
-                    cF.buyFilial(this, curentUser);
-                    curentUser.getMonopByFilThisStep().add(cF.getNumMonopoly());
+                    //CardFirm
+                    var cF= getListCard()[indFirm[i]];
+                    cF.buyFilial(this, this.curentUser);
+                    this.curentUser.getMonopByFilThisStep().add(cF.getNumMonopoly());
 
                 } catch (Exception e) {
                     //штраф
-                    penaltyCheating(curentUser);
+                    penaltyCheating(this.curentUser);
                 }
             }
             canBuyFilial();
