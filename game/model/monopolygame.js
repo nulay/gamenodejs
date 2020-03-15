@@ -43,7 +43,7 @@ class MonopolyGame{
 
     //public int getStartMoney() {
     getStartMoney() {
-        return startMoney;
+        return this.startMoney;
     }
 
     //public void setStartMoney(int startMoney) {
@@ -53,7 +53,7 @@ class MonopolyGame{
 
     //public int getCircleMoney() {
     var getCircleMoney() {
-        return circleMoney;
+        return this.circleMoney;
     }
 
     //public void setCircleMoney(int circleMoney) {
@@ -63,7 +63,7 @@ class MonopolyGame{
 
     //public List<Card> getListCard() {
     getListCard() {
-        return listCard;
+        return this.listCard;
     }
 
     //public void setListCard(List<Card> listCard) {
@@ -73,7 +73,7 @@ class MonopolyGame{
 
     //public Long getTimeStartGame() {
     getTimeStartGame() {
-        return timeStartGame;
+        return this.timeStartGame;
     }
 
     //public void setTimeStartGame(Long timeStartGame) {
@@ -83,7 +83,7 @@ class MonopolyGame{
 
     //public Long getCurrentTime() {
     getCurrentTime() {
-        return currentTime;
+        return this.currentTime;
     }
 
     //public void setCurrentTime(Long currentTime) {
@@ -94,9 +94,9 @@ class MonopolyGame{
     //@Override
     //public boolean addUser(UserRoom user) {
     addUser(user) {
-        mUser = user;
-        if(room.addUser(user)){
-            mUser.setAvailableAction(EnumSet.noneOf(ActionMonopolyE.class));
+        var mUser = user;
+        if(this.room.addUser(user)){
+            mUser.setAvailableAction([]);
             if(isOpenRoom()){
                 return true;
             }else{
@@ -111,13 +111,13 @@ class MonopolyGame{
     //@Override
     //public boolean removeUser(UserRoom user) {
     removeUser(user) {
-        return room.removeUser(user);
+        return this.room.removeUser(user);
     }
 
     //@Override
     //public long getNumberRoom() {
     getNumberRoom() {
-        return room.getNumberRoom();
+        return this.room.getNumberRoom();
     }
 
     //@Override
@@ -129,53 +129,57 @@ class MonopolyGame{
     //@Override
     //public boolean isPermission(UserRoom user) {
     isPermission(user) {
-        return room.isPermission(user);
+        return this.room.isPermission(user);
     }
 
     //public boolean isOpenRoom() {
     isOpenRoom() {
-        return room.isOpenRoom();
+        return this.room.isOpenRoom();
     }
 
     //@Override
     //public int countPerson() {
     countPerson() {
-        return room.countPerson();
+        return this.room.countPerson();
     }
 
     //@Override
     //public List<UserMonopoly> getListUser() {
     getListUser() {
-        return room.getListUser();
+        return this.room.getListUser();
     }
 
     //@Override
     //public void setMaxCountUser(int count) {
     setMaxCountUser(count) {
-        room.setMaxCountUser(count);
+        this.room.setMaxCountUser(count);
     }
 
     //@Override
     //public int getMaxCountUser() {
     getMaxCountUser() {
-        return room.getMaxCountUser();
+        return this.room.getMaxCountUser();
     }
 
     //@Override
     //public List<UserMonopoly> getListViewUser() {
     getListViewUser() {
-        return room.getListViewUser();
+        return this.room.getListViewUser();
+    }
+
+    getRandom(min,max){
+       return min + Math.floor((max - min) * Math.random());
     }
 
     //public void startGame(){
     startGame(){
-        this.startGame=true;
-        this.curentUser=getListUser().get(new SecureRandom().nextInt(getMaxCountUser()));
+        this.startGame=true;      
+        this.curentUser=getListUser()[getRandom(0, getMaxCountUser()-1)];
         nextGamer();
         for(var i= 0 i<getListUser().length; i++) {
             var user = getListUser()[i];
             user.setMoney(getStartMoney());
-            ActionUser.createInstance(this,user, START_GAME, "Hello in GameRoom");
+            ActionUser.createInstance(this, user, START_GAME, "Hello in GameRoom");
         }
     }
 
@@ -193,10 +197,10 @@ class MonopolyGame{
             return;
         }
         if(this.curentUser.getCountThrowDouble()==0){
-            if(getListUser().get(getListUser().length-1)==this.curentUser){
+            if(getListUser()[getListUser().length-1]==this.curentUser){
                 this.curentUser=getListUser()[0];
             }else{
-                this.curentUser=getListUser().get(getListUser().indexOf(this.curentUser)+1);
+                this.curentUser=getListUser()[getListUser().indexOf(this.curentUser)+1];
             }
         }
         this.curentUser.setThrowCubs(false);
