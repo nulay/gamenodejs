@@ -39,3 +39,4 @@ class CardPrison extends CardDefault {
         this.penalty = penalty;
     }
 }
+module.exports = CardPrison;
