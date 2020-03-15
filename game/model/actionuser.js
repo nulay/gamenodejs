@@ -9,12 +9,13 @@ class ActionUser {
     createInstance(monopolyGame, user, action, infoAction){
         var au=new ActionUser(user,action,infoAction);
         populateUserByActions(monopolyGame.listUser);
-        populateUserByActions(monopolyGame.listViewUser);       
+        populateUserByActions(monopolyGame.listViewUser); 
+        return au;      
     }
 
     populateUserByActions(listUser){
         for(var i=0;i<listUser.length;i++){
-            um = monopolyGame.listUser[i];
+            um = this.monopolyGame.listUser[i];
             um.addActionUser(au);
         }
     }
