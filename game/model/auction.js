@@ -83,8 +83,8 @@ class Auction {
                     }
                 }
             }
-//TODO
-            this.userGoAuction.removeAll(lr);
+            //this.userGoAuction.removeAll(lr);
+            this.userGoAuction = this.userGoAuction.filter( ( lr ) => !toRemove.includes( lr ) );
             nextGamer();
         } else {
             //штраф
@@ -92,48 +92,52 @@ class Auction {
         }
     }
 
-    public void auctionFold() {
-        if (auctionUser.getAvailableAction().contains(AUCTION_FOLD)) {
-            auctionUser.getAvailableAction().clear();
-            userGoAuction.remove(auctionUser);
-            ActionUser.createInstance(gameMonopoly, auctionUser, AUCTION_FOLD, null);
-            if (userGoAuction.size() == 0) {
-                auctionUser.setActivGamer(false);
-                ActionUser.createInstance(gameMonopoly, auctionUser, AUCTION_BRACK, null);
-                auctionStartFirm.setPrice(old_price);
-                gameMonopoly.stopAuction();
+    //public void auctionFold() {
+    auctionFold() {
+        if (this.auctionUser.getAvailableAction().contains(AUCTION_FOLD)) {
+            this.auctionUser.getAvailableAction().splice(0, this.auctionUser.getAvailableAction().length);
+            this.userGoAuction.splice(this.userGoAuction.indexOf(auctionUser),1);
+            ActionUser.createInstance(this.gameMonopoly, this.auctionUser, AUCTION_FOLD, null);
+            if (this.userGoAuction.size() == 0) {
+                this.auctionUser.setActivGamer(false);
+                ActionUser.createInstance(this.gameMonopoly, this.auctionUser, AUCTION_BRACK, null);
+                this.auctionStartFirm.setPrice(this.old_price);
+                this.gameMonopoly.stopAuction();
                 return;
             } else {
                 nextGamer();
             }
         } else {
             //штраф
-            gameMonopoly.penaltyCheating(auctionUser);
+            this.gameMonopoly.penaltyCheating(this.auctionUser);
         }
     }
 
-    private void buyFirm() {
-        if (auctionUser.getMoney() > auctionStartFirm.getPrice()) {
+    //private void buyFirm() {
+    buyFirm() {
+        if (this.auctionUser.getMoney() > this.auctionStartFirm.getPrice()) {
             //забираем у выигравшего деньги за фирму
-            auctionUser.setMoney(auctionUser.getMoney() - auctionStartFirm.getPrice());
-            ActionUser.createInstance(gameMonopoly, auctionUser, BUY_FIRM, auctionStartFirm);
+            this.auctionUser.setMoney(this.auctionUser.getMoney() - this.auctionStartFirm.getPrice());
+            ActionUser.createInstance(this.gameMonopoly, this.auctionUser, BUY_FIRM, this.auctionStartFirm);
 
-            auctionStartFirm.setUserOwner(auctionUser);
+            this.auctionStartFirm.setUserOwner(this.auctionUser);
 
             //объявившему аукцион отдаем заработанное на аукционе
-            gameMonopoly.getCurentUser().setMoney(gameMonopoly.getCurentUser().getMoney() + (auctionStartFirm.getPrice() - old_price));
-            ActionUser.createInstance(gameMonopoly, auctionUser, PAY_PENALTY, (auctionStartFirm.getPrice() - old_price));
+            this.gameMonopoly.getCurentUser().setMoney(this.gameMonopoly.getCurentUser().getMoney() + (this.auctionStartFirm.getPrice() - this.old_price));
+            ActionUser.createInstance(this.gameMonopoly, this.auctionUser, PAY_PENALTY, (this.auctionStartFirm.getPrice() - this.old_price));
 
-            auctionUser.setActivGamer(false);
+            this.auctionUser.setActivGamer(false);
         }
-        gameMonopoly.stopAuction();
+        this.gameMonopoly.stopAuction();
     }
 
-    public CardFirm getAuctionStartFirm() {
-        return auctionStartFirm;
+    //public CardFirm getAuctionStartFirm() {
+    getAuctionStartFirm() {
+        return this.auctionStartFirm;
     }
 
-    public UserMonopoly getAuctionUser() {
-        return auctionUser;
+    //public UserMonopoly getAuctionUser() {
+    getAuctionUser() {
+        return this.auctionUser;
     }
 }
