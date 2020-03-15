@@ -167,14 +167,10 @@ class MonopolyGame{
         return this.room.getListViewUser();
     }
 
-    getRandom(min,max){
-       return min + Math.floor((max - min) * Math.random());
-    }
-
     //public void startGame(){
     startGame(){
         this.startGame=true;      
-        this.curentUser=getListUser()[getRandom(0, getMaxCountUser()-1)];
+        this.curentUser=getListUser()[Util.getRandom(0, getMaxCountUser()-1)];
         nextGamer();
         for(var i= 0 i<getListUser().length; i++) {
             var user = getListUser()[i];
@@ -265,14 +261,14 @@ class MonopolyGame{
 
     //++@JsonIgnore
     //private SecureRandom rand=new SecureRandom();
-    var rand=new SecureRandom();
+    //var rand=new SecureRandom();
 
     //Бросить кубик
     //public int[] throwCube() {
     throwCube() {
         if(this.curentUser.getAvailableAction().contains(THROW_CUBE)){
             this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
-            var toValue={rand.nextInt(6)+1,rand.nextInt(6)+1};
+            var toValue={Util.getRandom(1,6), Util.getRandom(1,6)};
             this.curentUser.throwDouble(toValue[0]==toValue[1]);
             ActionUser.createInstance(this,curentUser, THROW_CUBE, toValue);
             if(this.curentUser.getPrison()>0){
