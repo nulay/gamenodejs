@@ -76,11 +76,11 @@ class UserMonopoly
         //setAvailableAction(new ActionMonopolyC());
 
         this.money = money;
-        actionsAllUser=new ArrayList<>();
-        monopByFilThisStep=new HashSet<>();
+        actionsAllUser=[];
+        monopByFilThisStep=[];
 
-        listBuyCard=new ArrayList<>();
-        availableAction=EnumSet.noneOf(ActionRoomI.class);
+        listBuyCard=[];
+        availableAction=[];
     }
 
     //@Override
@@ -95,7 +95,7 @@ class UserMonopoly
 
     //public int getMoney() {
     getMoney() {
-        return money;
+        return this.money;
     }
 
     //public void setMoney(int money) {
@@ -105,7 +105,7 @@ class UserMonopoly
 
     //public int getPenalty() {
     getPenalty() {
-        return penalty;
+        return this.penalty;
     }
 
     //public void setPenalty(int penalty) {
@@ -115,7 +115,7 @@ class UserMonopoly
 
     //public int getIndexPosition() {
     getIndexPosition() {
-        return indexPosition;
+        return this.indexPosition;
     }
 
     //public void setIndexPosition(int indexPosition) {
@@ -125,7 +125,7 @@ class UserMonopoly
 
     //public int getCredit() {
     getCredit() {
-        return credit;
+        return this.credit;
     }
 
     //public void setCredit(int credit) {
@@ -161,7 +161,7 @@ class UserMonopoly
     getAndClearActionsAllUser() {
        // synchronized (actionsAllUser) {
            // List<ActionUser> oldAU = new ArrayList<>();
-            oldAU =[];
+            var oldAU =[];
             Array.prototype.push.apply(oldAU, this.actionsAllUser);
             //oldAU.addAll(actionsAllUser);
             this.actionsAllUser.splice(0,this.actionsAllUser.length);
@@ -178,7 +178,7 @@ class UserMonopoly
     //@Override
     //public boolean isLoose() {
     isLoose() {
-        return loose;
+        return this.loose;
     }
 
     //@Override
@@ -206,17 +206,17 @@ class UserMonopoly
     //@Override
     //public int 
     getCountThrowDouble() {
-        return throwDouble;
+        return this.throwDouble;
     }
 
     //public boolean isWin() {
     isWin() {
-        return win;
+        return this.win;
     }
 
     //public Set<Integer> getMonopByFilThisStep() {
     getMonopByFilThisStep() {
-      return monopByFilThisStep;
+      return this.monopByFilThisStep;
     }
 
     //@Override
@@ -228,7 +228,7 @@ class UserMonopoly
     //@Override
     //public boolean isMonopByFilThisStep(int numMonopoly) {
     isMonopByFilThisStep(numMonopoly)
-        for(var monopN : monopByFilThisStep){
+        for(const monopN of monopByFilThisStep){
             if(monopN == numMonopoly){
                 return true;
             }
@@ -238,7 +238,7 @@ class UserMonopoly
 
     //public boolean isThrowCubs() {
     isThrowCubs() {
-        return throwCubs;
+        return this.throwCubs;
     }
 
     //public void setThrowCubs(boolean throwCubs) {
