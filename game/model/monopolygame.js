@@ -1014,3 +1014,4 @@ class MonopolyGame{
         firmFilialSell(this.curentUser);
     }
 }
+module.exports = MonopolyGame;
