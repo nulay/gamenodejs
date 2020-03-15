@@ -214,3 +214,5 @@ class CardFirm extends CardDefault {
         }
     }
 }
+
+module.exports = CardFirm;
