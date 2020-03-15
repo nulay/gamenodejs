@@ -273,3 +273,4 @@ class UserMonopoly
         this.prison = prison;
     }
 }
+module.exports = UserMonopoly;
