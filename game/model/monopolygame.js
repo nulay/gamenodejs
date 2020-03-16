@@ -199,7 +199,7 @@ class MonopolyGame{
     nextGamer(){
         this.curentUser.setActivGamer(false);
         //чистим список монополий в которых был куплен филиал на текущем шаге
-        this.curentUser.getMonopByFilThisStep().splice(0, this.curentUser.getMonopByFilThisStep().length)
+        Util.clear(this.curentUser.getMonopByFilThisStep());
         //.clear();
         if(isWinSomebody()){
             return;
@@ -216,8 +216,8 @@ class MonopolyGame{
             }
         }
         this.curentUser.setThrowCubs(false);
-        this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
-
+        //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
+        Util.clear(this.curentUser.getAvailableAction());
         getListCard().get(this.curentUser.getIndexPosition()).dropInToCard(this,this.curentUser);
 
         if(!canCheckPenalty(this.curentUser)){
@@ -242,8 +242,9 @@ class MonopolyGame{
             ActionUser.createInstance(this, this.curentUser, WIN, this.curentUser);
             this.curentUser.setActivGamer(true);
             this.curentUser.setWin(true);
-            this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
-            this.curentUser.getAvailableAction().add(GAME_CLOSE);
+            //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
+            Util.clear(this.curentUser.getAvailableAction());
+            this.curentUser.getAvailableAction()[this.curentUser.getAvailableAction().length]=GAME_CLOSE;
             return true;
         }
         return false;
@@ -282,7 +283,8 @@ class MonopolyGame{
     //public int[] throwCube() {
     throwCube() {
         if(this.curentUser.getAvailableAction().contains(THROW_CUBE)){
-            this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
+            //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
+            Util.clear(this.curentUser.getAvailableAction());
             var toValue=[Util.getRandom(1,6), Util.getRandom(1,6)];
             this.curentUser.throwDouble(toValue[0]==toValue[1]);
             ActionUser.createInstance(this,curentUser, THROW_CUBE, toValue);
@@ -349,8 +351,9 @@ class MonopolyGame{
                     this.curentUser.setMoney(this.curentUser.getMoney() - cardF.getPrice());
                     cardF.setUserOwner(this.curentUser);
                     ActionUser.createInstance(this, this.curentUser, BUY_FIRM, cardF);
-                    this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
-                }else{
+                    //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
+                    Util.clear(this.curentUser.getAvailableAction());
+            }else{
                     //штраф
                     penaltyCheating(this.curentUser);
                 }
@@ -381,7 +384,8 @@ class MonopolyGame{
                     card.getUserOwner().setMoney(card.getUserOwner().getMoney()-this.curentUser.getPenalty());
                     ActionUser.createInstance(this, this.curentUser, RECEIVE_INCOME, card.getUserOwner());
                 }
-                this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
+                Util.clear(this.curentUser.getAvailableAction());
+                //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
                 this.curentUser.setMoney(this.curentUser.getMoney()-Math.abs(this.curentUser.getPenalty()));
                 ActionUser.createInstance(this, this.curentUser, PAY_PENALTY, this.curentUser);
                 this.curentUser.setPenalty(0);
@@ -401,7 +405,8 @@ class MonopolyGame{
     //public void startAuction() {
     startAuction() {
         if(this.curentUser.getAvailableAction().contains(AUCTION_START)) {
-            this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
+            Util.clear(this.curentUser.getAvailableAction());
+            //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
             auction = new Auction(this);
             nextGamer();
 
@@ -437,7 +442,7 @@ class MonopolyGame{
                 var card=listCard.get(getCurentUser().getIndexPosition());
                 if(card.type == Card.CARD_FIRM) {
                     if (card.getUserOwner()==null && this.curentUser.getMoney() >= card.getPrice()) {
-                        this.curentUser.getAvailableAction().add(BUY_FIRM);
+                        this.curentUser.getAvailableAction()[this.curentUser.getAvailableAction().length]=BUY_FIRM;
                     }
                 }
             }
@@ -589,9 +594,9 @@ class MonopolyGame{
     //@Override
     //public void gameClose(UserMonopoly user) {
     gameClose(user) {
-        synchronized (room.getListViewUser()){
+        //synchronized (room.getListViewUser()){
             room.getListViewUser().remove(user);
-        }
+        //}
     }
 
     //проверяем куплин ли хоть один филиал в монополии
@@ -653,10 +658,12 @@ class MonopolyGame{
             }
         }
         if(type =="BUY_FILIAL" && this.curentUser.getAvailableAction().contains(BUY_FILIAL)) {
-            lC.addAll(canBuyFilial(this.curentUser));
+            Util.addUnicAll(lC, canBuyFilial(this.curentUser));
+            //lC.addAll(canBuyFilial(this.curentUser));
         }
         if(type == "SELL_FILIAL" && this.curentUser.getAvailableAction().contains(SELL_FILIAL)) {
-            lC.addAll(canSellFilial(this.curentUser));
+            //lC.addAll(canSellFilial(this.curentUser));
+            Util.addUnicAll(lC, canSellFilial(this.curentUser));
         }
         return lC;
     }
@@ -721,8 +728,8 @@ class MonopolyGame{
                 return;
             }
             this.curentUser.doChangeFirm();
-            this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
-            umA.getAvailableAction().add(EXCHANGE_OFFERS);
+            Util.clear(this.curentUser.getAvailableAction());          
+            umA.getAvailableAction()[umA.getAvailableAction().length]=EXCHANGE_OFFERS;
             this.curentUser.setActivGamer(false);
             //todo сделать проверки на принадлежность фирм и необходимой суммы денег
             objectOffers=new ChangeFirm(indFirm, indFirm2, money, money2, this.curentUser,umA);
@@ -739,19 +746,20 @@ class MonopolyGame{
     }
 
     //public void changeFirm(ActionMonopolyE type){
-        changeFirm(ActionMonopolyE settype){}
+    changeFirm(type){
         if(this.curentUser.getAvailableAction().contains(EXCHANGE_OFFERS)){
-            this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
+            Util.clear(this.curentUser.getAvailableAction());
+            //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
             //UserMonopoly 
              usCH=objectOffers.getUserChanger();
             if(type==CHANGE_FIRM_OK){
                 for (const  indF of objectOffers.getIndFirmUserChanger()){
-                    getListCard().get(indF).setUserOwner(objectOffers.getUser());
-                    ActionUser.createInstance(this,objectOffers.getUser(), BUY_FIRM, getListCard().get(indF));
+                    getListCard()[indF].setUserOwner(objectOffers.getUser());
+                    ActionUser.createInstance(this,objectOffers.getUser(), BUY_FIRM, getListCard()[indF]);
                 }
                 objectOffers.getUser().setMoney(objectOffers.getUser().getMoney() + objectOffers.getMoneyUserChanger());
                 usCH.setMoney(usCH.getMoney()-objectOffers.getMoneyUserChanger());
-                for ( var indF:objectOffers.getIndFirm()){
+                for (const indF of objectOffers.getIndFirm()){
                     getListCard()[indF].setUserOwner(usCH);
                     ActionUser.createInstance(this,usCH, BUY_FIRM, getListCard()[indF]);
                 }
@@ -773,7 +781,7 @@ class MonopolyGame{
                     var cardF=card;
                     if (cardF.getUserOwner() == null) {
                         if (this.curentUser.getMoney() >= cardF.getPrice()) {
-                            this.curentUser.getAvailableAction().add(BUY_FIRM);
+                            this.curentUser.getAvailableAction()[]=BUY_FIRM);
                         }
                         this.curentUser.getAvailableAction().add(AUCTION_START);
                     }
@@ -782,7 +790,8 @@ class MonopolyGame{
                 giveTakeCredit(this.curentUser);
                 firmFilialSell(this.curentUser);
             }else{
-                this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
+                Util.clear(this.curentUser.getAvailableAction());
+                //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
                 getListCard().get(this.curentUser.getIndexPosition()).transferCardForUser(this, curentUser);
                 if(!canCheckPenalty(this.curentUser)){
                     this.curentUser.getAvailableAction().add(THROW_CUBE);
@@ -892,7 +901,8 @@ class MonopolyGame{
     @Override
     public void gameEnd(UserMonopoly user) {
         synchronized (getListUser()){
-            user.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
+            Util.clear(user.getAvailableAction());
+            //user.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
             for(Card card:getListCard()){
                 if(card.type() == Card.CARD_FIRM){
                     CardFirm cardF=(CardFirm)card;
