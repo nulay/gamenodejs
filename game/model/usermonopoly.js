@@ -2,59 +2,59 @@ class UserMonopoly extends DefaultUserRoom {
 //implements UserMonopoly{
     //money
     //private int 
-    var money;
+    money;
     //penalty
     //private int 
-    var penalty;
+    penalty;
     //++@JsonIgnore
     //++private SecureRandom rand=new SecureRandom();
     //position of user
     //private int 
-    var indexPosition=0;
+    indexPosition=0;
     //credit for user
     //private int 
-    var credit;
+    credit;
     //active user or not
     //private boolean 
-    var activGamer=false;
+    activGamer=false;
     //go Forward or back;
     //private boolean 
-    var goForward=true;
+    goForward=true;
     //List each actions of user, after execute to cleanup
     //++@JsonIgnore
     //++private List<ActionUser> 
-    var actionsAllUser=[];
+    actionsAllUser=[];
     //++@JsonIgnore
     //list bought cards(firm)
     //++private List<Card> 
-    var listBuyCard=[];
+    listBuyCard=[];
     //louse
     //private boolean 
-    var loose=false;
+    loose=false;
     //win
     //private boolean 
-    var win=false;
+    win=false;
     //++@JsonIgnore
     //it is checked that user threw cube
     //private boolean 
-    var throwCubs=false;
+    throwCubs=false;
     //количество выкинутых дублей за один ход
     //private int 
-    var throwDouble=0;
+    throwDouble=0;
     //количество преложенных обменов за один ход
     //private int 
-    var changeFirmCount=0;
+    changeFirmCount=0;
     //Список монополий в которых был куплен филиал на текущем шаге.
     //private Set<Integer> 
-    var monopByFilThisStep = [];
+    monopByFilThisStep = [];
     //Находится ли пользователь в тюрьме и сколько ходов 0 - не находится.
     //private int 
-    var prison=0;
+    prison=0;
     //list available action
     //++@JsonIgnore
     //private Set<String> listAvailableActions;
     //private Set 
-    var availableAction=[];
+    availableAction=[];
 
     consructor(){
         this(null, 1);
@@ -161,10 +161,10 @@ class UserMonopoly extends DefaultUserRoom {
     getAndClearActionsAllUser() {
        // synchronized (actionsAllUser) {
            // List<ActionUser> oldAU = new ArrayList<>();
-            var oldAU =[];
-            Array.prototype.push.apply(oldAU, this.actionsAllUser);
+            var oldAU =[];         
+            Util.addUnicAll(oldAU, this.actionsAllUser);
             //oldAU.addAll(actionsAllUser);
-            this.actionsAllUser.splice(0,this.actionsAllUser.length);
+            Util.clear(this.actionsAllUser);
             return oldAU;
        // }
     }
