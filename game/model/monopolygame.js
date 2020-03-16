@@ -7,35 +7,35 @@ class MonopolyGame{
     room;
     //Время начала игры
     //private Long timeStartGame;
-    var timeStartGame;
+    timeStartGame;
     //private Long currentTime;
-    var currentTime;
+    currentTime;
     //список ячеек по которым может передвигаться пользователь
     //++@JsonIgnore
     //private List<Card> listCard;
-    var listCard = [];
+    listCard = [];
     //private boolean startGame=false;
-    var startGame=false;
+    startGame=false;
     //private String imageFolder;
-    var imageFolder;
+    imageFolder;
     //private String imageCenter;
-    var imageCenter;
+    imageCenter;
     //штраф за обман
     //++@JsonIgnore
     //private Integer penalty_cheating;
-    var penalty_cheating;
+    penalty_cheating;
     //Текущий пользователь
     //private UserMonopoly curentUser=null;
-    var curentUser=null;
+    curentUser=null;
     //Деньги за круг
     //private int circleMoney;
-    var circleMoney;
+    circleMoney;
     //стартовые деньги
     //private int startMoney;
-    var startMoney;
+    startMoney;
     //возможный кредит
     //private int credit;
-    var credit;
+    credit;
 
     //public MonopolyGame(List<Card> listCard) {
     constructor(listCard) {
