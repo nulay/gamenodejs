@@ -715,8 +715,7 @@ class MonopolyGame{
         return null;
     }
 
-    //private ChangeFirm objectOffers;
-    var objectOffers;
+    
     //@Override
     //public void changeFirm(Set<Integer> indFirm, Set<Integer> indFirm2, int money, int money2, String userName) {
     changeFirm(indFirm, indFirm2, money, money2, userName) {
