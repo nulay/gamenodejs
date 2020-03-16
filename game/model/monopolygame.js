@@ -741,7 +741,7 @@ class MonopolyGame{
 
     //public void changeFirm(ChangeFirm changeFirm) {
     changeFirm(changeFirm) {
-        this.changeFirmchangeFirm.getIndFirmUserChanger(),changeFirm.getIndFirm(),changeFirm.getMoneyUserChanger(),changeFirm.getMoney(),changeFirm.getUserName());
+        this.changeFirm(changeFirm.getIndFirmUserChanger(),changeFirm.getIndFirm(),changeFirm.getMoneyUserChanger(),changeFirm.getMoney(),changeFirm.getUserName());
     }
 
     //public void changeFirm(ActionMonopolyE type){
