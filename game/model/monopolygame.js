@@ -313,8 +313,8 @@ class MonopolyGame{
 
     //private void goPrison(UserMonopoly user) {
     goPrison(user) {
-        var user.setPrison(1);
-        CardPrison cP=getCardPrison();
+        user.setPrison(1);
+        var cP=getCardPrison();
         if(cP!=null) {
             user.setPenalty(cP.getPenalty());
             user.setIndexPosition(this.listCard.indexOf(cP));
