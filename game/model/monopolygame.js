@@ -67,7 +67,7 @@ class MonopolyGame{
     }
 
     //public int getCircleMoney() {
-    var getCircleMoney() {
+    getCircleMoney() {
         return this.circleMoney;
     }
 
