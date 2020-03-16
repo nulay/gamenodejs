@@ -8,6 +8,7 @@ var User = require('./user');
 const fs = require("fs");
 var GameRoom = require("./model/gameroom");
 var RoomUser = require("./model/roomuser");
+var MonopolyGame = require("./game/model/monopolygame");
 
 var mime = {
     html: 'text/html',
@@ -205,24 +206,27 @@ app.route('/gameroom')
 
 //Join to room
 app.route('jointoroom')
-    .post(sessionCheckerFalse, (req, res) => {
+    .get(sessionCheckerFalse, (req, res) => {
            var user = req.session.user;
            var nameRoom = req.body.nameRoom;
            var roomForJoin = null;
            for(var i=0;i<global.rooms.length;i++){
                   if(global.rooms[i].nameRoom==nameRoom){
                      roomForJoin = global.rooms[i];
-                     breack;
+                     break;
                 }
            }
           
           var roomUser = new RoomUser(user.name);
 
            if(roomForJoin.addUser(roomUser) == true){
-           res.json({'success':true});
-}else{   
-            res.json({'success':false});
-}
+              res.json({'success':true});
+              if (roomForJoin.isStartGame()){
+                 roomForJoin = new MonopolyGame();
+              }
+           }else{   
+              res.json({'success':false});
+           }
      });
 
 // route for room /games/room/getAllRoom   ([]numberRoom,typeRoom,countUsers,maxCountUser,
