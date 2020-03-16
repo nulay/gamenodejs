@@ -429,7 +429,7 @@ class MonopolyGame{
                         firmFilialSell(this.curentUser);
                         canBuyFilial();
                     }
-                } catch (Exception e) {
+                } catch ( e) {
                     penaltyCheating(this.curentUser);
                 }
             }
@@ -459,7 +459,7 @@ class MonopolyGame{
                     var cF =  getListCard()[indFirm[i]]);
                     lCF[lCF.length]=cF;
                     price+=cF.getPrice();
-                } catch (Exception e) {
+                } catch ( e) {
                     penaltyCheating(this.curentUser);
                 }
             }
@@ -515,7 +515,7 @@ class MonopolyGame{
                         return;
                     }
                 }
-            } catch (Exception e) {
+            } catch ( e) {
                 //штраф
                 penaltyCheating(this.curentUser);
                 return;
@@ -527,7 +527,7 @@ class MonopolyGame{
                     cF.buyFilial(this, this.curentUser);
                     this.curentUser.getMonopByFilThisStep().add(cF.getNumMonopoly());
 
-                } catch (Exception e) {
+                } catch ( e) {
                     //штраф
                     penaltyCheating(this.curentUser);
                 }
@@ -565,7 +565,7 @@ class MonopolyGame{
                     // curentUser.getMonopByFilThisStep().add(cF.getNumMonopoly());
 
                     ActionUser.createInstance(this, this.curentUser, SELL_FILIAL, cF);
-                } catch (Exception e) {
+                } catch ( e) {
                     //штраф
                     penaltyCheating(this.curentUser);
                 }
