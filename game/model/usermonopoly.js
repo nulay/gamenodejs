@@ -56,20 +56,6 @@ class UserMonopoly extends DefaultUserRoom {
     //private Set 
     availableAction=[];
 
-    consructor(){
-        this(null, 1);
-    }
-
-    //consructor(User user){
-    consructor(user){
-        this(user, 1);
-    }
-
-    //public UserMonopolyImpl(User user, int maxCountActiveRoom) {
-    consructor(user, maxCountActiveRoom){
-        this(user, maxCountActiveRoom,0);
-    }
-
     //public UserMonopolyImpl(User user, int maxCountActiveRoom, Integer money) {
     consructor(user, maxCountActiveRoom, money){
         super(user,maxCountActiveRoom);
