@@ -13,7 +13,7 @@ class GameRoom {
      return this.gameStarted;
   }
 
-  get users() {
+  getUsers() {
     return this.roomUsers;
   }
 
@@ -49,14 +49,9 @@ class GameRoom {
   countPerson(){
     return usersRoom.length;
   }
-    
-  //List user in room
-  get listUser(){
-    return this.users;
-  }
   
   //List traced users for game
-  get listViewUser(){
+  getListViewUser(){
     return this.listViewUser;
   }
 }
