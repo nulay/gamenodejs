@@ -900,8 +900,8 @@ class MonopolyGame{
             for(const cfs of cardList){
                 if(cfs.getFilialStay()<maxM){
                     //проверяем был ли куплен филиал пользователем user на этом шаге
-                    boolean keyBuy=false;
-                    for(Integer numMonop:user.getMonopByFilThisStep()){
+                    varkeyBuy=false;
+                    for(const numMonop of user.getMonopByFilThisStep()){
                         if(cfs.getNumMonopoly()==numMonop.intValue()){
                             keyBuy=true;
                         }
