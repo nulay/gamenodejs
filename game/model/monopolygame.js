@@ -283,7 +283,7 @@ class MonopolyGame{
     throwCube() {
         if(this.curentUser.getAvailableAction().contains(THROW_CUBE)){
             this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
-            var toValue={Util.getRandom(1,6), Util.getRandom(1,6)};
+            var toValue=[Util.getRandom(1,6), Util.getRandom(1,6)];
             this.curentUser.throwDouble(toValue[0]==toValue[1]);
             ActionUser.createInstance(this,curentUser, THROW_CUBE, toValue);
             if(this.curentUser.getPrison()>0){
