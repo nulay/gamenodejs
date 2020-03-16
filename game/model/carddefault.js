@@ -1,11 +1,11 @@
 class CardDefault{
     //card name
     //private String name;
-    var name;
+    name;
     //path to image card
     //private String 
-    var image;
-    var type;
+    image;
+    type;
 
     /**
      * Default constructor for card
