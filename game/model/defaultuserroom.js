@@ -63,3 +63,5 @@ class DefaultUserRoom {
         return this.lastIn;
     }
 }
+
+module.exports = DefaultUserRoom;
