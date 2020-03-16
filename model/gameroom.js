@@ -14,6 +14,7 @@ class GameRoom {
   }
 
   getUsers() {
+    console.log('getuser='+this.roomUsers);
     return this.roomUsers;
   }
 
