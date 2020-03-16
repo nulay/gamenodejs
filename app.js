@@ -211,7 +211,7 @@ app.route('/jointoroom')
            var nameRoom = req.body.nameRoom;
            var roomForJoin = null;
            for(var i=0;i<global.rooms.length;i++){
-              consol.log(global.rooms[i]);
+              console.log(global.rooms[i]);
               if(global.rooms[i].nameRoom==nameRoom){
                   roomForJoin = global.rooms[i];
                   break;
