@@ -45,11 +45,11 @@ class MonopolyGame{
         this.listCard = listCard;
         this.room = room;
         //TODO all user change to monopolyUser
-        for(var i=0;i<room.users.length;i++){
+        for(var i=0;i<room.users().length;i++){
            
-           var oldUser = room.users[i];
+           var oldUser = room.users()[i];
            var mUser = new UserMonopoly(oldUser, 5, startMoney);
-           room.users[i]=mUser;
+           room.users()[i]=mUser;
         }
         this.startMoney = startMoney;
         this.circleMoney = circleMoney;
