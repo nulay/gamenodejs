@@ -231,12 +231,28 @@
             createCl: function(buttonD, numberRoom) {
                 var thisEl = this;
                 buttonD.click(function() {
-                    thisEl.joinRoom(numberRoom);
+                    jQuery.ajax({
+                    url: "/jointoroom",
+                    dataType: "json",
+                    data:{'nameRoom':numberRoom},
+                    type: "GET"
+                }).done(function(data) {
+                    console.log(data);
+                    if (data != null) {
+                      if(!data.success){
+                      
+                         jQuery('#listGames').append('<div style="color:red">Не возможно присоединиться к игре.</>');
+                      }
+                        
+                    } else {
+                        jQuery('#listGames').append('<div style="color:red">Ошибка загрузки данных</>');                        
+                    }
                 });
-            },            
-            joinRoom: function(numberRoom) {
-                document.location.href = "/games/monopoly/" + numberRoom + "/joinRoom.html";
-            }
+                });
+            }            
+            //joinRoom: function(numberRoom) {
+             //   document.location.href = "/games/monopoly/" + numberRoom + "/joinRoom.html";
+            //}
         }
         $(function() {
             objRoom.init();
