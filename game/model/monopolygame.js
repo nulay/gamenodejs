@@ -4,7 +4,7 @@ class MonopolyGame{
 // implements GameMonopoly{
     //игровая комната
     //private Room room;
-    var room;
+    room;
     //Время начала игры
     //private Long timeStartGame;
     var timeStartGame;
