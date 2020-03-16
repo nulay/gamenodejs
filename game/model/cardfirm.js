@@ -1,33 +1,33 @@
 class CardFirm extends CardDefault {
     
     //private int id;
-    var id;
+    id;
     //стоимость фирмы
     //private int price;
-    var price;
+    price;
     //владелец фирмы
     //private UserMonopoly userOwner;
-    var userOwner;
+    userOwner;
     //возможное количество филиалов
     //private int countFilial;
-    var countFilial;
+    countFilial;
     //размещенное количество филиалов
     //private int filialStay;
-    var filialStay;
+    filialStay;
     //стоимость филиала
     //private int filialPrice;
-    var filialPrice;
+    filialPrice;
     //номер монополии
     //private int numMonopoly;
-    var numMonopoly;
+    numMonopoly;
     //количество фирм в монополии
     //private int countFirmInMonopoly;
-    var countFirmInMonopoly;
+    countFirmInMonopoly;
     //private int penalty;
-    var penalty
+    penalty
     //фирма находится в залоге
     //private boolean put=false;
-    var put=false;
+    put=false;
 
    // public CardFirm(String name, int price, int countFilial, int filialPrice, int numMonopoly, int countFirmInMonopoly) {
     constructor(name, type, price, countFilial, filialPrice, numMonopoly, countFirmInMonopoly){
