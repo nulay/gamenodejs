@@ -205,7 +205,7 @@ app.route('/gameroom')
 });
 
 //Join to room
-app.route('jointoroom')
+app.route('/jointoroom')
     .get(sessionCheckerFalse, (req, res) => {
            var user = req.session.user;
            var nameRoom = req.body.nameRoom;
