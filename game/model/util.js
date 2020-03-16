@@ -18,5 +18,8 @@ class Util{
        }
        return false;
   }
+  static clean(arr){
+      arr.splice(0, arr.length);
+  }
 }
 module.exports = Util;
