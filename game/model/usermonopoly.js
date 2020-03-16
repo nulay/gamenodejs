@@ -64,11 +64,11 @@ class UserMonopoly extends DefaultUserRoom {
         //setAvailableAction(new ActionMonopolyC());
 
         this.money = money;
-        actionsAllUser=[];
-        monopByFilThisStep=[];
+        this.actionsAllUser=[];
+        this.monopByFilThisStep=[];
 
-        listBuyCard=[];
-        availableAction=[];
+        this.listBuyCard=[];
+        this.availableAction=[];
     }
 
     //@Override
