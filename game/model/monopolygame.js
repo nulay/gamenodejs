@@ -187,7 +187,7 @@ class MonopolyGame{
         this.startGame=true;      
         this.curentUser=getListUser()[Util.getRandom(0, getMaxCountUser()-1)];
         nextGamer();
-        for(var i= 0 i<getListUser().length; i++) {
+        for(var i= 0 ;i<getListUser().length; i++) {
             var user = getListUser()[i];
             user.setMoney(getStartMoney());
             ActionUser.createInstance(this, user, START_GAME, "Hello in GameRoom");
@@ -420,7 +420,7 @@ class MonopolyGame{
     //public void putFirm(int[] indFirm) {
     putFirm(indFirm) {
         if(this.curentUser.getAvailableAction().contains(PUT_FIRM)) {
-            for(int i=0; i < indFirm.length; i++) {
+            for(var i=0; i < indFirm.length; i++) {
                 try {
                     //CardFirm
                     var cF = getListCard()[indFirm[i]];
@@ -453,7 +453,7 @@ class MonopolyGame{
            // List<CardFirm> 
             lCF=[];
             int price=0;
-            for(int i=0;i<indFirm.length;i++) {
+            for(var i=0;i<indFirm.length;i++) {
                 try {
                     //CardFirm 
                     var cF =  getListCard()[indFirm[i]]);
@@ -490,7 +490,7 @@ class MonopolyGame{
                 var lICBF= canBuyFilial(this.curentUser);
                 //List<Integer> 
                 var lMon=[];
-                for(int i=0;i<indFirm.length;i++){
+                for(var i=0;i<indFirm.length;i++){
                     var canBuy=false;
                     for(const fN of lICBF){
                         if(indFirm[i]==fN){
@@ -520,7 +520,7 @@ class MonopolyGame{
                 penaltyCheating(this.curentUser);
                 return;
             }
-            for(int i=0;i<indFirm.length;i++){
+            for(var i=0;i<indFirm.length;i++){
                 try {
                     //CardFirm
                     var cF= getListCard()[indFirm[i]];
@@ -806,7 +806,7 @@ class MonopolyGame{
     //филиалы каких фирм может продать пользователь user.
     private Set<Integer> canSellFilial(UserMonopoly user){
         Set<Integer> lC=new HashSet<>();
-        for(Set<CardFirm> cardList: getAllMonopoly(this.curentUser).values()){
+        for(const cardList of getAllMonopoly(this.curentUser).values()){
             int maxM=0;
             int minM=cardList.iterator().next().getCountFilial();
             for(CardFirm cfs:cardList){
