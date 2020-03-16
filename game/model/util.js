@@ -18,7 +18,7 @@ class Util{
        }
        return false;
   }
-  static clean(arr){
+  static clear(arr){
       arr.splice(0, arr.length);
   }
 }
