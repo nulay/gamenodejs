@@ -1,5 +1,5 @@
-class UserMonopoly
-//extends DefaultUserRoom implements UserMonopoly{
+class UserMonopoly extends DefaultUserRoom {
+//implements UserMonopoly{
     //money
     //private int 
     var money;
