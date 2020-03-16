@@ -57,7 +57,7 @@ class UserMonopoly extends DefaultUserRoom {
     availableAction=[];
 
     //public UserMonopolyImpl(User user, int maxCountActiveRoom, Integer money) {
-    consructor(user, maxCountActiveRoom, money){
+    constructor(user, maxCountActiveRoom, money){
         super(user,maxCountActiveRoom);
         //setAvailableAction(new ActionMonopolyC());
 
