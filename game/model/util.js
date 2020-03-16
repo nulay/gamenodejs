@@ -5,12 +5,12 @@ class Util{
   static addUnicAll(mainArr, additArr){
        //Array.prototype.push.apply(mainArr, additArr);
        for(const ell : additArr){
-          if(!isElementInArray(ell, mainArr){
+          if(!isElementInArray(mainArr, ell){
              mainArr[mainArr.length] = ell;
           }
        }
   }
-  static isElementInArray(element, arr){
+  static isElementInArray( arr, element){
        for(const ell : arr){
          if(ell == element){
             return true;
@@ -20,6 +20,9 @@ class Util{
   }
   static clear(arr){
       arr.splice(0, arr.length);
+  }
+  static removeElementFromArray(arr,element){
+     arr.splice(arr.indexOff(element), 1);
   }
 }
 module.exports = Util;
