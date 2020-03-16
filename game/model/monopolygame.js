@@ -452,7 +452,7 @@ class MonopolyGame{
         if(this.curentUser.getAvailableAction().contains(REDEEM_FIRM)) {
            // List<CardFirm> 
             lCF=[];
-            int price=0;
+            var price=0;
             for(var i=0;i<indFirm.length;i++) {
                 try {
                     //CardFirm 
