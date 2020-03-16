@@ -456,7 +456,7 @@ class MonopolyGame{
             for(var i=0;i<indFirm.length;i++) {
                 try {
                     //CardFirm 
-                    var cF =  getListCard()[indFirm[i]]);
+                    var cF =  getListCard()[indFirm[i]];
                     lCF[lCF.length]=cF;
                     price+=cF.getPrice();
                 } catch ( e) {
