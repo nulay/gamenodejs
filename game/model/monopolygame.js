@@ -1,3 +1,5 @@
+var UserMonopoly = require("./usermonopoly");
+
 class MonopolyGame{
 // implements GameMonopoly{
     //игровая комната
