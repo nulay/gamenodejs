@@ -41,6 +41,22 @@ class MonopolyGame{
         this.listCard = listCard;
     }
 
+   constructor(listCard, startMoney, circleMoney, room) {
+        this.timeStartGame=new Date().getTime();
+        this.listCard = listCard;
+        this.room = room;
+        //TODO all user change to monopolyUser
+        for(var i=0;i<room.users.length;i++){
+           
+           var oldUser = room.users[i];
+           var mUser = new UserMonopoly(oldUser, 5, startMoney);
+           room.users[i]=mUser;
+        }
+        this.startMoney = startMoney;
+        this.circleMoney = circleMoney;
+    }
+
+
     //public int getStartMoney() {
     getStartMoney() {
         return this.startMoney;
@@ -83,7 +99,7 @@ class MonopolyGame{
 
     //public Long getCurrentTime() {
     getCurrentTime() {
-        return this.currentTime;
+        return new Date().getTime();
     }
 
     //public void setCurrentTime(Long currentTime) {
