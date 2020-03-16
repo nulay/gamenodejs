@@ -208,7 +208,7 @@ app.route('/gameroom')
 app.route('/jointoroom')
     .get(sessionCheckerFalse, (req, res) => {
            var user = req.session.user;
-           var nameRoom = req.body.nameRoom;
+           var nameRoom = req.query.nameRoom;
            console.log('nameRoom=', nameRoom);
            var roomForJoin = null;
            for(var i=0;i<global.rooms.length;i++){
