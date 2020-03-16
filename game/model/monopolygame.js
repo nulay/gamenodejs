@@ -616,7 +616,7 @@ class MonopolyGame{
     getPossibleFirmCh(nameUser){
         //Set<Integer> 
         var lC=[];
-        UserMonopoly umFCH=getUserByName(nameUser);
+        var umFCH=getUserByName(nameUser);
         if(umFCH==null){
             return null;
         }
