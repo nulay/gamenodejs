@@ -1028,14 +1028,14 @@ class MonopolyGame{
                 }
                 //выкупить фирму
                 if(this.curentUser.getPrison()==0) {
-                    if (((CardFirm) card).isPut() && userMonopoly.getMoney() > ((CardFirm) card).getPrice()) {
+                    if ( card.isPut() && userMonopoly.getMoney() >  card.getPrice()) {
                         //userMonopoly.getAvailableAction().add(REDEEM_FIRM);
                         Util.addUnicAll(userMonopoly.getAvailableAction(),[REDEEM_FIRM]);
                         continue;
                     }
                 }
                 //продать филиал
-                if(((CardFirm) card).getFilialStay()>0){
+                if(card.getFilialStay()>0){
                     //userMonopoly.getAvailableAction().add(SELL_FILIAL);
                     Util.addUnicAll(userMonopoly.getAvailableAction(),[SELL_FILIAL]);
                 }
