@@ -126,21 +126,24 @@ class CardFirm extends CardDefault {
         this.put = put;
     }
 
-    @Override
-    public void transferCardForUser(Room room, UserRoom userRoom) {
-        GameMonopoly gameMonopoly = (GameMonopoly) room;
-        UserMonopoly userMonopoly = (UserMonopoly) userRoom;
+    //@Override
+    //public void transferCardForUser(Room room, UserRoom userRoom) {
+    transferCardForUser(gameMonopoly, userMonopoly) {
+        
         //если фирма ничья то ее можно купить или выставить на аукцион
         if (getUserOwner() == null) {
             if (userMonopoly.getMoney() >= this.getPrice()) {
-                userMonopoly.getAvailableAction().add(BUY_FIRM);
+                Util.addUnicAll(userMonopoly.getAvailableAction(),[BUY_FIRM]);
+                //userMonopoly.getAvailableAction().add(BUY_FIRM);
             }
-            userMonopoly.getAvailableAction().add(AUCTION_START);
+            //userMonopoly.getAvailableAction().add(AUCTION_START);
+            Util.addUnicAll(userMonopoly.getAvailableAction(),[AUCTION_START]);
         } else {
             if (userMonopoly != getUserOwner() && !isPut() ) {
                 userMonopoly.setPenalty(0 - getPenalty());
                 if(userMonopoly.getMoney()>getPenalty()) {
-                    userMonopoly.getAvailableAction().add(PAY_PENALTY);
+                    //userMonopoly.getAvailableAction().add(PAY_PENALTY);
+                    Util.addUnicAll(userMonopoly.getAvailableAction(),[PAY_PENALTY]);
                 }
             }else{
                 gameMonopoly.nextGamer();
@@ -149,13 +152,15 @@ class CardFirm extends CardDefault {
         }
     }
 
-    @Override
-    public void dropInToCard(Room room, UserRoom userRoom) {
+    //@Override
+    //public void dropInToCard(Room room, UserRoom userRoom) {
+    dropInToCard(room, userRoom) {
 
     }
 
     //купить филиал
-    public void buyFilial(MonopolyGame monopolyGame,UserMonopoly user){
+    //public void buyFilial(MonopolyGame monopolyGame,UserMonopoly user){
+    buyFilial( monopolyGame, user){
         if(getFilialStay()< getCountFilial() && user.getMoney()>=getFilialPrice()) {
             user.setMoney(user.getMoney() - getFilialPrice());
             setFilialStay(getFilialStay()+1);
@@ -166,7 +171,8 @@ class CardFirm extends CardDefault {
         }
     }
 
-    public void sellFilial(MonopolyGame monopolyGame,UserMonopoly user){
+    //public void sellFilial(MonopolyGame monopolyGame,UserMonopoly user){
+    sellFilial(monopolyGame, user){
         if(getUserOwner()!=null && user==getUserOwner() && getFilialStay()>0) {
             user.setMoney(user.getMoney() + getFilialPrice());
             setFilialStay(getFilialStay()-1);
@@ -177,13 +183,15 @@ class CardFirm extends CardDefault {
     }
 
     //вернуть в банк
-    public void returnInBank(GameMonopoly gameMonopoly) {
+    //public void returnInBank(GameMonopoly gameMonopoly) {
+    returnInBank(gameMonopoly) {
         //фирму в банк деньги пользователю
         userOwner.setMoney(userOwner.getMoney()+getFilialStay()*getFilialPrice()+getPrice());
         setUserOwner(null);
     }
 
-    public int getPenalty() {
+   // public int getPenalty() {
+    getPenalty() {
         return Math.round(getPrice()/5+(getPrice()*(filialStay*filialStay))/10);
     }
 
