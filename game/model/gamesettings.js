@@ -10,3 +10,5 @@ class GameSettings(){
        return monopolyGame;
     }
 }
+
+module.exports = GameSettings;
