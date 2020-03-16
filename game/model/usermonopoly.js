@@ -181,7 +181,7 @@ class UserMonopoly extends DefaultUserRoom {
 
     //@Override
     //public void throwDouble(boolean yes) {
-    throwDouble(yes)
+    throwDouble(yes){
         if(yes) {
             this.throwDouble += 1;
         }else {
@@ -213,7 +213,7 @@ class UserMonopoly extends DefaultUserRoom {
 
     //@Override
     //public boolean isMonopByFilThisStep(int numMonopoly) {
-    isMonopByFilThisStep(numMonopoly)
+    isMonopByFilThisStep(numMonopoly){
         for(const monopN of monopByFilThisStep){
             if(monopN == numMonopoly){
                 return true;
