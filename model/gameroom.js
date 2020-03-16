@@ -22,6 +22,9 @@ class GameRoom {
     if(this.gameStarted) return false;
     if(this.roomUsers.length >= this.maxCountUser) return false;
     this.roomUsers[this.roomUsers.length] = roomUser;
+    if (this.roomUsers.length == this.maxCountUser){
+       this.gameStarted = true;     
+    }
     return true;
   }
 
