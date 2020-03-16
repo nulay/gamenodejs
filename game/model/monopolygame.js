@@ -395,7 +395,7 @@ class MonopolyGame{
     }
 
     //private Auction 
-    var auction=null;
+    auction=null;
 
     //@Override
     //public void startAuction() {
