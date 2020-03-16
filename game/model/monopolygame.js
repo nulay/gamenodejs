@@ -374,7 +374,7 @@ class MonopolyGame{
     payPenalty() {
         if(this.curentUser.getAvailableAction().contains(PAY_PENALTY)){
             if(this.curentUser.getPenalty()!=0 && this.curentUser.getMoney()+this.curentUser.getPenalty()>=0){
-                Card c=getListCard().get(this.curentUser.getIndexPosition());
+                var c=getListCard()[this.curentUser.getIndexPosition()];
                 if(c.type == Card.CARD_FIRM){
                     //CardFirm 
                     var card=c;
