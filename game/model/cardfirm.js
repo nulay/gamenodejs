@@ -1,3 +1,5 @@
+var CardDefault = require("./carddefault");
+
 class CardFirm extends CardDefault {
     
     //private int id;
