@@ -57,3 +57,7 @@ class CardDefault{
         this.type = type;
     }
 }
+
+
+module.exports = CardDefault;
+
