@@ -38,10 +38,7 @@ class MonopolyGame{
     credit;
 
     //public MonopolyGame(List<Card> listCard) {
-    constructor(listCard) {
-        this.timeStartGame=new Date().getTime();
-        this.listCard = listCard;
-    }
+   
 
    constructor(listCard, startMoney, circleMoney, room) {
         this.timeStartGame=new Date().getTime();
