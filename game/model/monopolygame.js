@@ -874,7 +874,7 @@ class MonopolyGame{
             var maxM=0;
             var minM=cardList[0].getCountFilial();
             //ключ проверяющий заложенность филиала в монополи (если хоть 1 заложен то покупать филиалы нельзя)
-            boolean keyPut=false;
+            var keyPut=false;
             for(const cfs of cardList){
                 if(maxM<cfs.getFilialStay()){
                     maxM=cfs.getFilialStay();
