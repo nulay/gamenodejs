@@ -224,7 +224,9 @@ app.route('/jointoroom')
            if(roomForJoin.addUser(roomUser) == true){
               res.json({'success':true});
               if (roomForJoin.isStartGame()){
-                 roomForJoin = new MonopolyGame();
+                 var listCard =[new CardFirm('Мягков', 'firm', 1500,5,700,1,2,'firmR.png' ),
+                               new CardFirm('Мягков2', 'firm', 1500,5,700,1,2,'firmR.png' )];
+                 roomForJoin = new MonopolyGame(listCard, 3000, 1000, roomForJoin);
               }
            }else{   
               res.json({'success':false});
