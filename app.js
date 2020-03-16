@@ -9,6 +9,7 @@ const fs = require("fs");
 var GameRoom = require("./model/gameroom");
 var RoomUser = require("./model/roomuser");
 var MonopolyGame = require("./game/model/monopolygame");
+var GameSettings = require("./game/model/gamesettings");
 
 var mime = {
     html: 'text/html',
@@ -223,10 +224,8 @@ app.route('/jointoroom')
 
            if(roomForJoin.addUser(roomUser) == true){
               res.json({'success':true});
-              if (roomForJoin.isStartGame()){
-                 var listCard =[new CardFirm('Мягков', 'firm', 1500,5,700,1,2,'firmR.png' ),
-                               new CardFirm('Мягков2', 'firm', 1500,5,700,1,2,'firmR.png' )];
-                 roomForJoin = new MonopolyGame(listCard, 3000, 1000, roomForJoin);
+              if (roomForJoin.isStartGame()){               
+                 roomForJoin = GameSettings.createStandartMonopoly(roomForJoin);
               }
            }else{   
               res.json({'success':false});
