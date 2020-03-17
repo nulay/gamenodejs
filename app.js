@@ -261,9 +261,10 @@ app.route('/game/:nameroom')
 app.route('/games/monopoly/gameinfo')
     .get(sessionCheckerFalse, (req, res) => {
         var curentGameName = req.session.curentGameName;
-        console.log('games/monopoly/gameinfo: '+curentGameName);
+        
         var curentGame = null;
         for(var i=0; i<global.rooms.length;i++){
+          console.log('games/monopoly/gameinfo: '+global.rooms[i]);
           if(global.rooms[i].room !=null && global.rooms[i].room.name == curentGameName){
              curentGame=global.rooms[i];
              break;
