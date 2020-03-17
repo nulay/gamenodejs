@@ -50,4 +50,4 @@ class GameSettings{
     }
 }
 
-module.exports = GameSettings;
+module.exports = GameSettings; 
