@@ -32,8 +32,8 @@ class CardFirm extends CardDefault {
     put=false;
 
    // public CardFirm(String name, int price, int countFilial, int filialPrice, int numMonopoly, int countFirmInMonopoly) {
-    constructor(name, type, price, countFilial, filialPrice, numMonopoly, countFirmInMonopoly){
-        super(name,type);
+    constructor(name, price, countFilial, filialPrice, numMonopoly, countFirmInMonopoly){
+        super(name,"CardFirm");
         this.price = price;      
         this.countFilial = countFilial;
         this.filialPrice = filialPrice;
