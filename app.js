@@ -264,7 +264,7 @@ app.route('/games/monopoly/gameinfo')
         console.log('games/monopoly/gameinfo: '+curentGameName);
         var curentGame = null;
         for(var i=0; i<global.rooms.length;i++){
-          if(global.rooms[i].name == curentGameName){
+          if(global.rooms[i].room !=null && global.rooms[i].room.name == curentGameName){
              curentGame=global.rooms[i];
              break;
           }
