@@ -1,6 +1,7 @@
 var MonopolyGame = require("./monopolygame");
 var CardFirm = require("./cardfirm");
 var CardPlusMinus = require("./cardplusminus");
+var CardPrison = require("./cardprison");
 
 
 class GameSettings{
