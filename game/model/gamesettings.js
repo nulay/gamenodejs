@@ -45,7 +45,7 @@ class GameSettings{
         for(var i=0;i<roomForJoin.roomUsers.length;i++){       
            var oldUser = roomForJoin.roomUsers[i];
            var mUser = new UserMonopoly(oldUser, 5, startMoney);
-           listUsers[this.listUsers.length]=mUser;
+           listUsers[listUsers.length]=mUser;
         }
        var monopolyGame=new MonopolyGame(listCard, startMoney, moneyForCircle, roomForJoin.nameRoom, listUsers);
        return monopolyGame;
