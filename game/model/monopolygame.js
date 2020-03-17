@@ -4,7 +4,8 @@ class MonopolyGame{
 // implements GameMonopoly{
     //игровая комната
     //private Room room;
-    room;
+    roomName;
+    listUsers;
     //Время начала игры
     //private Long timeStartGame;
     timeStartGame;
@@ -40,16 +41,16 @@ class MonopolyGame{
     //public MonopolyGame(List<Card> listCard) {
    
 
-   constructor(listCard, startMoney, circleMoney, room) {
+   constructor(listCard, startMoney, circleMoney, roomName, listUsers) {
         this.timeStartGame=new Date().getTime();
         this.listCard = listCard;
         this.room = room;
         //TODO all user change to monopolyUser
-        for(var i=0;i<room.getUsers().length;i++){
+        for(var i=0;i<listUsers.length;i++){
            
-           var oldUser = room.getUsers()[i];
+           var oldUser = listUsers[i];
            var mUser = new UserMonopoly(oldUser, 5, startMoney);
-           room.getUsers()[i]=mUser;
+           this.listUsers[this.listUsers.length]=mUser;
         }
         this.startMoney = startMoney;
         this.circleMoney = circleMoney;
@@ -107,79 +108,29 @@ class MonopolyGame{
     }
 
     //@Override
-    //public boolean addUser(UserRoom user) {
-    addUser(user) {
-        var mUser = user;
-        if(this.room.addUser(user)){
-            mUser.setAvailableAction([]);
-            if(isOpenRoom()){
-                return true;
-            }else{
-                startGame();
-                return false;
-            }
-        }else{
-            return false;
-        }
-    }
-
-    //@Override
-    //public boolean removeUser(UserRoom user) {
-    removeUser(user) {
-        return this.room.removeUser(user);
-    }
-
-    //@Override
     //public long getNumberRoom() {
     getNumberRoom() {
-        return this.room.getNumberRoom();
+        return this.nameRoom;
     }
 
     //@Override
     //public void setNumberRoom(long numberRoom) {
-    setNumberRoom(numberRoom) {
-        this.room.setNumberRoom(numberRoom);
+    setNumberRoom(nameRoom) {
+        this.nameRoom=nameRoom;
     }
 
-    //@Override
-    //public boolean isPermission(UserRoom user) {
-    isPermission(user) {
-        return this.room.isPermission(user);
-    }
-
-    //public boolean isOpenRoom() {
-    isOpenRoom() {
-        return this.room.isOpenRoom();
-    }
-
-    //@Override
-    //public int countPerson() {
-    countPerson() {
-        return this.room.countPerson();
-    }
-
+    
     //@Override
     //public List<UserMonopoly> getListUser() {
     getListUser() {
-        return this.room.getListUser();
+        return listUsers;
     }
 
-    //@Override
-    //public void setMaxCountUser(int count) {
-    setMaxCountUser(count) {
-        this.room.setMaxCountUser(count);
-    }
-
-    //@Override
-    //public int getMaxCountUser() {
-    getMaxCountUser() {
-        return this.room.getMaxCountUser();
-    }
 
     //@Override
     //public List<UserMonopoly> getListViewUser() {
     getListViewUser() {
-        return this.room.getListViewUser();
+        return this.listViewUser;
     }
 
     //public void startGame(){
