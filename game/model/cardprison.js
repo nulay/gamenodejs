@@ -5,10 +5,9 @@ class CardPrison extends CardDefault {
     penalty;
 
     //public CardPrison(String name,int penalty){
-    constructor(name,type, penalty){
-        super();
-        setType(type);
-        setName(name);
+    constructor(name, penalty){
+        super(name, CardDefault);
+        
         this.penalty=penalty;
     }
 
