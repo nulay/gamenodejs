@@ -253,6 +253,7 @@ app.route('/roominfo')
 app.route('/game/:nameroom')
     .get(sessionCheckerFalse, (req, res) => {
         req.session.curentGameName=req.params.nameroom;
+        console.log('game/noroom: '+req.session.curentGameName);
         res.sendFile(__dirname + '/game/public/game.html');
     });
 
@@ -260,6 +261,7 @@ app.route('/game/:nameroom')
 app.route('/games/monopoly/gameinfo')
     .get(sessionCheckerFalse, (req, res) => {
         var curentGameName = req.session.curentGameName;
+        console.log('games/monopoly/gameinfo: '+curentGameName);
         var curentGame = null;
         for(var i=0; i<global.rooms.length;i++){
           if(global.rooms[i].name == curentGameName){
