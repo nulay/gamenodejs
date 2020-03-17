@@ -5,7 +5,7 @@ class MonopolyGame{
     //игровая комната
     //private Room room;
     roomName;
-    listUsers;
+    listUsers=[];
     //Время начала игры
     //private Long timeStartGame;
     timeStartGame;
