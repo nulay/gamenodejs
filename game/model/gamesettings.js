@@ -37,7 +37,7 @@ class GameSettings{
                       new CardPlusMinus('Налоговая',[-6000,-4000,-2000,2000],'surprR.png'),
                       new CardFirm('Лукойл', 17000, 5, 8500, 8, 2,'firmR.png'),
                       new CardFirm('Роснефть', 20000, 5, 10000, 8, 2,'firmR.png')];
-       var monopolyGame=new MonopolyGame(listCard, 3000, 1000, roomForJoin);
+       var monopolyGame=new MonopolyGame(listCard, 3000, 1000, roomForJoin.nameRoom, roomForJoin.roomUsers);
        return monopolyGame;
     }
 }
