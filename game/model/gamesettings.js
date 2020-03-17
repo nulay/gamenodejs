@@ -7,7 +7,7 @@ var UserMonopoly = require("./usermonopoly");
 
 class GameSettings{
     static createStandartMonopoly(roomForJoin){
-       console.log('createStandartMonopoly : '+JSON.stringify((roomForJoin));
+       console.log('createStandartMonopoly : '+JSON.stringify(roomForJoin));
        var listCard =[new CardPlusMinus('Старт', [5000],'01.png'),
                       new CardFirm('Мягков', 1500,5,700,1,2,'firmR.png' ),
                       new CardPlusMinus('CardPlusMinus',[-6000,-4000,-2000],'surprR.png'),
