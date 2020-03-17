@@ -40,12 +40,14 @@ class GameSettings{
                       new CardFirm('Лукойл', 17000, 5, 8500, 8, 2,'firmR.png'),
                       new CardFirm('Роснефть', 20000, 5, 10000, 8, 2,'firmR.png')];
         var listUsers = [];
+        var startMoney =3000;
+        var moneyForCircle=1000;
         for(var i=0;i<roomForJoin.roomUsers.length;i++){       
            var oldUser = roomForJoin.roomUsers[i];
            var mUser = new UserMonopoly(oldUser, 5, startMoney);
            listUsers[this.listUsers.length]=mUser;
         }
-       var monopolyGame=new MonopolyGame(listCard, 3000, 1000, roomForJoin.nameRoom, listUsers);
+       var monopolyGame=new MonopolyGame(listCard, startMoney, moneyForCircle, roomForJoin.nameRoom, listUsers);
        return monopolyGame;
     }
 }
