@@ -211,11 +211,13 @@ app.route('/jointoroom')
            var user = req.session.user;
            var nameRoom = req.query.nameRoom;
            console.log('nameRoom=', nameRoom);
+           var indgame=null;
            var roomForJoin = null;
            for(var i=0;i<global.rooms.length;i++){
               console.log(global.rooms[i]);
               if(global.rooms[i].nameRoom==nameRoom){
                   roomForJoin = global.rooms[i];
+                  indgame =i;
                   break;
               }
            }
@@ -225,7 +227,7 @@ app.route('/jointoroom')
            if(roomForJoin.addUser(roomUser) == true){
               res.json({'success':true});
               if (roomForJoin.isStartGame()){               
-                 roomForJoin = GameSettings.createStandartMonopoly(roomForJoin);
+                 global.rooms[i] = GameSettings.createStandartMonopoly(roomForJoin);
               }
            }else{   
               res.json({'success':false});
