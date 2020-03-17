@@ -7,7 +7,7 @@ class CardCheating extends CardDefault {
      * @param name - name
      * @param numPrison - count step need skip
      */
-    public CardCheating(name, numPrison){
+    constructor(name, numPrison){
         setName(name, 'CardCheating');
         this.numPrison=numPrison;       
     }
