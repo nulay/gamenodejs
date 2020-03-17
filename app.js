@@ -226,7 +226,7 @@ app.route('/jointoroom')
 
            if(roomForJoin.addUser(roomUser) == true){        
               if (roomForJoin.isStartGame()){   
-                 global.rooms[i] = GameSettings.createStandartMonopoly(roomForJoin);            
+                 roomForJoin.game = GameSettings.createStandartMonopoly(roomForJoin);            
                  console.log(global.rooms[i]);
               }
               res.json({'success':true});
@@ -269,7 +269,7 @@ app.route('/games/monopoly/gameinfo')
         for(var i=0; i<global.rooms.length;i++){
           console.log('games/monopoly/gameinfo: '+ JSON.stringify(global.rooms[i]));
           if(global.rooms[i] !=null && global.rooms[i].nameRoom == curentGameName){
-             curentGame=global.rooms[i];
+             curentGame=global.rooms[i].game;
              break;
           }
         }
