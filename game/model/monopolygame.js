@@ -44,7 +44,7 @@ class MonopolyGame{
    constructor(listCard, startMoney, circleMoney, roomName, listUsers) {
         this.timeStartGame=new Date().getTime();
         this.listCard = listCard;
-        this.room = room;
+        this.roomName = roomName;
         //TODO all user change to monopolyUser
         for(var i=0;i<listUsers.length;i++){
            
