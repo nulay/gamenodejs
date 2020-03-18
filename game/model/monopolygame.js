@@ -137,7 +137,7 @@ class MonopolyGame{
         for(var i= 0 ;i<getListUser().length; i++) {
             var user = getListUser()[i];
             user.setMoney(getStartMoney());
-            ActionUser.createInstance(this, user, START_GAME, "Hello in GameRoom");
+            ActionUser.createInstance(this, user, "START_GAME", "Hello in GameRoom");
         }
     }
 
