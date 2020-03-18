@@ -5,7 +5,7 @@ class Util{
   static addUnicAll(mainArr, additArr){
        //Array.prototype.push.apply(mainArr, additArr);
        for(const ell of additArr){
-          if(!isElementInArray(mainArr, ell)){
+          if(!this.isElementInArray(mainArr, ell)){
              mainArr[mainArr.length] = ell;
           }
        }
