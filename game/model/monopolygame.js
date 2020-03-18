@@ -200,12 +200,12 @@ class MonopolyGame{
 
     ///public boolean isStartGame() {
     isStartGame() {
-        return startGame;
+        return this.startGame;
     }
 
     //public String getImageFolder() {
     getImageFolder() {
-        return imageFolder;
+        return this.imageFolder;
     }
 
     //public void setImageFolder(String imageFolder) {
@@ -247,16 +247,16 @@ class MonopolyGame{
             }
             if(this.curentUser.getCountThrowDouble()==3){
                 //устанавливаем выбрасывание кубика в 0 раз
-                goPrison(this.curentUser);
-                nextGamer();
+                this.goPrison(this.curentUser);
+                this.nextGamer();
                 this.curentUser.throwDouble(false);
                 return toValue;
             }
-            goToCard(toValue[0]+toValue[1]);
+            this.goToCard(toValue[0]+toValue[1]);
             return toValue;
         }else{
             //штраф
-            penaltyCheating(this.curentUser);
+            this.penaltyCheating(this.curentUser);
         }
         return null;
     }
@@ -275,7 +275,7 @@ class MonopolyGame{
    // public CardPrison getCardPrison(){
      getCardPrison(){
         for(const card of this.listCard){
-            if(card.name == Card.CARD_PRISON){
+            if(card.getName() == Card.CARD_PRISON){
                 return card;
             }
         }
@@ -303,9 +303,9 @@ class MonopolyGame{
                     Util.clear(this.curentUser.getAvailableAction());
             }else{
                     //штраф
-                    penaltyCheating(this.curentUser);
+                    this.penaltyCheating(this.curentUser);
                 }
-                nextGamer();
+                this.nextGamer();
             }
         }
     }
@@ -325,8 +325,8 @@ class MonopolyGame{
     payPenalty() {
         if(this.curentUser.getAvailableAction().contains("PAY_PENALTY")){
             if(this.curentUser.getPenalty()!=0 && this.curentUser.getMoney()+this.curentUser.getPenalty()>=0){
-                var c=getListCard()[this.curentUser.getIndexPosition()];
-                if(c.type == Card.CARD_FIRM){
+                var c=this.getListCard()[this.curentUser.getIndexPosition()];
+                if(c.getType() == Card.CARD_FIRM){
                     //CardFirm 
                     var card=c;
                     card.getUserOwner().setMoney(card.getUserOwner().getMoney()-this.curentUser.getPenalty());
@@ -339,9 +339,9 @@ class MonopolyGame{
                 this.curentUser.setPenalty(0);
                 //если был в тюрьме выходит из тюрьмы
                 this.curentUser.setPrison(0);
-                nextGamer();
+                this.nextGamer();
             }else{
-                penaltyCheating(this.curentUser);
+                this.penaltyCheating(this.curentUser);
             }
         }
     }
@@ -356,17 +356,17 @@ class MonopolyGame{
             Util.clear(this.curentUser.getAvailableAction());
             //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
             auction = new Auction(this);
-            nextGamer();
+            this.nextGamer();
 
         }else{
-            penaltyCheating(this.curentUser);
+            this.penaltyCheating(this.curentUser);
         }
     }
 
     //public void stopAuction() {
     stopAuction() {
-        auction=null;
-        nextGamer();
+        this.auction=null;
+        this.nextGamer();
     }
 
     //@Override
@@ -380,14 +380,14 @@ class MonopolyGame{
                     if(cF.putFirm(this, this.curentUser)) {
                         ActionUser.createInstance(this, this.curentUser, "PUT_FIRM", cF);
                         this.firmFilialSell(this.curentUser);
-                        canBuyFilial();
+                        this.canBuyFilial();
                     }
                 } catch ( e) {
-                    penaltyCheating(this.curentUser);
+                    this.penaltyCheating(this.curentUser);
                 }
             }
-            if(!canCheckPenalty(this.curentUser)){
-                var card=listCard.get(getCurentUser().getIndexPosition());
+            if(!this.canCheckPenalty(this.curentUser)){
+                var card=this.listCard[getCurentUser().getIndexPosition()];
                 if(card.getType() == Card.CARD_FIRM) {
                     if (card.getUserOwner()==null && this.curentUser.getMoney() >= card.getPrice()) {
                         Util.addUnicAll(this.curentUser.getAvailableAction(),["BUY_FIRM"]);
@@ -396,7 +396,7 @@ class MonopolyGame{
                 }
             }
         }else{
-            penaltyCheating(this.curentUser);
+            this.penaltyCheating(this.curentUser);
         }
     }
 
@@ -454,7 +454,7 @@ class MonopolyGame{
                                 if(numMon==fNM){
                                     //нельзя покупать 2 филиала в одной монополии за один ход
                                     //штраф
-                                    penaltyCheating(this.curentUser);
+                                    this.penaltyCheating(this.curentUser);
                                     return;
                                 }
                             }
@@ -466,13 +466,13 @@ class MonopolyGame{
                     if(!canBuy){
                         this.curentUser.getMonopByFilThisStep().remove(getListCard()[indFirm[i]].getNumMonopoly());
                         //штраф
-                        penaltyCheating(this.curentUser);
+                        this.penaltyCheating(this.curentUser);
                         return;
                     }
                 }
             } catch ( e) {
                 //штраф
-                penaltyCheating(this.curentUser);
+                this.penaltyCheating(this.curentUser);
                 return;
             }
             for(var i=0;i<indFirm.length;i++){
@@ -484,10 +484,10 @@ class MonopolyGame{
 
                 } catch ( e) {
                     //штраф
-                    penaltyCheating(this.curentUser);
+                    this.penaltyCheating(this.curentUser);
                 }
             }
-            canBuyFilial();
+            this.canBuyFilial();
         }
     }
 
@@ -508,7 +508,7 @@ class MonopolyGame{
                     }
                 }
                 if(!canSell){
-                    penaltyCheating(this.curentUser);
+                    this.penaltyCheating(this.curentUser);
                     return;
                 }
             }
@@ -522,13 +522,13 @@ class MonopolyGame{
                     ActionUser.createInstance(this, this.curentUser, "SELL_FILIAL", cF);
                 } catch ( e) {
                     //штраф
-                    penaltyCheating(this.curentUser);
+                    this.penaltyCheating(this.curentUser);
                 }
             }
             Util.removeElementFromArray(this.curentUser.getAvailableAction(),"SELL_FILIAL");
             //this.curentUser.getAvailableAction().remove("SELL_FILIAL");
-            canSellFilial();
-            canCheckPenalty(this.curentUser);
+            this.canSellFilial();
+            this.canCheckPenalty(this.curentUser);
         }
     }
 
@@ -547,7 +547,7 @@ class MonopolyGame{
     //public void gameClose(UserMonopoly user) {
     gameClose(user) {
         //synchronized (room.getListViewUser()){
-            room.getListViewUser().remove(user);
+            this.room.getListViewUser().remove(user);
         //}
     }
 
@@ -555,7 +555,7 @@ class MonopolyGame{
     //private boolean isBuyFilialInMonopoly(Integer numMonopoly) {
     isBuyFilialInMonopoly(numMonopoly) {
         for(const c of getListCard()) {
-            if(c.type == Card.CARD_FIRM && c.getNumMonopoly()==numMonopoly && c.getFilialStay()>0) {
+            if(c.getType() == Card.CARD_FIRM && c.getNumMonopoly()==numMonopoly && c.getFilialStay()>0) {
                 return true;
             }
         }
@@ -568,7 +568,7 @@ class MonopolyGame{
     getPossibleFirmCh(nameUser){
         //Set<Integer> 
         var lC=[];
-        var umFCH=getUserByName(nameUser);
+        var umFCH=this.getUserByName(nameUser);
         if(umFCH==null){
             return null;
         }
@@ -604,18 +604,18 @@ class MonopolyGame{
                     //CardFirm 
                     var cf= card;
                     if(cf.getUserOwner()!=null && this.curentUser.equals(cf.getUserOwner()) && cf.isPut()){
-                        lC[lC.length] = getListCard().indexOf(cf);
+                        lC[lC.length] = this.getListCard().indexOf(cf);
                     }
                 }
             }
         }
         if(type =="BUY_FILIAL" && this.curentUser.getAvailableAction().contains("BUY_FILIAL")) {
-            Util.addUnicAll(lC, canBuyFilial(this.curentUser));
+            Util.addUnicAll(lC, this.canBuyFilial(this.curentUser));
             //lC.addAll(canBuyFilial(this.curentUser));
         }
         if(type == "SELL_FILIAL" && this.curentUser.getAvailableAction().contains("SELL_FILIAL")) {
             //lC.addAll(canSellFilial(this.curentUser));
-            Util.addUnicAll(lC, canSellFilial(this.curentUser));
+            Util.addUnicAll(lC, this.canSellFilial(this.curentUser));
         }
         return lC;
     }
@@ -623,16 +623,16 @@ class MonopolyGame{
    // @JsonIgnore
    // public Map<Integer, Set<CardFirm>> getAllMonopoly(){
     getAllMonopoly(){ 
-        return getAllMonopoly(null);
+        return this.getAllMonopoly(null);
     }
 
     //@JsonIgnore
     //public Map<Integer, Set<CardFirm>> getAllMonopoly(UserMonopoly user){
     getAllMonopoly(user){
         //Map<Integer,Set<CardFirm>> 
-        listAllMonopoly={};
+        var listAllMonopoly={};
         //Map<Integer,Set<CardFirm>>
-        listUserMonopoly={};
+        var listUserMonopoly={};
         for(const card of listCard) {
             if (card.getType() == Card.CARD_FIRM) {
                 var cf = card;
@@ -659,7 +659,7 @@ class MonopolyGame{
     //поиск пользователя по имени
     //private UserMonopoly getUserByName(String userName){
     getUserByName(userName){
-        for(const um of getListUser()){
+        for(const um of this.getListUser()){
             if(um.getName() == userName){
                 return um;
             }
@@ -673,9 +673,9 @@ class MonopolyGame{
     changeFirm(indFirm, indFirm2, money, money2, userName) {
         if(this.curentUser.getAvailableAction().contains("CHANGE_FIRM")){
             //UserMonopoly 
-            var umA=getUserByName(userName);
+            var umA=this.getUserByName(userName);
             if(umA==null){
-                penaltyCheating(this.curentUser);
+                this.penaltyCheating(this.curentUser);
                 return;
             }
             this.curentUser.doChangeFirm();
@@ -710,12 +710,12 @@ class MonopolyGame{
                 }
                 this.objectOffers.getUser().setMoney(objectOffers.getUser().getMoney() + objectOffers.getMoneyUserChanger());
                 usCH.setMoney(usCH.getMoney()-objectOffers.getMoneyUserChanger());
-                for (const indF of objectOffers.getIndFirm()){
-                    getListCard()[indF].setUserOwner(usCH);
+                for (const indF of this.objectOffers.getIndFirm()){
+                    this.getListCard()[indF].setUserOwner(usCH);
                     ActionUser.createInstance(this,usCH, "BUY_FIRM", getListCard()[indF]);
                 }
-                objectOffers.getUser().setMoney(objectOffers.getUser().getMoney() - objectOffers.getMoney());
-                usCH.setMoney(usCH.getMoney()+objectOffers.getMoney());
+                this.objectOffers.getUser().setMoney(this.objectOffers.getUser().getMoney() - this.objectOffers.getMoney());
+                usCH.setMoney(usCH.getMoney()+this.objectOffers.getMoney());
                 ActionUser.createInstance(this,this.curentUser, "CHANGE_FIRM_OK", objectOffers);
             }else{
                 ActionUser.createInstance(this,this.curentUser, "CHANGE_FIRM_CANCAL", objectOffers);
@@ -754,7 +754,7 @@ class MonopolyGame{
                 this.firmFilialSell(this.curentUser);
                 this.canBuyFilial();
             }
-            objectOffers=null;
+            this.objectOffers=null;
         }
     }
        
@@ -763,7 +763,7 @@ class MonopolyGame{
         //this.curentUser.getAvailableAction().remove(SELL_FILIAL);
         Util.removeElementFromArray(this.curentUser.getAvailableAction(), "SELL_FILIAL");
         //Set<Integer> list=canSellFilial(z);
-        var list = canSellFilial(z);
+        var list = this.canSellFilial(z);
         if(list.size()>0){
             Util.addUnicAll(this.curentUser.getAvailableAction(), ["SELL_FILIAL"]);
             //this.curentUser.getAvailableAction().add(SELL_FILIAL);
@@ -774,7 +774,7 @@ class MonopolyGame{
     //private Set<Integer> canSellFilial(UserMonopoly user){
     canSellFilial(user){
         var lC=[];
-        for(const cardList of getAllMonopoly(this.curentUser).values()){
+        for(const cardList of this.getAllMonopoly(this.curentUser).values()){
             var maxM=0;
             var minM = cardList[0].getCountFilial();
             for(const cfs of cardList){
@@ -794,7 +794,7 @@ class MonopolyGame{
             }
             for(const cfs of cardList){
                 if(cfs.getFilialStay()>minM){
-                    lC[lC.length]=listCard.indexOf(cfs);
+                    lC[lC.length]=this.listCard.indexOf(cfs);
                 }
             }
         }
@@ -806,7 +806,7 @@ class MonopolyGame{
         Util.removeElementFromArray(this.curentUser.getAvailableAction(),"BUY_FILIAL");
         //this.curentUser.getAvailableAction().remove(BUY_FILIAL);
         //Set<Integer> 
-        var list=canBuyFilial(this.curentUser);
+        var list=this.canBuyFilial(this.curentUser);
         if(list.length>0){
             Utiil.addUnicAll(this.curentUser.getAvailableAction(),["BUY_FILIAL"]);
             //this.curentUser.getAvailableAction().add(BUY_FILIAL);
@@ -817,7 +817,7 @@ class MonopolyGame{
     //private Set<Integer> canBuyFilial(UserMonopoly user){
     canBuyFilial( user){
         lC=[];
-        for(const cardList of getAllMonopoly(this.curentUser).values()){
+        for(const cardList of this.getAllMonopoly(this.curentUser).values()){
             var maxM=0;
             var minM=cardList[0].getCountFilial();
             //ключ проверяющий заложенность филиала в монополи (если хоть 1 заложен то покупать филиалы нельзя)
@@ -854,7 +854,7 @@ class MonopolyGame{
                         }
                     }
                     if(!keyBuy) {
-                        lC[lC.length]=listCard.indexOf(cfs);
+                        lC[lC.length]=this.listCard.indexOf(cfs);
                     }
                 }
             }
@@ -899,11 +899,11 @@ class MonopolyGame{
             Util.addUnicAll(user.getAvailableAction(),["GAME_CLOSE"]);
             //user.getAvailableAction().add(GAME_CLOSE);
             if(user.equals(this.curentUser)){
-                if(getListUser().size()>1) {
-                    nextGamer();
+                if(this.getListUser().size()>1) {
+                    this.nextGamer();
                 }
             }
-            isWinSomebody();
+            this.isWinSomebody();
       //  }
     }
 
@@ -1015,7 +1015,7 @@ class MonopolyGame{
         ActionUser.createInstance(this,this.curentUser, "GO_SELL", countStep);
         this.listCard[pos].transferCardForUser(this,this.curentUser);
         if(this.curentUser.getPrison()>0){
-            nextGamer();
+            this.nextGamer();
             return;
         }
         this.canCheckPenalty(this.curentUser);
