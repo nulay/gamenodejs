@@ -50,7 +50,7 @@ class GameSettings{
         }
        var monopolyGame=new MonopolyGame(listCard, startMoney, moneyForCircle, roomForJoin.nameRoom, listUsers);
        monopolyGame.setImageFolder("images/monopoly");
-       monopolyGame.setImageCenter="center.jpg";
+       monopolyGame.setImageCenter("center.jpg");
        monopolyGame.credit=10000;
        monopolyGame.penalty_cheating=10000;
        return monopolyGame;
