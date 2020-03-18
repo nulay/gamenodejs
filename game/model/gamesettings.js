@@ -20,7 +20,7 @@ class GameSettings{
                       new CardFirm('Panasonic', 3500,5,1700,3,3,'firmR.png' ),
                       new CardFirm('Siemens', 3500,5,1700,3,3,'firmR.png' ),
                       new CardFirm('Bosch', 4000,5,2000,3,3,'firmR.png' ),
-                      new CardFirm('Nokia', 5500,5,2700,4,3,'firmR.png' ),,
+                      new CardFirm('Nokia', 5500,5,2700,4,3,'firmR.png' ),
                       new CardPlusMinus('Шанс', [-4000,-2000,2000,4000,6000],'surprR.png' ),
                       new CardFirm('HTC', 5500,5,2700,4,3,'firmR.png' ),
                       new CardFirm('Samsung', 6000,5,3000,4,3,'firmR.png' ),
