@@ -7,8 +7,8 @@ class CardCheating extends CardDefault {
      * @param name - name
      * @param numPrison - count step need skip
      */
-    constructor(name, numPrison){
-        super(name, 'CardCheating');
+    constructor(name, numPrison, image){
+        super(name, 'CardCheating', image);
         this.numPrison=numPrison;       
     }
 
