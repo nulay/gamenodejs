@@ -201,7 +201,7 @@ Card.prototype = {
             this.infoMoneyBG=$('<div style="z-index:-5;position:relative;background-image: url(/'+this.gameM.room.imageFolder+'/setka.png);">').css('height',Math.round(this.h/4)+'px').css('width',this.w+'px');
             this.infoMoney=$('<div style="position: absolute; z-index: -2; top: 0;left: 0;text-align: center; vertical-align: middle;display: table-cell;">');
             this.infoMoney.css('height',Math.round(this.h/4)+'px').css('width',this.w+'px').text(this.obj.price);
-            this.infomoneyBG.append(this.infomoney);
+            this.infoMoneyBG.append(this.infoMoney);
             info.append(this.infoMoneyBG);
         }
         this.infoFirm=$('<div style="text-align: center; vertical-align: middle;">').css('height',Math.round((this.h/4)*3)+'px').css('width',this.w+'px');
