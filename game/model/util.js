@@ -4,14 +4,14 @@ class Util{
   }
   static addUnicAll(mainArr, additArr){
        //Array.prototype.push.apply(mainArr, additArr);
-       for(const ell : additArr){
+       for(const ell of additArr){
           if(!isElementInArray(mainArr, ell){
              mainArr[mainArr.length] = ell;
           }
        }
   }
   static isElementInArray( arr, element){
-       for(const ell : arr){
+       for(const ell of arr){
          if(ell == element){
             return true;
          }
