@@ -184,8 +184,8 @@ class MonopolyGame{
     //private boolean isWinSomebody() {
     isWinSomebody() {
         //победа
-        if(getListUser().length==1){
-            this.curentUser=getListUser()[0];
+        if(this.getListUser().length==1){
+            this.curentUser=this.getListUser()[0];
             ActionUser.createInstance(this, this.curentUser, "WIN", this.curentUser);
             this.curentUser.setActivGamer(true);
             this.curentUser.setWin(true);
