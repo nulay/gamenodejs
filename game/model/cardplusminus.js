@@ -3,8 +3,8 @@ class CardPlusMinus extends CardDefault {
     //private List<Integer> possibleShtraf;
     possibleShtraf;
 
-    constructor(name, possibleShtraf) {
-        super(name, "CardPlusMinus");
+    constructor(name, possibleShtraf, image) {
+        super(name, "CardPlusMinus", image);
         this.possibleShtraf = possibleShtraf;
     }
 
