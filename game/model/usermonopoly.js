@@ -73,11 +73,11 @@ class UserMonopoly extends DefaultUserRoom {
 
     //@Override
     //public Set 
-    get availableAction(){
+    getAvailableAction(){
       return this.availableAction;
     }
     //@Override
-    set availableAction(availableAction) {
+    setAvailableAction(availableAction) {
         this.availableAction = availableAction;
     }
 
