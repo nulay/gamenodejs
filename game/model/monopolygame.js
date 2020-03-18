@@ -132,7 +132,7 @@ class MonopolyGame{
     //public void startGame(){
     startGameF(){
         this.startGame=true;      
-        this.curentUser=this.getListUser()[Util.getRandom(0, this.getMaxCountUser()-1)];
+        this.curentUser=this.getListUser()[Util.getRandom(0, this.getListUser().length-1)];
         this.nextGamer();
         for(var i= 0 ;i<this.getListUser().length; i++) {
             var user = this.getListUser()[i];
