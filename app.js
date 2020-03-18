@@ -251,6 +251,17 @@ app.route('/roominfo')
 
 //===========Game==========
 
+function getRoom(nameRoom){
+   var curentGame = null;
+   for(var i=0; i<global.rooms.length;i++){
+          console.log('games/monopoly/gameinfo: '+ JSON.stringify(global.rooms[i]));
+          if( !=null && global.rooms[i].nameRoom == nameRoom){
+            return global.rooms[i];
+          }
+        }
+    return null;
+}
+
 
 // route for game
 app.route('/game/:nameroom')
@@ -263,24 +274,28 @@ app.route('/game/:nameroom')
 // game info room.maxCountUser , data.userRoom.name like curent user
 app.route('/games/monopoly/gameinfo')
     .get(sessionCheckerFalse, (req, res) => {
-        var curentGameName = req.session.curentGameName;
-        
-        var curentGame = null;
-        for(var i=0; i<global.rooms.length;i++){
-          console.log('games/monopoly/gameinfo: '+ JSON.stringify(global.rooms[i]));
-          if(global.rooms[i] !=null && global.rooms[i].nameRoom == curentGameName){
-             curentGame=global.rooms[i].game;
-             break;
-          }
+        var curentGameName = req.session.curentGameName;        
+        var curentRoom = getRoom(curentGameName);
+        if (curentRoom!=null){
+           res.json(curentRoom.game);
+        }else {
+           return res.json(curentRoom);
         }
-        res.json(curentGame);
     });
 
 // listCardObj
 app.route('/games/monopoly/getCards')
     .get(sessionCheckerFalse, (req, res) => {
-        
+        var roomName = params.nameRoom;
+        var room = getRoom(roomName);
+        if (curentRoom!=null){
+           res.json(curentRoom.game.listCard);
+        }else {
+           return res.json(curentRoom);
+        }
     });
+
+
 
 
 // users who is gamer
