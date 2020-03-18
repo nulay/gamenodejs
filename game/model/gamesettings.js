@@ -44,11 +44,11 @@ class GameSettings{
         var moneyForCircle=1000;
         for(var i=0;i<roomForJoin.roomUsers.length;i++){       
            var oldUser = roomForJoin.roomUsers[i];
-           var mUser = new UserMonopoly(oldUser, 5, startMoney);
-           mUser.setImageFolder("images/monopoly");
+           var mUser = new UserMonopoly(oldUser, 5, startMoney);          
            listUsers[listUsers.length]=mUser;
         }
        var monopolyGame=new MonopolyGame(listCard, startMoney, moneyForCircle, roomForJoin.nameRoom, listUsers);
+       monopolyGame.setImageFolder("images/monopoly");
        return monopolyGame;
     }
 }
