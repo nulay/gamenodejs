@@ -285,8 +285,9 @@ app.route('/games/monopoly/gameinfo')
 // listCardObj
 app.route('/games/monopoly/getCards')
     .get(sessionCheckerFalse, (req, res) => {
-        var roomName = req.params.nameRoom;
-        var room = getRoom(roomName);
+        var nameRoom = req.query.nameRoom;
+        console.log('games/monopoly/getCards: '+nameRoom);
+        var curentRoom = getRoom(nameRoom);
         if (curentRoom!=null){
            res.json(curentRoom.game.listCard);
         }else {
