@@ -165,7 +165,7 @@ class MonopolyGame{
         this.curentUser.setThrowCubs(false);
         //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
         Util.clear(this.curentUser.getAvailableAction());
-        this.getListCard().get(this.curentUser.getIndexPosition()).dropInToCard(this,this.curentUser);
+        this.getListCard()[this.curentUser.getIndexPosition()].dropInToCard(this,this.curentUser);
 
         if(!this.canCheckPenalty(this.curentUser)){
             Util.addUnicAll(this.curentUser.getAvailableAction(), ["THROW_CUBE"]);          
