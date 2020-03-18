@@ -8,8 +8,8 @@ class ActionUser {
 
     static createInstance(monopolyGame, user, action, infoAction){
         var au=new ActionUser(user,action,infoAction);
-        populateUserByActions(au,monopolyGame.listUser);
-        populateUserByActions(au,monopolyGame.listViewUser); 
+        this.populateUserByActions(au,monopolyGame.listUser);
+        this.populateUserByActions(au,monopolyGame.listViewUser); 
             
     }
 
