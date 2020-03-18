@@ -34,6 +34,7 @@ class GameSettings{
                       new CardFirm('BMW', 12000, 5, 6000, 6, 3,'firmR.png'),
                       new CardCheating('Мошенник', 8,'25.jpg'),
                       new CardFirm('Аэрофлот', 14500, 5, 7200, 7, 3,'firmR.png'),
+                      new CardFirm('Аирлайнс', 14500, 5, 7200, 7, 3,'firmR.png'),
                       new CardPlusMinus('Шанс',[-4000,-2000,2000,4000,6000],'surprR.png'),
                       new CardFirm('АэроСвит', 15000, 5, 7500, 7, 3,'firmR.png'),
                       new CardPlusMinus('Налоговая',[-6000,-4000,-2000,2000],'surprR.png'),
