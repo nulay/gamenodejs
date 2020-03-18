@@ -130,7 +130,7 @@ class MonopolyGame{
     }
 
     //public void startGame(){
-    startGame(){
+    startGameF(){
         this.startGame=true;      
         this.curentUser=getListUser()[Util.getRandom(0, getMaxCountUser()-1)];
         nextGamer();
