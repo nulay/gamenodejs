@@ -132,11 +132,11 @@ class MonopolyGame{
     //public void startGame(){
     startGameF(){
         this.startGame=true;      
-        this.curentUser=this.getListUser()[Util.getRandom(0, getMaxCountUser()-1)];
-        nextGamer();
+        this.curentUser=this.getListUser()[Util.getRandom(0, this.getMaxCountUser()-1)];
+        this.nextGamer();
         for(var i= 0 ;i<this.getListUser().length; i++) {
             var user = this.getListUser()[i];
-            user.setMoney(getStartMoney());
+            user.setMoney(this.getStartMoney());
             ActionUser.createInstance(this, user, "START_GAME", "Hello in GameRoom");
         }
     }
@@ -148,7 +148,7 @@ class MonopolyGame{
         //чистим список монополий в которых был куплен филиал на текущем шаге
         Util.clear(this.curentUser.getMonopByFilThisStep());
         //.clear();
-        if(isWinSomebody()){
+        if(this.isWinSomebody()){
             return;
         }
         if(this.auction!=null){
@@ -156,28 +156,28 @@ class MonopolyGame{
             return;
         }
         if(this.curentUser.getCountThrowDouble()==0){
-            if(getListUser()[getListUser().length-1]==this.curentUser){
-                this.curentUser=getListUser()[0];
+            if(thisgetListUser()[this.getListUser().length-1]==this.curentUser){
+                this.curentUser=this.getListUser()[0];
             }else{
-                this.curentUser=getListUser()[getListUser().indexOf(this.curentUser)+1];
+                this.curentUser=this.getListUser()[this.getListUser().indexOf(this.curentUser)+1];
             }
         }
         this.curentUser.setThrowCubs(false);
         //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
         Util.clear(this.curentUser.getAvailableAction());
-        getListCard().get(this.curentUser.getIndexPosition()).dropInToCard(this,this.curentUser);
+        this.getListCard().get(this.curentUser.getIndexPosition()).dropInToCard(this,this.curentUser);
 
-        if(!canCheckPenalty(this.curentUser)){
+        if(!this.canCheckPenalty(this.curentUser)){
             Util.addUnicAll(this.curentUser.getAvailableAction(), ["THROW_CUBE"]);          
         }
-        giveTakeCredit(this.curentUser);
-        firmFilialSell(this.curentUser);
+        this.giveTakeCredit(this.curentUser);
+        this.firmFilialSell(this.curentUser);
         this.curentUser.setActivGamer(true);
         if(this.curentUser.getPrison()!=0){
             ActionUser.createInstance(this, this.curentUser, "CHANGE_USER", this.curentUser);
             return;
         }
-        canBuyFilial();
+        this.canBuyFilial();
         ActionUser.createInstance(this, this.curentUser, "CHANGE_USER", this.curentUser);
     }
 
