@@ -251,11 +251,10 @@ app.route('/roominfo')
 
 //===========Game==========
 
-function getRoom(nameRoom){
-   var curentGame = null;
+function getRoom(nameRoom){   
    for(var i=0; i<global.rooms.length;i++){
-          console.log('games/monopoly/gameinfo: '+ JSON.stringify(global.rooms[i]));
-          if( !=null && global.rooms[i].nameRoom == nameRoom){
+         // console.log('games/monopoly/gameinfo: '+ JSON.stringify(global.rooms[i]));
+          if( global.rooms[i] !=null && global.rooms[i].nameRoom == nameRoom){
             return global.rooms[i];
           }
         }
