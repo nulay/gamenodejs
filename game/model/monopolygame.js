@@ -775,7 +775,7 @@ class MonopolyGame{
     canSellFilial(user){
         var lC=[];
         var lmonopcuruser =this.getAllMonopoly(this.curentUser);
-        for(const key of Reflect.ownKeys(lmonopcuruser){
+        for(const key of Reflect.ownKeys(lmonopcuruser)){
             var cardList = lmonopcuruser[key];
             var maxM=0;
             var minM = cardList[0].getCountFilial();
@@ -820,7 +820,7 @@ class MonopolyGame{
     canBuyFilial( user){
         var lC=[];
         var lmonopcuruser =this.getAllMonopoly(this.curentUser);
-        for(const key of Reflect.ownKeys(lmonopcuruser){
+        for(const key of Reflect.ownKeys(lmonopcuruser)){
             var cardList = lmonopcuruser[key];
             var maxM=0;
             var minM=cardList[0].getCountFilial();
