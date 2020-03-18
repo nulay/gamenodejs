@@ -442,7 +442,7 @@ class MonopolyGame{
         if(this.curentUser.getAvailableAction().contains("BUY_FILIAL")){
             try {
                 //Set<Integer> 
-                var lICBF= canBuyFilial(this.curentUser);
+                var lICBF= this.canBuyFilial(this.curentUser);
                 //List<Integer> 
                 var lMon=[];
                 for(var i=0;i<indFirm.length;i++){
@@ -774,7 +774,9 @@ class MonopolyGame{
     //private Set<Integer> canSellFilial(UserMonopoly user){
     canSellFilial(user){
         var lC=[];
-        for(const cardList of this.getAllMonopoly(this.curentUser).values()){
+        var lmonopcuruser =this.getAllMonopoly(this.curentUser);
+        for(const key of Reflect.ownKeys(lmonopcuruser){
+            var cardList = lmonopcuruser[key];
             var maxM=0;
             var minM = cardList[0].getCountFilial();
             for(const cfs of cardList){
@@ -817,7 +819,9 @@ class MonopolyGame{
     //private Set<Integer> canBuyFilial(UserMonopoly user){
     canBuyFilial( user){
         var lC=[];
-        for(const cardList of this.getAllMonopoly(this.curentUser).values()){
+        var lmonopcuruser =this.getAllMonopoly(this.curentUser);
+        for(const key of Reflect.ownKeys(lmonopcuruser){
+            var cardList = lmonopcuruser[key];
             var maxM=0;
             var minM=cardList[0].getCountFilial();
             //ключ проверяющий заложенность филиала в монополи (если хоть 1 заложен то покупать филиалы нельзя)
