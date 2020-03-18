@@ -691,6 +691,7 @@ var gameMonopoly={
         });
     },
     usersstart:function(data){
+       var thisEl=this;
        if(data!=null) {
                 thisEl.synhroGame(data);
                 if(thisEl.gamers.length==thisEl.room.maxCountUser){
