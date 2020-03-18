@@ -633,7 +633,7 @@ class MonopolyGame{
         var listAllMonopoly={};
         //Map<Integer,Set<CardFirm>>
         var listUserMonopoly={};
-        for(const card of listCard) {
+        for(const card of this.listCard) {
             if (card.getType() == "CARD_FIRM") {
                 var cf = card;
                 if(cf.getUserOwner()!=null){
