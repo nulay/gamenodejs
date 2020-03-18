@@ -119,7 +119,7 @@ class MonopolyGame{
     //@Override
     //public List<UserMonopoly> getListUser() {
     getListUser() {
-        return listUsers;
+        return this.listUsers;
     }
 
 
