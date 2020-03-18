@@ -674,7 +674,8 @@ var gameMonopoly={
                     thisEl.listCard[i].checkedData();
                 }
                 thisEl.buildSystemControl();
-                thisEl.getStartGamers();
+                //thisEl.getStartGamers();
+                thisEl.usersstart(thisEl.room.listUsers);
                 thisEl.startloadgamedata();
             }
         });
@@ -686,14 +687,17 @@ var gameMonopoly={
             dataType : "json",
             type: "GET"
         }).done(function(data) {
-            if(data!=null) {
+            thisEl.usersstart(data);
+        });
+    },
+    usersstart:function(data){
+       if(data!=null) {
                 thisEl.synhroGame(data);
                 if(thisEl.gamers.length==thisEl.room.maxCountUser){
                     $('#waitGwin').hide();
                     thisEl.blink();
                 }
             }
-        });
     },
     synhroGame:function(users){
         for(var i=0;i<users.length;i++){
