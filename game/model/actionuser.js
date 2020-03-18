@@ -6,7 +6,7 @@ class ActionUser {
     //--private Auction auction;
     //GameMonopoly
 
-    createInstance(monopolyGame, user, action, infoAction){
+    static createInstance(monopolyGame, user, action, infoAction){
         var au=new ActionUser(user,action,infoAction);
         populateUserByActions(au,monopolyGame.listUser);
         populateUserByActions(au,monopolyGame.listViewUser); 
