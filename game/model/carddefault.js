@@ -10,9 +10,10 @@ class CardDefault{
     /**
      * Default constructor for card
      */
-    constructor(name,type) {
-       this.name=name;
+    constructor(name, type, image) {
+       this.name = name;
        this.type = type;
+       this.image = image;
     }
 
     /**
