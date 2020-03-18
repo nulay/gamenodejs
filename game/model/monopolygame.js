@@ -156,7 +156,7 @@ class MonopolyGame{
             return;
         }
         if(this.curentUser.getCountThrowDouble()==0){
-            if(thisgetListUser()[this.getListUser().length-1]==this.curentUser){
+            if(this.getListUser()[this.getListUser().length-1]==this.curentUser){
                 this.curentUser=this.getListUser()[0];
             }else{
                 this.curentUser=this.getListUser()[this.getListUser().indexOf(this.curentUser)+1];
