@@ -964,7 +964,7 @@ class MonopolyGame{
     //проверка на возможность продать филиал или заложить или выкупить фирму
     //public void firmFilialSell(UserMonopoly userMonopoly){
     firmFilialSell( userMonopoly){
-        for(const card of getListCard()){
+        for(const card of this.getListCard()){
             if(card.type() == Card.CARD_FIRM && card.getUserOwner()==userMonopoly){
                 //заложить фирму
                 if(!card.isPut() && card.getFilialStay()==0) {
