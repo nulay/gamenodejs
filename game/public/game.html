@@ -664,7 +664,7 @@ var gameMonopoly={
         $.ajax({
             url: "/games/monopoly/getCards",
             dataType : "json",
-            data: {"nameRoom":thisEl.room.nameRoom},
+            data: {"roomName":thisEl.room.roomName},
             type: "GET"
         }).done(function(data) {
             if(data!=null) {
