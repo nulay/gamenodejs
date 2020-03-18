@@ -53,6 +53,7 @@ class GameSettings{
        monopolyGame.setImageCenter("center.jpg");
        monopolyGame.credit=10000;
        monopolyGame.penalty_cheating=10000;
+       monopolyGame.startGame();
        return monopolyGame;
     }
 }
