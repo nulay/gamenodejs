@@ -1,6 +1,6 @@
 var UserMonopoly = require("./usermonopoly");
 var GameRoom = require("./../../model/gameroom");
-var ActionUser = require("./../../model/actionuser");
+var ActionUser = require("./actionuser");
 
 class MonopolyGame{
 // implements GameMonopoly{
