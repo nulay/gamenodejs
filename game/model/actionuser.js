@@ -8,12 +8,12 @@ class ActionUser {
 
     static createInstance(monopolyGame, user, action, infoAction){
         var au=new ActionUser(user,action,infoAction);
-        this.populateUserByActions(au,monopolyGame.listUser);
-        this.populateUserByActions(au,monopolyGame.listViewUser); 
+        ActionUser.populateUserByActions(au,monopolyGame.listUser);
+        ActionUser.populateUserByActions(au,monopolyGame.listViewUser); 
             
     }
 
-    populateUserByActions(au, listUser){
+    static populateUserByActions(au, listUser){
         for(var i=0;i<listUser.length;i++){
             um = this.monopolyGame.listUser[i];
             um.addActionUser(au);
