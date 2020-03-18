@@ -816,7 +816,7 @@ class MonopolyGame{
     //филиалы каких фирм может купить пользователь user.
     //private Set<Integer> canBuyFilial(UserMonopoly user){
     canBuyFilial( user){
-        lC=[];
+        var lC=[];
         for(const cardList of this.getAllMonopoly(this.curentUser).values()){
             var maxM=0;
             var minM=cardList[0].getCountFilial();
