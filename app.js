@@ -251,10 +251,10 @@ app.route('/roominfo')
 
 //===========Game==========
 
-function getRoom(nameRoom){   
+function getRoom(roomName){   
    for(var i=0; i<global.rooms.length;i++){
          // console.log('games/monopoly/gameinfo: '+ JSON.stringify(global.rooms[i]));
-          if( global.rooms[i] !=null && global.rooms[i].nameRoom == nameRoom){
+          if( global.rooms[i] !=null && global.rooms[i].nameRoom == roomName){
             return global.rooms[i];
           }
         }
@@ -263,9 +263,9 @@ function getRoom(nameRoom){
 
 
 // route for game
-app.route('/game/:nameroom')
+app.route('/game/:roomname')
     .get(sessionCheckerFalse, (req, res) => {
-        req.session.curentGameName=req.params.nameroom;
+        req.session.curentGameName=req.params.roomname;
         console.log('game/noroom: '+req.session.curentGameName);
         res.sendFile(__dirname + '/game/public/game.html');
     });
@@ -285,9 +285,9 @@ app.route('/games/monopoly/gameinfo')
 // listCardObj
 app.route('/games/monopoly/getCards')
     .get(sessionCheckerFalse, (req, res) => {
-        var nameRoom = req.query.nameRoom;
-        console.log('games/monopoly/getCards: '+nameRoom);
-        var curentRoom = getRoom(nameRoom);
+        var roomName = req.query.roomName;
+        console.log('games/monopoly/getCards: '+roomName);
+        var curentRoom = getRoom(roomName);
         if (curentRoom!=null){
            res.json(curentRoom.game.listCard);
         }else {
