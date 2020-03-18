@@ -132,10 +132,10 @@ class MonopolyGame{
     //public void startGame(){
     startGameF(){
         this.startGame=true;      
-        this.curentUser=getListUser()[Util.getRandom(0, getMaxCountUser()-1)];
+        this.curentUser=this.getListUser()[Util.getRandom(0, getMaxCountUser()-1)];
         nextGamer();
-        for(var i= 0 ;i<getListUser().length; i++) {
-            var user = getListUser()[i];
+        for(var i= 0 ;i<this.getListUser().length; i++) {
+            var user = this.getListUser()[i];
             user.setMoney(getStartMoney());
             ActionUser.createInstance(this, user, "START_GAME", "Hello in GameRoom");
         }
