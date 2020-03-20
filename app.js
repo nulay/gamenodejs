@@ -330,13 +330,15 @@ app.route('/games/monopoly/loadgamedata')
     });
 
 // main send action process indFirm,  post:message,datas = {'indFirmUserChanger': this.listSelectFirm,'indFirm':this.listSelectFirm2,'moneyUserChanger':money1,'money':money2, 'userName':this.changePanel.userSelect.val()};
-app.route('/games/monopoly/actions/:actions')
+app.route('/games/monopoly/actions/:actions/:roomName')
     .get(sessionCheckerFalse, (req, res) => {
         JSON.stringify('/games/monopoly/actions: '+req.params.actions);
         var roomName = req.query.roomName;        
         var curentRoom = getRoom(roomName);
-        if(req.params.actions == "throw_cube"){
-            
+        if(req.session.user.name==curentRoom.game.getCurentUser().getName()){
+           if(req.params.actions == "throw_cube"){
+               curentRoom.game.throwCube()
+           }
         }
     }).post(sessionCheckerFalse, (req, res) => {
         JSON.stringify('/games/monopoly/actions: '+req.query);
