@@ -40,6 +40,7 @@ class MonopolyGame{
     //возможный кредит
     //private int credit;
     credit;
+    maxCountUser;
 
     //public MonopolyGame(List<Card> listCard) {
    
@@ -147,13 +148,15 @@ class MonopolyGame{
     //public void startGame(){
     startGameF(){
         this.startGame=true;      
-        this.curentUser=this.getListUser()[Util.getRandom(0, this.getListUser().length-1)];
+        this.maxCountUser=this.getListUser().length-1
+        this.curentUser=this.getListUser()[Util.getRandom(0, this.maxCountUser)];
         this.nextGamer();
         for(var i= 0 ;i<this.getListUser().length; i++) {
             var user = this.getListUser()[i];
             user.setMoney(this.getStartMoney());
             ActionUser.createInstance(this, user, "START_GAME", "Hello in GameRoom");
         }
+        
     }
 
     //@Override
