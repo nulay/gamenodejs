@@ -297,13 +297,13 @@ app.route('/games/monopoly/getCards')
     });
 
 
-
-
 // users who is gamer
 app.route('/games/monopoly/getStartGamers')
     .get(sessionCheckerFalse, (req, res) => {
         
     });
+
+
 
 // main click process data.listAction[],
 app.route('/games/monopoly/loadgamedata')
@@ -314,7 +314,13 @@ app.route('/games/monopoly/loadgamedata')
 
 
         if (curentRoom!=null){
-            var dataForGame=new DataForGame(getGameManager().getUser(), getGameManager().getUser().getAvailableAction(), getUserMonopoly().getAndClearActionsAllUser(),getGame().getAuction());
+            //1 user session from game,
+            //2 его события, 
+            //3 события и очистка всех событий, 
+            //4 аукцион из игры, 
+            //allusersfromgame
+            var userFromGame=curentRoom.game.getUserByName(req.session.user.name);
+            var dataForGame=new DataForGame(userFromGame, userFromGame.getAvailableAction(), userFromGame.getAndClearActionsAllUser(), curentRoom.game.getAuction(), curentRoom.game.getListUser());
             
            res.json(dataForGame);
         }else {
