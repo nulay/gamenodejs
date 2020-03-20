@@ -15,7 +15,7 @@ class ActionUser {
 
     static populateUserByActions(au, listUser){
         for(var i=0;i<listUser.length;i++){
-            um = this.monopolyGame.listUser[i];
+            um = listUser[i];
             um.addActionUser(au);
         }
     }
