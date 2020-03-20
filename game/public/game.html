@@ -448,6 +448,7 @@ var gameMonopoly={
         $.ajax({
             url: "/games/monopoly/loadgamedata",
             dataType : "json",
+            data: {"roomName":thisEl.room.roomName},
             type: "GET"
         }).done(function(data) {
             if(data!=null) {
@@ -692,7 +693,7 @@ var gameMonopoly={
     },
     usersstart:function(data){
        var thisEl=this;
-       console.log(JSON.stringify(data));
+       console.log("usersstart:"+JSON.stringify(data));
        if(data!=null) {
                 thisEl.synhroGame(data);
                 if(thisEl.gamers.length==thisEl.room.maxCountUser){
