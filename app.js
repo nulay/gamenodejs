@@ -333,7 +333,11 @@ app.route('/games/monopoly/loadgamedata')
 app.route('/games/monopoly/actions/:actions')
     .get(sessionCheckerFalse, (req, res) => {
         JSON.stringify('/games/monopoly/actions: '+req.params.actions);
-        
+        var roomName = req.query.roomName;        
+        var curentRoom = getRoom(roomName);
+        if(req.params.actions == "throw_cube"){
+            
+        }
     }).post(sessionCheckerFalse, (req, res) => {
         JSON.stringify('/games/monopoly/actions: '+req.query);
     });
