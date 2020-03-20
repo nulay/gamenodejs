@@ -472,10 +472,10 @@ var gameMonopoly={
                     }
                     thisEl.showButton(data);
                     for(var i=0;i<data.listAction.length;i++) {
-                        var gamerA = thisEl.getUserByName(data.listAction[i].user.name);
-                        // thisEl.loginfo(data.listAction[i].infoAction+" "+data.listAction[i].user.name);
+                        var gamerA = thisEl.getUserByName(data.listAction[i].user);
+                        // thisEl.loginfo(data.listAction[i].infoAction+" "+data.listAction[i].user);
                         if (gamerA != null) {
-                            gamerA.user = data.listAction[i].user;
+                            gamerA.user = thisEl.getUserByNameL(data.listAction[i].user, data.listUser);
                             gamerA.updateVid();
                             thisEl.loginfo(gamerA.user.name + ' - ' + data.listAction[i].action+'('+data.listAction[i].infoAction+')');
                             if (data.listAction[i].action == "THROW_CUBE") {
@@ -626,6 +626,14 @@ var gameMonopoly={
                 return this.gamers[y];
             }
         }
+    },
+    getUserByNameL:function(name, listUser){
+        for(var y=0;y<listUser.length;y++){
+            if(this.listUser[y].name==name){
+                return listUser[y];
+            }
+        }
+        return null;
     },
     showHidebut:function(pos,but){
         if(pos){
