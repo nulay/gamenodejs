@@ -54,6 +54,20 @@ class MonopolyGame{
     }
 
 
+    getUserByName(nameUser){
+       for(const user of this.listUsers){
+          if(user.getName()==nameUser){
+              return user;
+          }
+       }
+       for(const user of this.listViewUser){
+          if(user.getName()==nameUser){
+              return user;
+          }
+       }
+       return null;
+    }
+
     //public int getStartMoney() {
     getStartMoney() {
         return this.startMoney;
@@ -175,11 +189,11 @@ class MonopolyGame{
         this.firmFilialSell(this.curentUser);
         this.curentUser.setActivGamer(true);
         if(this.curentUser.getPrison()!=0){
-            ActionUser.createInstance(this, this.curentUser, "CHANGE_USER", this.curentUser);
+            ActionUser.createInstance(this, this.curentUser, "CHANGE_USER", this.curentUser.getName());
             return;
         }
         this.canBuyFilial();
-        ActionUser.createInstance(this, this.curentUser, "CHANGE_USER", this.curentUser);
+        ActionUser.createInstance(this, this.curentUser, "CHANGE_USER", this.curentUser.getName());
     }
 
     //private boolean isWinSomebody() {
@@ -187,7 +201,7 @@ class MonopolyGame{
         //победа
         if(this.getListUser().length==1){
             this.curentUser=this.getListUser()[0];
-            ActionUser.createInstance(this, this.curentUser, "WIN", this.curentUser);
+            ActionUser.createInstance(this, this.curentUser, "WIN", this.curentUser.getName());
             this.curentUser.setActivGamer(true);
             this.curentUser.setWin(true);
             //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
@@ -269,7 +283,7 @@ class MonopolyGame{
         if(cP!=null) {
             user.setPenalty(cP.getPenalty());
             user.setIndexPosition(this.listCard.indexOf(cP));
-            ActionUser.createInstance(this, user, "GO_PRISON", user);
+            ActionUser.createInstance(this, user, "GO_PRISON", user.getName());
         }
     }
 
@@ -331,12 +345,12 @@ class MonopolyGame{
                     //CardFirm 
                     var card=c;
                     card.getUserOwner().setMoney(card.getUserOwner().getMoney()-this.curentUser.getPenalty());
-                    ActionUser.createInstance(this, this.curentUser, "RECEIVE_INCOME", card.getUserOwner());
+                    ActionUser.createInstance(this, this.curentUser, "RECEIVE_INCOME", card.getUserOwner().getName());
                 }
                 Util.clear(this.curentUser.getAvailableAction());
                 //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
                 this.curentUser.setMoney(this.curentUser.getMoney()-Math.abs(this.curentUser.getPenalty()));
-                ActionUser.createInstance(this, this.curentUser, "PAY_PENALTY", this.curentUser);
+                ActionUser.createInstance(this, this.curentUser, "PAY_PENALTY", this.curentUser.getName());
                 this.curentUser.setPenalty(0);
                 //если был в тюрьме выходит из тюрьмы
                 this.curentUser.setPrison(0);
@@ -686,7 +700,7 @@ class MonopolyGame{
             //todo сделать проверки на принадлежность фирм и необходимой суммы денег
             objectOffers=new ChangeFirm(indFirm, indFirm2, money, money2, this.curentUser,umA);
             this.curentUser=umA;
-            ActionUser.createInstance(this,this.curentUser, "CHANGE_USER", this.curentUser);
+            ActionUser.createInstance(this,this.curentUser, "CHANGE_USER", this.curentUser.getName());
             this.curentUser.setActivGamer(true);
             ActionUser.createInstance(this,this.curentUser, "EXCHANGE_OFFERS", objectOffers);
         }
@@ -723,7 +737,7 @@ class MonopolyGame{
             }
             this.curentUser.setActivGamer(false);
             this.curentUser=usCH;
-            ActionUser.createInstance(this,this.curentUser, "CHANGE_USER", this.curentUser);
+            ActionUser.createInstance(this,this.curentUser, "CHANGE_USER", this.curentUser.getName());
             this.curentUser.setActivGamer(true);
             if(this.curentUser.isThrowCubs()) {
                 //Card 
