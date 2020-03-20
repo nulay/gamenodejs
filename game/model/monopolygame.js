@@ -8,6 +8,7 @@ class MonopolyGame{
     //private Room room;
     roomName;
     listUsers=[];
+    listViewUser=[];
     //Время начала игры
     //private Long timeStartGame;
     timeStartGame;
