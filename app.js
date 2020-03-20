@@ -309,7 +309,7 @@ app.route('/games/monopoly/getStartGamers')
 app.route('/games/monopoly/loadgamedata')
     .get(sessionCheckerFalse, (req, res) => {
         var roomName = req.query.roomName;
-        console.log('games/monopoly/getCards: '+roomName);
+        
         var curentRoom = getRoom(roomName);
 
 
@@ -320,7 +320,8 @@ app.route('/games/monopoly/loadgamedata')
             //4 аукцион из игры, 
             //allusersfromgame
             var userFromGame=curentRoom.game.getUserByName(req.session.user.name);
-            var dataForGame=new DataForGame(userFromGame, userFromGame.getAvailableAction(), userFromGame.getAndClearActionsAllUser(), curentRoom.game.getAuction(), curentRoom.game.getListUser());
+           console.log('loadgamedata: '+userFromGame);
+          var dataForGame=new DataForGame(userFromGame, userFromGame.getAvailableAction(), userFromGame.getAndClearActionsAllUser(), curentRoom.game.getAuction(), curentRoom.game.getListUser());
             
            res.json(dataForGame);
         }else {
