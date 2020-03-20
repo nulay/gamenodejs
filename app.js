@@ -10,6 +10,7 @@ var GameRoom = require("./model/gameroom");
 var RoomUser = require("./model/roomuser");
 var MonopolyGame = require("./game/model/monopolygame");
 var GameSettings = require("./game/model/gamesettings");
+var DataForGame = require("./game/model/dataforgame");
 
 var mime = {
     html: 'text/html',
@@ -307,7 +308,18 @@ app.route('/games/monopoly/getStartGamers')
 // main click process data.listAction[],
 app.route('/games/monopoly/loadgamedata')
     .get(sessionCheckerFalse, (req, res) => {
-        
+        var roomName = req.query.roomName;
+        console.log('games/monopoly/getCards: '+roomName);
+        var curentRoom = getRoom(roomName);
+
+
+        if (curentRoom!=null){
+            var dataForGame=new DataForGame(getGameManager().getUser(), getGameManager().getUser().getAvailableAction(), getUserMonopoly().getAndClearActionsAllUser(),getGame().getAuction());
+            
+           res.json(dataForGame);
+        }else {
+           return res.json(curentRoom);
+        }
     });
 
 // main send action process indFirm,  post:message,datas = {'indFirmUserChanger': this.listSelectFirm,'indFirm':this.listSelectFirm2,'moneyUserChanger':money1,'money':money2, 'userName':this.changePanel.userSelect.val()};
