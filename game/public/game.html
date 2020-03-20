@@ -692,6 +692,7 @@ var gameMonopoly={
     },
     usersstart:function(data){
        var thisEl=this;
+       console.log(JSON.stringify(data));
        if(data!=null) {
                 thisEl.synhroGame(data);
                 if(thisEl.gamers.length==thisEl.room.maxCountUser){
