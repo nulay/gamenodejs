@@ -4,12 +4,12 @@ class DataForGame {
    // private Set availAction;
    // private Auction auction;
 
-    constructor(userRoom, availAction, listAction, auction, listUser) {
+    constructor(userRoom, availAction, listAction, auction) {
         this.userRoom = userRoom;
         this.listAction = listAction;
         this.availAction=availAction;
         this.auction=auction;
-        this.listUser=listUser;
+        
     }
 }
 
