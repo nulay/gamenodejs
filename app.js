@@ -332,20 +332,20 @@ app.route('/games/monopoly/loadgamedata')
 // main send action process indFirm,  post:message,datas = {'indFirmUserChanger': this.listSelectFirm,'indFirm':this.listSelectFirm2,'moneyUserChanger':money1,'money':money2, 'userName':this.changePanel.userSelect.val()};
 app.route('/games/monopoly/actions/:actions')
     .get(sessionCheckerFalse, (req, res) => {
-      
+        JSON.stringify('/games/monopoly/actions: '+req.params.actions);
         
     }).post(sessionCheckerFalse, (req, res) => {
-        
+        JSON.stringify('/games/monopoly/actions: '+req.query);
     });
 
-app.route('/games/monopoly/actions/getPossibleFirm/{action}')
+app.route('/games/monopoly/actions/getPossibleFirm/:action')
     .get(sessionCheckerFalse, (req, res) => {
-        
+        JSON.stringify('games/monopoly/actions/getPossibleFirm: '+req.params.action);
     });
 
-app.route('/games/monopoly/actions/getPossibleFirmCh/{userName}')
+app.route('/games/monopoly/actions/getPossibleFirmCh/:userName')
     .get(sessionCheckerFalse, (req, res) => {
-        
+        JSON.stringify('games/monopoly/actions/getPossibleFirmCh: '+req.params.userName);
     });
 
 
