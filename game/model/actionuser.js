@@ -21,7 +21,7 @@ class ActionUser {
     }
 
     constructor(user, action, infoAction) {
-        this.user=user;
+        //this.user=user;
         this.action = action;
         this.infoAction = infoAction;
         this.dateAction=new Date();
