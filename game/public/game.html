@@ -1102,7 +1102,7 @@ var gameMonopoly={
         this.hideAllBut();
         this.keyLoad=0;
         $.ajax({
-            url: "/games/monopoly/actions/"+actions.toLowerCase(),
+            url: "/games/monopoly/actions/"+actions.toLowerCase()+"/"+thisEl.room.roomName,
             dataType : datat,
             data:datas,
 //            contentType: "application/json",
