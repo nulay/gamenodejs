@@ -1060,6 +1060,8 @@ var gameMonopoly={
         var typeReq="GET";
         var datat="json";
         this.numError=0;
+
+        console.log('actionsUser');
         jQuery.ajaxSettings.traditional = false;
         if (actions == 'PUT_FIRM' | actions == 'REDEEM_FIRM' | actions == 'BUY_FILIAL' | actions == 'SELL_FILIAL'){
             if (this.listSelectFirm.length == 0) {
@@ -1101,6 +1103,7 @@ var gameMonopoly={
         }
         this.hideAllBut();
         this.keyLoad=0;
+        console.log('actionsUser:'+JSON.stringify(datas));
         $.ajax({
             url: "/games/monopoly/actions/"+actions.toLowerCase()+"/"+thisEl.room.roomName,
             dataType : datat,
