@@ -638,7 +638,7 @@ var gameMonopoly={
     },
     getUserByNameL:function(name, listUser){
         for(var y=0;y<listUser.length;y++){
-            if(this.listUser[y].name==name){
+            if(listUser[y].user.name==name){
                 return listUser[y];
             }
         }
@@ -710,7 +710,7 @@ var gameMonopoly={
     },
     usersstart:function(data){
        var thisEl=this;
-       console.log("usersstart:"+JSON.stringify(data));
+       console.log("usersstart:"+thisEl.gamers.length+'/'thisEl.room.maxCountUser+'/'+JSON.stringify(data));
        if(data!=null) {
                 thisEl.synhroGame(data);
                 if(thisEl.gamers.length==thisEl.room.maxCountUser){
