@@ -730,8 +730,10 @@ var gameMonopoly={
         for(var i=0;i<users.length;i++){
             users[i].name = users[i].user.name;
             var gamer=this.getUserByName(users[i].name);
+            console.log('synhroGame:'+JSON.stringify(gamer));
             if(gamer==null){
                 var num=this.gamers.length;
+                console.log('создаем пользователя');
                 this.gamers[num]=new Gamer(users[i],this,num+1);
                 gamer=this.gamers[num];
             }
