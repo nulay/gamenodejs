@@ -474,7 +474,7 @@ var gameMonopoly={
                     for(var i=0;i<data.listAction.length;i++) {
                         var gamerA = thisEl.getUserByName(data.listAction[i].user);
                         // thisEl.loginfo(data.listAction[i].infoAction+" "+data.listAction[i].user);
-                        console.log("loadgamedata 0:" + JSON.stringify(thisEl.gamers));
+                        console.log("loadgamedata 0:" + thisEl.gamers[0].user.name + '/'+thisEl.gamers[0].user.name);
                         if (gamerA == null) {
                              console.log("loadgamedata :" + data.listAction[i].user);
                              console.log("loadgamedata2 :" + JSON.stringify(data.listUser));
