@@ -45,12 +45,13 @@ class MonopolyGame{
     //public MonopolyGame(List<Card> listCard) {
    
 
-   constructor(listCard, startMoney, circleMoney, roomName, listUsers) {
+   constructor(listCard, startMoney, circleMoney, roomName,maxCountUser,listUsers) {
         this.timeStartGame=new Date().getTime();
         this.listCard = listCard;
         this.roomName = roomName;
         this.listUsers=listUsers 
         this.startMoney = startMoney;
+        this.maxCountUser=maxCountUser;
         this.circleMoney = circleMoney;
     }
 
@@ -147,16 +148,15 @@ class MonopolyGame{
 
     //public void startGame(){
     startGameF(){
-        this.startGame=true;      
-        this.maxCountUser=this.getListUser().length-1
-        this.curentUser=this.getListUser()[Util.getRandom(0, this.maxCountUser)];
-        this.nextGamer();
+        //this.maxCountUser=this.getListUser().length-1               
         for(var i= 0 ;i<this.getListUser().length; i++) {
             var user = this.getListUser()[i];
             user.setMoney(this.getStartMoney());
             ActionUser.createInstance(this, user, "START_GAME", "Hello in GameRoom");
         }
-        
+        this.curentUser=this.getListUser()[Util.getRandom(0, this.maxCountUser)];
+        this.nextGamer();
+        this.startGame=true;
     }
 
     //@Override
