@@ -510,7 +510,7 @@ var gameMonopoly={
                             }
                             if (data.listAction[i].action == "RECEIVE_INCOME") {
                                 var gamer = thisEl.getUserByName(data.listAction[i].infoAction.name);
-                                gamer.user = data.listAction[i].infoAction;
+                                gamer.user = thisEl.getUserByNameL(data.listAction[i].infoAction, data.listUser);
                                 gamer.updateVid();
                             }
                             if (data.listAction[i].action == "PUT_FIRM") {
