@@ -1122,10 +1122,10 @@ var gameMonopoly={
         }
         this.hideAllBut();
         this.keyLoad=0;
-
+        if(datas==null){datas={};}
         datas.action = actions.toLowerCase();
         datas.roomName = thisEl.room.roomName;
-        console.log('actionsUser:'+JSON.stringify(datas));
+        console.log('actionsUser1 : '+JSON.stringify(datas));
         $.ajax({
             url: "/games/monopoly/actions",
             dataType : datat,
