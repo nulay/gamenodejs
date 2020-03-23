@@ -549,8 +549,9 @@ var gameMonopoly={
                                 thisEl.win();
                             }
                             if(data.listAction[i].action=="GO_PRISON"){
-                                var gamer = thisEl.getUserByName(data.listAction[i].infoAction.name);
-                                gamer.user = data.listAction[i].infoAction;
+                                var userH = thisEl.getUserByName(data.listAction[i].infoAction.name);
+                                userH.name = userH.user.name;
+                                gamer.user = userH;
                                 thisEl.startFunctionGoPrison(gamer);
                             }
                             if(data.listAction[i].action=="EXCHANGE_OFFERS"){
