@@ -484,6 +484,7 @@ var gameMonopoly={
                         }
                         if (gamerA != null) {
                             gamerA.user = thisEl.getUserByNameL(data.listAction[i].user, data.listUser);
+                            gamerA.user.name = gamerA.user.user.name;
                             gamerA.updateVid();
                             thisEl.loginfo(gamerA.user.name + ' - ' + data.listAction[i].action+'('+data.listAction[i].infoAction+')');
                             if (data.listAction[i].action == "THROW_CUBE") {
