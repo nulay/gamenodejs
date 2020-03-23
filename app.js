@@ -225,7 +225,7 @@ app.route('/jointoroom')
           
           var roomUser = new RoomUser(user.name);
 
-           if(roomForJoin.addUser(roomUser) == true){        
+           if(roomForJoin.addUser(roomUser)){        
               if (roomForJoin.isStartGame()){   
                  roomForJoin.game = GameSettings.createStandartMonopoly(roomForJoin);            
                  console.log(global.rooms[i]);
