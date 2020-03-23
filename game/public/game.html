@@ -476,7 +476,7 @@ var gameMonopoly={
                     for(var i=0;i<data.listAction.length;i++) {
                         var gamerA = thisEl.getUserByName(data.listAction[i].user);
                         // thisEl.loginfo(data.listAction[i].infoAction+" "+data.listAction[i].user);
-                        console.log("loadgamedata0 : " + thisEl.gamers[0].user.name + '/'+thisEl.gamers[1].user.name);
+                        //console.log("loadgamedata0 : " + thisEl.gamers[0].user.name + "/"+thisEl.gamers[1].user.name);
                         if (gamerA == null) {
                              console.log('ERROR!!!!');
                              console.log("loadgamedata1 : " + data.listAction[i].user);
@@ -710,7 +710,7 @@ var gameMonopoly={
     },
     usersstart:function(data){
        var thisEl=this;
-       console.log("usersstart:"+thisEl.gamers.length+'/'thisEl.room.maxCountUser+'/'+JSON.stringify(data));
+       console.log("usersstart:"+thisEl.gamers.length+"/"+thisEl.room.maxCountUser+"/"+JSON.stringify(data));
        if(data!=null) {
                 thisEl.synhroGame(data);
                 if(thisEl.gamers.length==thisEl.room.maxCountUser){
