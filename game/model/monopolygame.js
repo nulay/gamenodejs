@@ -248,7 +248,7 @@ class MonopolyGame{
     //Бросить кубик
     //public int[] throwCube() {
     throwCube() {
-        if(this.curentUser.getAvailableAction().contains("THROW_CUBE")){
+        if(this.curentUser.getAvailableAction().includes("THROW_CUBE")){
             //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
             Util.clear(this.curentUser.getAvailableAction());
             var toValue=[Util.getRandom(1,6), Util.getRandom(1,6)];
@@ -309,7 +309,7 @@ class MonopolyGame{
     //@Override
     //public void buyFirm(){
     buyFirm(){
-        if(this.curentUser.getAvailableAction().contains("BUY_FIRM")){
+        if(this.curentUser.getAvailableAction().includes("BUY_FIRM")){
             if(this.listCard.get(this.curentUser.getIndexPosition()).getType() == "CARD_FIRM") {
                 //CardFirm
                 var cardF = this.listCard.get(this.curentUser.getIndexPosition());
@@ -341,7 +341,7 @@ class MonopolyGame{
     //@Override
     //public void payPenalty() {
     payPenalty() {
-        if(this.curentUser.getAvailableAction().contains("PAY_PENALTY")){
+        if(this.curentUser.getAvailableAction().includes("PAY_PENALTY")){
             if(this.curentUser.getPenalty()!=0 && this.curentUser.getMoney()+this.curentUser.getPenalty()>=0){
                 var c=this.getListCard()[this.curentUser.getIndexPosition()];
                 if(c.getType() == "CARD_FIRM"){
@@ -370,7 +370,7 @@ class MonopolyGame{
     //@Override
     //public void startAuction() {
     startAuction() {
-        if(this.curentUser.getAvailableAction().contains("AUCTION_START")) {
+        if(this.curentUser.getAvailableAction().includes("AUCTION_START")) {
             Util.clear(this.curentUser.getAvailableAction());
             //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
             auction = new Auction(this);
@@ -390,7 +390,7 @@ class MonopolyGame{
     //@Override
     //public void putFirm(int[] indFirm) {
     putFirm(indFirm) {
-        if(this.curentUser.getAvailableAction().contains("PUT_FIRM")) {
+        if(this.curentUser.getAvailableAction().includes("PUT_FIRM")) {
             for(var i=0; i < indFirm.length; i++) {
                 try {
                     //CardFirm
@@ -421,7 +421,7 @@ class MonopolyGame{
     //@Override
     //public void redeemFirm(int[] indFirm) {
     redeemFirm(indFirm) {
-        if(this.curentUser.getAvailableAction().contains("REDEEM_FIRM")) {
+        if(this.curentUser.getAvailableAction().includes("REDEEM_FIRM")) {
            // List<CardFirm> 
             lCF=[];
             var price=0;
@@ -457,7 +457,7 @@ class MonopolyGame{
     //@Override
     //public void buyFilial(int[] indFirm) {
     buyFilial(indFirm) {
-        if(this.curentUser.getAvailableAction().contains("BUY_FILIAL")){
+        if(this.curentUser.getAvailableAction().includes("BUY_FILIAL")){
             try {
                 //Set<Integer> 
                 var lICBF= this.canBuyFilial(this.curentUser);
@@ -513,7 +513,7 @@ class MonopolyGame{
     //@Override
     //public void sellFilial(Set<Integer> indFirm) {
     sellFilial(indFirm) {
-        if(this.curentUser.getAvailableAction().contains("SELL_FILIAL")){
+        if(this.curentUser.getAvailableAction().includes("SELL_FILIAL")){
             //Set<Integer> 
             lICBF=canSellFilial(this.curentUser);
             for(const indF of indFirm) {
@@ -606,7 +606,7 @@ class MonopolyGame{
     //public Collection<Integer> getPossibleFirm(String type) {
     getPossibleFirm(type) {
         var lC=[];
-        if((type == "PUT_FIRM" && this.curentUser.getAvailableAction().contains("PUT_FIRM")) || (type == "CHANGE_FIRM" && this.curentUser.getAvailableAction().contains("CHANGE_FIRM"))) {
+        if((type == "PUT_FIRM" && this.curentUser.getAvailableAction().includes("PUT_FIRM")) || (type == "CHANGE_FIRM" && this.curentUser.getAvailableAction().includes("CHANGE_FIRM"))) {
             for(const card of listCard){
                 if(card.getType() == "CARD_FIRM"){
                     var cf = card;
@@ -616,7 +616,7 @@ class MonopolyGame{
                 }
             }
         }
-        if(type =="REDEEM_FIRM" && this.curentUser.getAvailableAction().contains("REDEEM_FIRM")) {
+        if(type =="REDEEM_FIRM" && this.curentUser.getAvailableAction().includes("REDEEM_FIRM")) {
             for(const card of listCard){
                 if(card.getType() == "CARD_FIRM"){
                     //CardFirm 
@@ -627,11 +627,11 @@ class MonopolyGame{
                 }
             }
         }
-        if(type =="BUY_FILIAL" && this.curentUser.getAvailableAction().contains("BUY_FILIAL")) {
+        if(type =="BUY_FILIAL" && this.curentUser.getAvailableAction().includes("BUY_FILIAL")) {
             Util.addUnicAll(lC, this.canBuyFilial(this.curentUser));
             //lC.addAll(canBuyFilial(this.curentUser));
         }
-        if(type == "SELL_FILIAL" && this.curentUser.getAvailableAction().contains("SELL_FILIAL")) {
+        if(type == "SELL_FILIAL" && this.curentUser.getAvailableAction().includes("SELL_FILIAL")) {
             //lC.addAll(canSellFilial(this.curentUser));
             Util.addUnicAll(lC, this.canSellFilial(this.curentUser));
         }
@@ -689,7 +689,7 @@ class MonopolyGame{
     //@Override
     //public void changeFirm(Set<Integer> indFirm, Set<Integer> indFirm2, int money, int money2, String userName) {
     changeFirm(indFirm, indFirm2, money, money2, userName) {
-        if(this.curentUser.getAvailableAction().contains("CHANGE_FIRM")){
+        if(this.curentUser.getAvailableAction().includes("CHANGE_FIRM")){
             //UserMonopoly 
             var umA=this.getUserByName(userName);
             if(umA==null){
@@ -716,7 +716,7 @@ class MonopolyGame{
 
     //public void changeFirm(ActionMonopolyE type){
     changeFirm(type){
-        if(this.curentUser.getAvailableAction().contains("EXCHANGE_OFFERS")){
+        if(this.curentUser.getAvailableAction().includes("EXCHANGE_OFFERS")){
             Util.clear(this.curentUser.getAvailableAction());
             //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
             //UserMonopoly 
