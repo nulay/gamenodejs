@@ -186,10 +186,16 @@
                         for (var i = 0; i < data.length; i++) {
                         	var elD = $('<div><input type="hidden" value="' + data[i].nameRoom + '"><span>' + data[i].typeRoom + ' ' + (parseInt(data[i].nameRoom) + 1) + ' (' + data[i].roomUsers.length + '/' + data[i].maxCountUser + ') ' + '</span></div>');
                         	if(data[i].roomUsers !== null && thisEl.isUserInList(data[i].roomUsers)){
+                                   if(data[i].maxCountUser>data[i].roomUsers.length){
+                                         var waiterEl = $('<div>Ожидаем игроков...</div>');
+                            
+                                          elD.append(buttonD);
+                                    }else{
                                    var buttonD = $('<a href="/game/'+data[i].nameRoom+'">Перейти в игру</a>');
                             
                                    elD.append(buttonD);
-                         	}else{
+                         	      }
+                                  }else{
                                   var buttonD = $('<button value="Присоединиться">Присоединиться</button>');
                             
                                   elD.append(buttonD);
