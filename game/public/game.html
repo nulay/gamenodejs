@@ -1123,8 +1123,10 @@ var gameMonopoly={
         this.hideAllBut();
         this.keyLoad=0;
         console.log('actionsUser:'+JSON.stringify(datas));
+        datas.action = actions.toLowerCase();
+        datas.roomName = thisEl.room.roomName;
         $.ajax({
-            url: "/games/monopoly/actions/"+actions.toLowerCase()+"/"+thisEl.room.roomName,
+            url: "/games/monopoly/actions",
             dataType : datat,
             data:datas,
 //            contentType: "application/json",
