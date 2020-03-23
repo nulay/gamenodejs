@@ -495,8 +495,10 @@ var gameMonopoly={
                             }
                             var card=null;
                             if (data.listAction[i].action == "CHANGE_USER") {
-                                var gamer = thisEl.getUserByName(data.listAction[i].infoAction.name);
-                                gamer.user = data.listAction[i].infoAction;
+                                var gamer = thisEl.getUserByName(data.listAction[i].infoAction);
+                                var userH = thisEl.getUserByName(data.listAction[i].infoAction);
+                                userH.name = userH.user.name;
+                                gamer.user = userH;
                                 gamer.updateVid();
                             }
                             if (data.listAction[i].action == "BUY_FIRM") {
@@ -509,8 +511,10 @@ var gameMonopoly={
                                 this.loginfo('У вас не достаточно денег. Нужно '+data.listAction[i].infoAction);
                             }
                             if (data.listAction[i].action == "RECEIVE_INCOME") {
-                                var gamer = thisEl.getUserByName(data.listAction[i].infoAction.name);
-                                gamer.user = thisEl.getUserByNameL(data.listAction[i].infoAction, data.listUser);
+                                var gamer = thisEl.getUserByName(data.listAction[i].infoAction);
+                                var userH = thisEl.getUserByName(data.listAction[i].infoAction);
+                                userH.name = userH.user.name;
+                                gamer.user = userH;
                                 gamer.updateVid();
                             }
                             if (data.listAction[i].action == "PUT_FIRM") {
@@ -549,7 +553,8 @@ var gameMonopoly={
                                 thisEl.win();
                             }
                             if(data.listAction[i].action=="GO_PRISON"){
-                                var userH = thisEl.getUserByName(data.listAction[i].infoAction.name);
+                                var gamer = thisEl.getUserByName(data.listAction[i].infoAction);                                
+                                var userH = thisEl.getUserByName(data.listAction[i].infoAction);
                                 userH.name = userH.user.name;
                                 gamer.user = userH;
                                 thisEl.startFunctionGoPrison(gamer);
