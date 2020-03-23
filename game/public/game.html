@@ -476,10 +476,11 @@ var gameMonopoly={
                     for(var i=0;i<data.listAction.length;i++) {
                         var gamerA = thisEl.getUserByName(data.listAction[i].user);
                         // thisEl.loginfo(data.listAction[i].infoAction+" "+data.listAction[i].user);
-                        console.log("loadgamedata 0:" + thisEl.gamers[0].user.name + '/'+thisEl.gamers[0].user.name);
+                        console.log("loadgamedata0 : " + thisEl.gamers[0].user.name + '/'+thisEl.gamers[1].user.name);
                         if (gamerA == null) {
-                             console.log("loadgamedata :" + data.listAction[i].user);
-                             console.log("loadgamedata2 :" + JSON.stringify(data.listUser));
+                             console.log('ERROR!!!!');
+                             console.log("loadgamedata1 : " + data.listAction[i].user);
+                             console.log("loadgamedata2 : " + JSON.stringify(data.listUser));
                         }
                         if (gamerA != null) {
                             gamerA.user = thisEl.getUserByNameL(data.listAction[i].user, data.listUser);
@@ -719,7 +720,8 @@ var gameMonopoly={
     },
     synhroGame:function(users){
         for(var i=0;i<users.length;i++){
-            var gamer=this.getUserByName(users[i].user.name);
+            users[i].name = users[i].user.name;
+            var gamer=this.getUserByName(users[i].name);
             if(gamer==null){
                 var num=this.gamers.length;
                 this.gamers[num]=new Gamer(users[i],this,num+1);
