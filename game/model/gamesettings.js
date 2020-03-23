@@ -48,13 +48,14 @@ class GameSettings{
            var mUser = new UserMonopoly(oldUser, 5, startMoney);          
            listUsers[listUsers.length]=mUser;
         }
-       var monopolyGame=new MonopolyGame(listCard, startMoney, moneyForCircle, roomForJoin.nameRoom, listUsers);
+       var monopolyGame=new MonopolyGame(listCard, startMoney, moneyForCircle, roomForJoin.nameRoom, roomForJoin.maxCountUser listUsers);
        monopolyGame.setImageFolder("images/monopoly");
        monopolyGame.setImageCenter("center.jpg");
        monopolyGame.credit=10000;
        monopolyGame.penalty_cheating=10000;
-       console.log(monopolyGame.startGameF);
+       
        monopolyGame.startGameF();
+       console.log(monopolyGame);
        return monopolyGame;
     }
 }
