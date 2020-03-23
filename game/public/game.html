@@ -719,7 +719,7 @@ var gameMonopoly={
     },
     synhroGame:function(users){
         for(var i=0;i<users.length;i++){
-            var gamer=this.getUserByName(users[i].name);
+            var gamer=this.getUserByName(users[i].user.name);
             if(gamer==null){
                 var num=this.gamers.length;
                 this.gamers[num]=new Gamer(users[i],this,num+1);
