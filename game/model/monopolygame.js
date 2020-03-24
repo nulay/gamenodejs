@@ -252,7 +252,7 @@ class MonopolyGame{
             //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
             Util.clear(this.curentUser.getAvailableAction());
             var toValue=[Util.getRandom(1,6), Util.getRandom(1,6)];
-            console.log(this.curentUser);
+            console.log('throwc'+this.curentUser);
             this.curentUser.throwDouble(toValue[0]==toValue[1]);
             
             ActionUser.createInstance(this,curentUser, "THROW_CUBE", toValue);
