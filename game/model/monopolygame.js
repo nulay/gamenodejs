@@ -254,7 +254,7 @@ class MonopolyGame{
             var toValue=[Util.getRandom(1,6), Util.getRandom(1,6)];
             this.curentUser.isthrowDoubleF(toValue[0]==toValue[1]);
             
-            ActionUser.createInstance(this,curentUser, "THROW_CUBE", toValue);
+            ActionUser.createInstance(this, this.curentUser, "THROW_CUBE", toValue);
             if(this.curentUser.getPrison()>0){
                 if(this.curentUser.getCountThrowDouble()==1){
                     //выходит из тюрьмы
@@ -439,7 +439,7 @@ class MonopolyGame{
             if(this.curentUser.getMoney()>price){
                 for(const cF of lCF) {
                     if (cF.redeemFirm(this, this.curentUser)) {
-                        ActionUser.createInstance(this, tjis.curentUser, "REDEEM_FIRM", cF);
+                        ActionUser.createInstance(this, this.curentUser, "REDEEM_FIRM", cF);
                         Util.removeElementFromArray(this.curentUser.getAvailableAction(),"REDEEM_FIRM");
                         //this.curentUser.getAvailableAction().remove("REDEEM_FIRM");
                         this.firmFilialSell(this.curentUser);
