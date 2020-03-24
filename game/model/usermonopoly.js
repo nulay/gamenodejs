@@ -183,7 +183,7 @@ class UserMonopoly extends DefaultUserRoom {
 
     //@Override
     //public void throwDouble(boolean yes) {
-    throwDouble(yes){
+    isthrowDoubleF(yes){
         if(yes) {
             this.throwDouble += 1;
         }else {
