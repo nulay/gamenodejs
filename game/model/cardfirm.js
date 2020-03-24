@@ -131,7 +131,7 @@ class CardFirm extends CardDefault {
     transferCardForUser(gameMonopoly, userMonopoly) {
         
         //если фирма ничья то ее можно купить или выставить на аукцион
-        if (getUserOwner() == null) {
+        if (this.getUserOwner() == null) {
             if (userMonopoly.getMoney() >= this.getPrice()) {
                 Util.addUnicAll(userMonopoly.getAvailableAction(),[BUY_FIRM]);
                 //userMonopoly.getAvailableAction().add(BUY_FIRM);
@@ -139,9 +139,9 @@ class CardFirm extends CardDefault {
             //userMonopoly.getAvailableAction().add(AUCTION_START);
             Util.addUnicAll(userMonopoly.getAvailableAction(),[AUCTION_START]);
         } else {
-            if (userMonopoly != getUserOwner() && !isPut() ) {
-                userMonopoly.setPenalty(0 - getPenalty());
-                if(userMonopoly.getMoney()>getPenalty()) {
+            if (userMonopoly != this.getUserOwner() && !this.isPut() ) {
+                userMonopoly.setPenalty(0 - this.getPenalty());
+                if(userMonopoly.getMoney()>this.getPenalty()) {
                     //userMonopoly.getAvailableAction().add(PAY_PENALTY);
                     Util.addUnicAll(userMonopoly.getAvailableAction(),[PAY_PENALTY]);
                 }
@@ -161,9 +161,9 @@ class CardFirm extends CardDefault {
     //купить филиал
     //public void buyFilial(MonopolyGame monopolyGame,UserMonopoly user){
     buyFilial( monopolyGame, user){
-        if(getFilialStay()< getCountFilial() && user.getMoney()>=getFilialPrice()) {
-            user.setMoney(user.getMoney() - getFilialPrice());
-            setFilialStay(getFilialStay()+1);
+        if(this.getFilialStay()< this.getCountFilial() && user.getMoney()>=this.getFilialPrice()) {
+            user.setMoney(user.getMoney() - this.getFilialPrice());
+            this.setFilialStay(this.getFilialStay()+1);
             ActionUser.createInstance(monopolyGame, user, BUY_FILIAL, this);
         }else{
             // штраф
@@ -173,9 +173,9 @@ class CardFirm extends CardDefault {
 
     //public void sellFilial(MonopolyGame monopolyGame,UserMonopoly user){
     sellFilial(monopolyGame, user){
-        if(getUserOwner()!=null && user==getUserOwner() && getFilialStay()>0) {
-            user.setMoney(user.getMoney() + getFilialPrice());
-            setFilialStay(getFilialStay()-1);
+        if(this.getUserOwner()!=null && user==this.getUserOwner() && this.getFilialStay()>0) {
+            user.setMoney(user.getMoney() + this.getFilialPrice());
+            this.setFilialStay(this.getFilialStay()-1);
         }else{
             //штраф
             monopolyGame.penaltyCheating(user);
@@ -186,20 +186,20 @@ class CardFirm extends CardDefault {
     //public void returnInBank(GameMonopoly gameMonopoly) {
     returnInBank(gameMonopoly) {
         //фирму в банк деньги пользователю
-        userOwner.setMoney(userOwner.getMoney()+getFilialStay()*getFilialPrice()+getPrice());
-        setUserOwner(null);
+        userOwner.setMoney(userOwner.getMoney()+this.getFilialStay()*this.getFilialPrice()+this.getPrice());
+        this.setUserOwner(null);
     }
 
    // public int getPenalty() {
     getPenalty() {
-        return Math.round(getPrice()/5+(getPrice()*(filialStay*filialStay))/10);
+        return Math.round(this.getPrice()/5+(this.getPrice()*(this.filialStay*this.filialStay))/10);
     }
 
 
     //public boolean putFirm(MonopolyGame monopolyGame, UserMonopoly curentUser) {
     putFirm(monopolyGame, curentUser) {
-        if(getUserOwner()==curentUser & getFilialStay()==0){
-            curentUser.setMoney(curentUser.getMoney()+Math.round(getPrice()/2));
+        if(this.getUserOwner()==curentUser & this.getFilialStay()==0){
+            curentUser.setMoney(curentUser.getMoney()+Math.round(this.getPrice()/2));
             this.put=true;
             return true;
         }else{
@@ -211,8 +211,8 @@ class CardFirm extends CardDefault {
 
     //public boolean redeemFirm(MonopolyGame monopolyGame, UserMonopoly curentUser) {
     redeemFirm(monopolyGame, curentUser) {
-       if(getUserOwner()==curentUser && isPut() && curentUser.getMoney()>getPrice()){
-            curentUser.setMoney(curentUser.getMoney()-getPrice());
+       if(this.getUserOwner()==curentUser && this.isPut() && curentUser.getMoney()>this.getPrice()){
+            curentUser.setMoney(curentUser.getMoney()-this.getPrice());
             put=false;
             return true;
         }else{
