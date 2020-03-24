@@ -154,9 +154,16 @@ class MonopolyGame{
             user.setMoney(this.getStartMoney());
             ActionUser.createInstance(this, user, "START_GAME", "Hello in GameRoom");
         }
-        this.curentUser=this.getListUser()[Util.getRandom(0, this.maxCountUser)];
+this.ghh();
+        this.curentUser=this.getListUser()[Util.getRandom(0, this.maxCountUser-1)];
         this.nextGamer();
         this.startGame=true;
+    }
+    
+    ghh(){
+      for(var i=0;i<100;i++){
+         console.log(Util.getRandom(0, this.maxCountUser));
+      }
     }
 
     //@Override
