@@ -1,4 +1,5 @@
 var CardDefault = require("./carddefault");
+var Util = require("./util");
 
 class CardFirm extends CardDefault {
     
