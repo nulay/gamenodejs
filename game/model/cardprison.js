@@ -1,5 +1,5 @@
 var CardDefault = require("./carddefault");
-
+var Util = require("./util");
 class CardPrison extends CardDefault {
     //private int penalty;
     penalty;
