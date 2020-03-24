@@ -1018,8 +1018,8 @@ class MonopolyGame{
         var pos=0;
         if(this.curentUser.isGoForward()){
             pos=this.curentUser.getIndexPosition()+countStep;
-            if(pos>=listCard.length){
-                pos=pos-listCard.length;
+            if(pos>=this.listCard.length){
+                pos=pos-this.listCard.length;
                 //выдать деньги за круг
                 this.getMoneybyCircle(this.curentUser);
                 //увеличить кредит на 50%
@@ -1028,7 +1028,7 @@ class MonopolyGame{
         }else{
             pos=this.curentUser.getIndexPosition()-countStep;
             if(pos<0){
-                pos=listCard.length-1+pos;
+                pos=this.listCard.length-1+pos;
             }
             //меняем направление на правильное
             this.curentUser.setGoForward(true);
