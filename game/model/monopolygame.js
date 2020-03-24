@@ -154,18 +154,11 @@ class MonopolyGame{
             user.setMoney(this.getStartMoney());
             ActionUser.createInstance(this, user, "START_GAME", "Hello in GameRoom");
         }
-this.ghh();
-        this.curentUser=this.getListUser()[Util.getRandom(0, this.maxCountUser-1)];
+        this.curentUser=this.getListUser()[Util.getRandom(0, this.maxCountUser)];
         this.nextGamer();
         this.startGame=true;
     }
     
-    ghh(){
-      for(var i=0;i<100;i++){
-         console.log(Util.getRandom(0, this.maxCountUser));
-      }
-    }
-
     //@Override
     //public void nextGamer(){
     nextGamer(){
@@ -259,7 +252,9 @@ this.ghh();
             //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
             Util.clear(this.curentUser.getAvailableAction());
             var toValue=[Util.getRandom(1,6), Util.getRandom(1,6)];
+            console.log(this.curentUser);
             this.curentUser.throwDouble(toValue[0]==toValue[1]);
+            
             ActionUser.createInstance(this,curentUser, "THROW_CUBE", toValue);
             if(this.curentUser.getPrison()>0){
                 if(this.curentUser.getCountThrowDouble()==1){
