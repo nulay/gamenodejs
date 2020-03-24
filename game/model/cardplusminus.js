@@ -1,4 +1,5 @@
 var CardDefault = require("./carddefault");
+var Util = require("./util");
 class CardPlusMinus extends CardDefault {
     //private List<Integer> possibleShtraf;
     possibleShtraf;
@@ -25,11 +26,11 @@ class CardPlusMinus extends CardDefault {
          
         var pm=userMonopoly.getPenalty();
         if(pm==0) {
-            pm = possibleShtraf[Util.getRandom(0,possibleShtraf.length)];
+            pm = possibleShtraf[Util.getRandom(0,this.possibleShtraf.length)];
         }
         if(pm>0){
             userMonopoly.setMoney(userMonopoly.getMoney() + pm);
-            ActionUser.createInstance(gameMonopoly,userMonopoly, RECEIVE_INCOME, userMonopoly);
+            ActionUser.createInstance(gameMonopoly,userMonopoly, RECEIVE_INCOME, userMonopoly.getName());
             gameMonopoly.nextGamer();
         }else{
             ActionUser.createInstance(gameMonopoly,userMonopoly, GET_PENALTY, pm);
