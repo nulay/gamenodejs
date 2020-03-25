@@ -16,7 +16,7 @@ class CardPrison extends CardDefault {
     transferCardForUser(room, userRoom) {
         //GameMonopoly gameMonopoly = (GameMonopoly) room;
         //счатаем что количество дней отдыха равно - количеству карт
-        room.goToCard(Util.getRandom(1,gameMonopoly.getListCard().size()));
+        room.goToCard(Util.getRandom(1,this.gameMonopoly.getListCard().length));
     }
 
     //@Override
@@ -25,7 +25,7 @@ class CardPrison extends CardDefault {
         //UserMonopoly userMonopoly = (UserMonopoly) userRoom;
         if(userRoom.getPrison()!=0){
             if(userRoom.getPrison()<3){
-                userRoom.getAvailableAction().add('THROW_CUBE');
+                userRoom.getAvailableAction().add("THROW_CUBE");
             }
         }
     }
