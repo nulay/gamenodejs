@@ -20,7 +20,7 @@ class CardCheating extends CardDefault {
         userMonopoly.setPrison(1);
         userMonopoly.setPenalty(gameMonopoly.getListCard()[this.numPrison].getPenalty());
         userMonopoly.setIndexPosition(numPrison);
-        ActionUser.createInstance(gameMonopoly, userMonopoly, GO_PRISON, userMonopoly);
+        ActionUser.createInstance(gameMonopoly, userMonopoly, "GO_PRISON", userMonopoly);
     }
 
     /**{@inheritDoc}*/
