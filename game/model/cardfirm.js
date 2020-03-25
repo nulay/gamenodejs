@@ -134,17 +134,17 @@ class CardFirm extends CardDefault {
         //если фирма ничья то ее можно купить или выставить на аукцион
         if (this.getUserOwner() == null) {
             if (userMonopoly.getMoney() >= this.getPrice()) {
-                Util.addUnicAll(userMonopoly.getAvailableAction(),[BUY_FIRM]);
+                Util.addUnicAll(userMonopoly.getAvailableAction(),["BUY_FIRM"]);
                 //userMonopoly.getAvailableAction().add(BUY_FIRM);
             }
             //userMonopoly.getAvailableAction().add(AUCTION_START);
-            Util.addUnicAll(userMonopoly.getAvailableAction(),[AUCTION_START]);
+            Util.addUnicAll(userMonopoly.getAvailableAction(),["AUCTION_START"]);
         } else {
             if (userMonopoly != this.getUserOwner() && !this.isPut() ) {
                 userMonopoly.setPenalty(0 - this.getPenalty());
                 if(userMonopoly.getMoney()>this.getPenalty()) {
                     //userMonopoly.getAvailableAction().add(PAY_PENALTY);
-                    Util.addUnicAll(userMonopoly.getAvailableAction(),[PAY_PENALTY]);
+                    Util.addUnicAll(userMonopoly.getAvailableAction(),["PAY_PENALTY"]);
                 }
             }else{
                 gameMonopoly.nextGamer();
@@ -165,7 +165,7 @@ class CardFirm extends CardDefault {
         if(this.getFilialStay()< this.getCountFilial() && user.getMoney()>=this.getFilialPrice()) {
             user.setMoney(user.getMoney() - this.getFilialPrice());
             this.setFilialStay(this.getFilialStay()+1);
-            ActionUser.createInstance(monopolyGame, user, BUY_FILIAL, this);
+            ActionUser.createInstance(monopolyGame, user, "BUY_FILIAL", this);
         }else{
             // штраф
             monopolyGame.penaltyCheating(user);
