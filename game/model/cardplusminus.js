@@ -30,10 +30,10 @@ class CardPlusMinus extends CardDefault {
         }
         if(pm>0){
             userMonopoly.setMoney(userMonopoly.getMoney() + pm);
-            ActionUser.createInstance(gameMonopoly,userMonopoly, RECEIVE_INCOME, userMonopoly.getName());
+            ActionUser.createInstance(gameMonopoly,userMonopoly, "RECEIVE_INCOME", userMonopoly.getName());
             gameMonopoly.nextGamer();
         }else{
-            ActionUser.createInstance(gameMonopoly,userMonopoly, GET_PENALTY, pm);
+            ActionUser.createInstance(gameMonopoly,userMonopoly, "GET_PENALTY", pm);
             userMonopoly.setPenalty(pm);
         }
     }
