@@ -14,7 +14,7 @@ class GameSettings{
                       new CardFirm('Nemiroff', 1500,5,700,1,2,'firmR.png' ),
                       new CardFirm('Kent', 2500,5,1200,2,3,'firmR.png' ),
                       new CardPlusMinus('Шанс',[-4000,-2000,2000,4000,6000],'surprR.png'),
-                      new CardFirm('Marlboro', 22500,5,1200,2,3,'firmR.png' ),
+                      new CardFirm('Marlboro', 2500,5,1200,2,3,'firmR.png' ),
                       new CardFirm('Parlament', 3000,5,1500,2,3,'firmR.png' ),
                       new CardPrison('Тюрьма', 3000,'09.jpg' ),
                       new CardFirm('Panasonic', 3500,5,1700,3,3,'firmR.png' ),
