@@ -20,8 +20,8 @@ class Auction {
         var indCU = gameMonopoly.getListUser().indexOf(gameMonopoly.getCurentUser());
         if (gameMonopoly.getListUser().length - 1 != indCU) {
             for (var i = indCU + 1; i < gameMonopoly.getListUser().length; i++) {
-                if (gameMonopoly.getListUser().get(i).getMoney() >= this.auctionStartFirm.getPrice()) {
-                    this.userGoAuction.add(gameMonopoly.getListUser().get(i));
+                if (gameMonopoly.getListUser()[i].getMoney() >= this.auctionStartFirm.getPrice()) {
+                    this.userGoAuction.add(gameMonopoly.getListUser()[i]);
                 }
             }
         }
