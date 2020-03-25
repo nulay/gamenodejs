@@ -1,14 +1,14 @@
 class Auction {
     //private GameMonopoly gameMonopoly;
-    var gameMonopoly;
+    gameMonopoly;
     //private UserMonopoly auctionUser = null;
-    var auctionUser = null;
+    auctionUser = null;
     //private CardFirm auctionStartFirm = null;
-    var auctionStartFirm = null;
+    auctionStartFirm = null;
     //private List<UserMonopoly> userGoAuction = null;
-    var userGoAuction = null;
+    userGoAuction = null;
     //private int old_price;
-    var old_price;
+    old_price;
 
     //public Auction(GameMonopoly gameMonopoly) {
     constructor( gameMonopoly) {
@@ -32,13 +32,13 @@ class Auction {
                 }
             }
         }
-        ActionUser.createInstance(gameMonopoly, gameMonopoly.getCurentUser(), AUCTION_START, this.auctionStartFirm);
+        ActionUser.createInstance(gameMonopoly, gameMonopoly.getCurentUser(), "AUCTION_START", this.auctionStartFirm);
     }
 
     //public void nextGamer() {
     nextGamer() {
         if (this.userGoAuction.length == 0) {
-            ActionUser.createInstance(this.gameMonopoly, this.gameMonopoly.getCurentUser(), AUCTION_BRACK, null);
+            ActionUser.createInstance(this.gameMonopoly, this.gameMonopoly.getCurentUser(), "AUCTION_BRACK", null);
             this.gameMonopoly.stopAuction();
             return;
         }
@@ -53,25 +53,25 @@ class Auction {
             }
         }
         if (this.userGoAuction.length == 1 && this.auctionStartFirm.getPrice() > this.old_price) {
-            buyFirm();
+            this.buyFirm();
             return;
         }
         this.auctionUser.setActivGamer(true);
         var sdf = auctionUser.getAvailableAction();
-        Array.prototype.push.apply(first, [AUCTION_BUY, AUCTION_FOLD]);
+        Array.prototype.push.apply(first, ["AUCTION_BUY", "AUCTION_FOLD"]);
         
-        ActionUser.createInstance(this.gameMonopoly, this.auctionUser, AUCTION_CHANGE_USER, this.auctionStartFirm);
+        ActionUser.createInstance(this.gameMonopoly, this.auctionUser, "AUCTION_CHANGE_USER", this.auctionStartFirm);
     }
 
     //public void auctionBuy() {
     auctionBuy() {
-        if (this.auctionUser.getAvailableAction().contains(AUCTION_BUY)) {
-            this.auctionUser.getAvailableAction().splice(0,auctionUser.getAvailableAction().length);
+        if (this.auctionUser.getAvailableAction().includes("AUCTION_BUY")) {
+            this.auctionUser.getAvailableAction().splice(0,this.auctionUser.getAvailableAction().length);
             if (this.userGoAuction.size() == 1) {
-                buyFirm();
+                this.buyFirm();
                 return;
             }
-            ActionUser.createInstance(this.gameMonopoly, this.auctionUser, AUCTION_BUY, this.auctionStartFirm);
+            ActionUser.createInstance(this.gameMonopoly, this.auctionUser, "AUCTION_BUY", this.auctionStartFirm);
             this.auctionStartFirm.setPrice(this.auctionStartFirm.getPrice() + Math.round(this.old_price / 10));
             //убираем тех, кто не может поставить такую цену
             var lr = [];
@@ -79,13 +79,13 @@ class Auction {
                 if (this.userGoAuction[i] != auctionUser) {
                     if (this.userGoAuction[i].getMoney() < this.auctionStartFirm.getPrice()) {
                         lr[lr.length]=this.userGoAuction[i];
-                        ActionUser.createInstance(this.gameMonopoly, this.auctionUser, AUCTION_FOLD, this.auctionStartFirm);
+                        ActionUser.createInstance(this.gameMonopoly, this.auctionUser, "AUCTION_FOLD", this.auctionStartFirm);
                     }
                 }
             }
             //this.userGoAuction.removeAll(lr);
             this.userGoAuction = this.userGoAuction.filter( ( lr ) => !toRemove.includes( lr ) );
-            nextGamer();
+            this.nextGamer();
         } else {
             //штраф
             this.gameMonopoly.penaltyCheating(this.auctionUser);
@@ -94,18 +94,18 @@ class Auction {
 
     //public void auctionFold() {
     auctionFold() {
-        if (this.auctionUser.getAvailableAction().contains(AUCTION_FOLD)) {
+        if (this.auctionUser.getAvailableAction().includes("AUCTION_FOLD")) {
             this.auctionUser.getAvailableAction().splice(0, this.auctionUser.getAvailableAction().length);
             this.userGoAuction.splice(this.userGoAuction.indexOf(auctionUser),1);
-            ActionUser.createInstance(this.gameMonopoly, this.auctionUser, AUCTION_FOLD, null);
+            ActionUser.createInstance(this.gameMonopoly, this.auctionUser, "AUCTION_FOLD", null);
             if (this.userGoAuction.size() == 0) {
                 this.auctionUser.setActivGamer(false);
-                ActionUser.createInstance(this.gameMonopoly, this.auctionUser, AUCTION_BRACK, null);
+                ActionUser.createInstance(this.gameMonopoly, this.auctionUser, "AUCTION_BRACK", null);
                 this.auctionStartFirm.setPrice(this.old_price);
                 this.gameMonopoly.stopAuction();
                 return;
             } else {
-                nextGamer();
+                this.nextGamer();
             }
         } else {
             //штраф
@@ -118,13 +118,13 @@ class Auction {
         if (this.auctionUser.getMoney() > this.auctionStartFirm.getPrice()) {
             //забираем у выигравшего деньги за фирму
             this.auctionUser.setMoney(this.auctionUser.getMoney() - this.auctionStartFirm.getPrice());
-            ActionUser.createInstance(this.gameMonopoly, this.auctionUser, BUY_FIRM, this.auctionStartFirm);
+            ActionUser.createInstance(this.gameMonopoly, this.auctionUser, "BUY_FIRM", this.auctionStartFirm);
 
             this.auctionStartFirm.setUserOwner(this.auctionUser);
 
             //объявившему аукцион отдаем заработанное на аукционе
             this.gameMonopoly.getCurentUser().setMoney(this.gameMonopoly.getCurentUser().getMoney() + (this.auctionStartFirm.getPrice() - this.old_price));
-            ActionUser.createInstance(this.gameMonopoly, this.auctionUser, PAY_PENALTY, (this.auctionStartFirm.getPrice() - this.old_price));
+            ActionUser.createInstance(this.gameMonopoly, this.auctionUser, "PAY_PENALTY", (this.auctionStartFirm.getPrice() - this.old_price));
 
             this.auctionUser.setActivGamer(false);
         }
