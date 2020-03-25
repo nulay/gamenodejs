@@ -612,7 +612,7 @@ class MonopolyGame{
             for(const card of listCard){
                 if(card.getType() == "CARD_FIRM"){
                     var cf = card;
-                    if(cf.getUserOwner()!=null && this.curentUser.equals(cf.getUserOwner()) && !cf.isPut() && cf.getFilialStay()==0 && !isBuyFilialInMonopoly(cf.getNumMonopoly())){
+                    if(cf.getUserOwner()!=null && this.curentUser.getName()==cf.getUserOwner().getName() && !cf.isPut() && cf.getFilialStay()==0 && !isBuyFilialInMonopoly(cf.getNumMonopoly())){
                         lC[lC.length] = getListCard().indexOf(cf);
                     }
                 }
@@ -623,7 +623,7 @@ class MonopolyGame{
                 if(card.getType() == "CARD_FIRM"){
                     //CardFirm 
                     var cf= card;
-                    if(cf.getUserOwner()!=null && this.curentUser.equals(cf.getUserOwner()) && cf.isPut()){
+                    if(cf.getUserOwner()!=null && this.curentUser.getName()==cf.getUserOwner().getName() && cf.isPut()){
                         lC[lC.length] = this.getListCard().indexOf(cf);
                     }
                 }
@@ -657,7 +657,7 @@ class MonopolyGame{
             if (card.getType() == "CARD_FIRM") {
                 var cf = card;
                 if(cf.getUserOwner()!=null){
-                    if(user!=null && !cf.getUserOwner().equals(user)){
+                    if(user!=null && !cf.getUserOwner().getName()==user.getName()){
                         continue;
                     }
                     //Set<CardFirm>
@@ -895,7 +895,7 @@ class MonopolyGame{
             for(const card of getListCard()){
                 if(card.getType() == "CARD_FIRM"){
                     var cardF=card;
-                    if(cardF.getUserOwner()!=null && cardF.getUserOwner().equals(user)) {
+                    if(cardF.getUserOwner()!=null && cardF.getUserOwner().getName()==user.getName()) {
                         cardF.returnInBank(this);
                         ActionUser.createInstance(this, this.curentUser, "RETURN_IN_BANK", cardF);
                     }
@@ -922,7 +922,7 @@ class MonopolyGame{
             // user.getAvailableAction().remove(GAME_END);
             Util.addUnicAll(user.getAvailableAction(),["GAME_CLOSE"]);
             //user.getAvailableAction().add(GAME_CLOSE);
-            if(user.equals(this.curentUser)){
+            if(user.getName()==this.curentUser.getName()){
                 if(this.getListUser().size()>1) {
                     this.nextGamer();
                 }
