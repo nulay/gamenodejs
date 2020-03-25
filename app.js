@@ -334,21 +334,119 @@ app.route('/games/monopoly/actions')
         var curentRoom = getRoom(roomName);
         if(req.session.user.name==curentRoom.game.getCurentUser().getName()){
            if(req.query.action == "throw_cube"){
-               curentRoom.game.throwCube()
+               curentRoom.game.throwCube();
            }
+           if(req.query.action == "buy_firm"){
+               curentRoom.game.buyFirm();
+           }
+           if(req.query.action == "buy_filial"){
+               curentRoom.game.buyFilial(req.query.indFirm);
+           }
+           if(req.query.action == "put_firm"){
+               curentRoom.game.putFirm(req.query.indFirm);
+           }
+           if(req.query.action == "sell_filial"){
+               curentRoom.game.sellFilial(req.query.indFirm);
+           }
+           if(req.query.action == "redeem_firm"){
+               curentRoom.game.redeemFirm(req.query.indFirm);
+           }           
+           if(req.query.action == "change_firm_ok"){
+               curentRoom.game.changeFirm("CHANGE_FIRM_OK");
+           }
+           if(req.query.action == "change_firm_cancal"){
+               curentRoom.game.changeFirm("CHANGE_FIRM_CANCAL")
+           }
+           if(req.query.action == "out_prison"){
+               //curentRoom.game.outPrison();
+           }
+           if(req.query.action == "auction_start"){
+               curentRoom.game.startAuction();
+           }
+           if(req.query.action == "pay_penalty"){
+               curentRoom.game.payPenalty();
+           }
+           if(req.query.action == "auction_buy"){
+               var userFromGame=curentRoom.game.getUserByName(req.session.user.name);
+               if(curentRoom.game.getAuction() != null && userFromGame==curentRoom.game.getAuction().getAuctionUser()){
+                   curentRoom.game.auctionBuy();
+               }else{
+                   curentRoom.game.penaltyCheating(userFromGame);
+               }
+           }
+           if(req.query.action == "auction_fold"){
+               var userFromGame=curentRoom.game.getUserByName(req.session.user.name);
+               if(curentRoom.game.getAuction() != null && userFromGame==curentRoom.game.getAuction().getAuctionUser()){
+                   curentRoom.game.auctionFold();
+               }else{
+                   curentRoom.game.penaltyCheating(userFromGame);
+               }
+           }
+           if(req.query.action == "game_end"){
+               var userFromGame=curentRoom.game.getUserByName(req.session.user.name);
+               curentRoom.game.gameEnd(userFromGame);
+           }
+           if(req.query.action == "game_close"){
+               var userFromGame=curentRoom.game.getUserByName(req.session.user.name);
+               curentRoom.game.gameClose(userFromGame);
+               if(game.getListUser().size()==0){
+                   gameManager.gameEnd(game);
+               }
+               res.redirect("/games/room/rooms.html");
+           }
+        }else{
+          var userFromGame=curentRoom.game.getUserByName(req.session.user.name);
+          curentRoom.game.penaltyCheating(userFromGame);
         }
     }).post(sessionCheckerFalse, (req, res) => {
-        JSON.stringify('/games/monopoly/actions: '+req.query);
+        JSON.stringify('/games/monopoly/: '+req.query);
+        JSON.stringify('/games/monopoly/actions: '+req.query.action);
+        var roomName = req.query.roomName;        
+        var curentRoom = getRoom(roomName);
+        if(req.session.user.name==curentRoom.game.getCurentUser().getName()){           
+           if(req.query.action == "change_firm"){
+               curentRoom.game.changeFirm(req.body.changeFirm);
+           }
+           if(req.query.action == "send_message"){
+               //curentRoom.game.changeFirm(req.body.message)
+               var userFromGame=curentRoom.game.getUserByName(req.session.user.name);
+               
+               ActionUser.createInstance(curentRoom.game,userFromGame, "SEND_MESSAGE", req.body.message);
+           }
+        }else{
+          var userFromGame=curentRoom.game.getUserByName(req.session.user.name);
+          curentRoom.game.penaltyCheating(userFromGame);
+        }
     });
 
-app.route('/games/monopoly/actions/getPossibleFirm/:action')
-    .get(sessionCheckerFalse, (req, res) => {
-        JSON.stringify('games/monopoly/actions/getPossibleFirm: '+req.params.action);
+    app.route('/games/monopoly/actions/getPossibleFirm/:type')
+       .get(sessionCheckerFalse, (req, res) => {
+           JSON.stringify('games/monopoly/actions/getPossibleFirm/: '+req.params.type);
+        var roomName = req.query.roomName;        
+        var curentRoom = getRoom(roomName);
+        var type=req.params.type;
+        if(req.session.user.name==curentRoom.game.getCurentUser().getName()){
+            res.json(curentRoom.game.getPossibleFirm(type));
+        }else{
+            var userFromGame=curentRoom.game.getUserByName(req.session.user.name);
+            curentRoom.game.penaltyCheating(userFromGame)
+            return res.json(null);
+        }
     });
 
-app.route('/games/monopoly/actions/getPossibleFirmCh/:userName')
-    .get(sessionCheckerFalse, (req, res) => {
-        JSON.stringify('games/monopoly/actions/getPossibleFirmCh: '+req.params.userName);
+    app.route('/games/monopoly/actions/getPossibleFirmCh/:nameUser')
+       .get(sessionCheckerFalse, (req, res) => {
+         JSON.stringify('/games/monopoly/actions/getPossibleFirmCh: '+req.params.nameUser);
+         var roomName = req.query.roomName;        
+         var curentRoom = getRoom(roomName);
+         var nameUser=req.params.nameUser;
+         if(req.session.user.name==curentRoom.game.getCurentUser().getName()){
+             res.json(curentRoom.game.getPossibleFirmCh(nameUser));           
+         }else{
+             var userFromGame=curentRoom.game.getUserByName(req.session.user.name);
+             curentRoom.game.penaltyCheating(userFromGame);
+             return res.json(null);
+         }
     });
 
 
