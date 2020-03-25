@@ -25,7 +25,7 @@ class CardPrison extends CardDefault {
         //UserMonopoly userMonopoly = (UserMonopoly) userRoom;
         if(userRoom.getPrison()!=0){
             if(userRoom.getPrison()<3){
-                userRoom.getAvailableAction().add(THROW_CUBE);
+                userRoom.getAvailableAction().add('THROW_CUBE');
             }
         }
     }
