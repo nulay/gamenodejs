@@ -484,7 +484,7 @@ var gameMonopoly={
                         }
                         if (gamerA != null) {
                             gamerA.user = thisEl.getUserByNameL(data.listAction[i].user, data.listUser);
-                            gamerA.user.name = gamerA.user.user.name;
+                            gamerA.user.name = gamerA.user.name;
                             gamerA.updateVid();
                             thisEl.loginfo(gamerA.user.name + ' - ' + data.listAction[i].action+'('+data.listAction[i].infoAction+')');
                             if (data.listAction[i].action == "THROW_CUBE") {
@@ -496,9 +496,7 @@ var gameMonopoly={
                             var card=null;
                             if (data.listAction[i].action == "CHANGE_USER") {
                                 var gamer = thisEl.getUserByName(data.listAction[i].infoAction);
-                                var userH = thisEl.getUserByName(data.listAction[i].infoAction);
-                                userH.name = userH.user.name;
-                                gamer.user = userH;
+                                gamer.user = thisEl.getUserByName(data.listAction[i].infoAction);
                                 gamer.updateVid();
                             }
                             if (data.listAction[i].action == "BUY_FIRM") {
@@ -512,9 +510,7 @@ var gameMonopoly={
                             }
                             if (data.listAction[i].action == "RECEIVE_INCOME") {
                                 var gamer = thisEl.getUserByName(data.listAction[i].infoAction);
-                                var userH = thisEl.getUserByName(data.listAction[i].infoAction);
-                                userH.name = userH.user.name;
-                                gamer.user = userH;
+                                gamer.user = thisEl.getUserByName(data.listAction[i].infoAction);
                                 gamer.updateVid();
                             }
                             if (data.listAction[i].action == "PUT_FIRM") {
@@ -554,13 +550,11 @@ var gameMonopoly={
                             }
                             if(data.listAction[i].action=="GO_PRISON"){
                                 var gamer = thisEl.getUserByName(data.listAction[i].infoAction);                                
-                                var userH = thisEl.getUserByName(data.listAction[i].infoAction);
-                                userH.name = userH.user.name;
-                                gamer.user = userH;
+                                gamer.user = thisEl.getUserByName(data.listAction[i].infoAction);
                                 thisEl.startFunctionGoPrison(gamer);
                             }
                             if(data.listAction[i].action=="EXCHANGE_OFFERS"){
-                                if(data.listAction[i].infoAction.user.name==data.userRoom.name){
+                                if(data.listAction[i].infoAction.user==data.userRoom.name){
                                     thisEl.razborExchOff(data.listAction[i].infoAction);
                                 }
                             }
@@ -728,7 +722,7 @@ var gameMonopoly={
     },
     synhroGame:function(users){
         for(var i=0;i<users.length;i++){
-            users[i].name = users[i].user.name;
+            
             var gamer=this.getUserByName(users[i].name);
             //console.log('synhroGame:'+JSON.stringify(gamer));
             if(gamer==null){
