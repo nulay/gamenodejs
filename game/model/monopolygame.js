@@ -2,6 +2,7 @@ var UserMonopoly = require("./usermonopoly");
 var GameRoom = require("./../../model/gameroom");
 var ActionUser = require("./actionuser");
 var Util = require("./util");
+var Auction = require("./auction");
 class MonopolyGame{
 // implements GameMonopoly{
     //игровая комната
@@ -374,7 +375,7 @@ class MonopolyGame{
         if(this.curentUser.getAvailableAction().includes("AUCTION_START")) {
             Util.clear(this.curentUser.getAvailableAction());
             //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
-            auction = new Auction(this);
+            this.auction = new Auction(this);
             this.nextGamer();
 
         }else{
