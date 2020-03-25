@@ -14,12 +14,13 @@ class DefaultUserRoom {
     //date last entrance
     //private Date lastIn;
     lastIn;
+    name;
 
     constructor(user, maxCountActiveRoom) {
         this.user = user;
         this.activeRooms=[];
         this.maxCountActiveRoom=maxCountActiveRoom;
-
+        this.name=user.getName();
     }
 
     /**{@inheritDoc}*/
@@ -40,13 +41,14 @@ class DefaultUserRoom {
     //public void setUser(Object user) {
     setUser(user) {
         this.user = user;
+        this.name = user.getName();
     }
 
     /**{@inheritDoc}*/
     //@Override
     //public String getName() {
     getName() {
-        return this.user.getName();
+        return this.name;
     }
 
     /**{@inheritDoc}*/
