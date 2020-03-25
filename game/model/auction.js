@@ -141,3 +141,4 @@ class Auction {
         return this.auctionUser;
     }
 }
+module.exports = Auction;
