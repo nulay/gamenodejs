@@ -18,7 +18,7 @@ class Auction {
         //priceTop=Math.round(old_price/10);
         this.userGoAuction = [];
         var indCU = gameMonopoly.getListUser().indexOf(gameMonopoly.getCurentUser());
-        if (gameMonopoly.getListUser().size() - 1 != indCU) {
+        if (gameMonopoly.getListUser().length - 1 != indCU) {
             for (var i = indCU + 1; i < gameMonopoly.getListUser().length; i++) {
                 if (gameMonopoly.getListUser().get(i).getMoney() >= this.auctionStartFirm.getPrice()) {
                     this.userGoAuction.add(gameMonopoly.getListUser().get(i));
@@ -67,7 +67,7 @@ class Auction {
     auctionBuy() {
         if (this.auctionUser.getAvailableAction().includes("AUCTION_BUY")) {
             this.auctionUser.getAvailableAction().splice(0,this.auctionUser.getAvailableAction().length);
-            if (this.userGoAuction.size() == 1) {
+            if (this.userGoAuction.length == 1) {
                 this.buyFirm();
                 return;
             }
@@ -98,7 +98,7 @@ class Auction {
             this.auctionUser.getAvailableAction().splice(0, this.auctionUser.getAvailableAction().length);
             this.userGoAuction.splice(this.userGoAuction.indexOf(auctionUser),1);
             ActionUser.createInstance(this.gameMonopoly, this.auctionUser, "AUCTION_FOLD", null);
-            if (this.userGoAuction.size() == 0) {
+            if (this.userGoAuction.length == 0) {
                 this.auctionUser.setActivGamer(false);
                 ActionUser.createInstance(this.gameMonopoly, this.auctionUser, "AUCTION_BRACK", null);
                 this.auctionStartFirm.setPrice(this.old_price);
