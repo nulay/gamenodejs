@@ -312,9 +312,9 @@ class MonopolyGame{
     //public void buyFirm(){
     buyFirm(){
         if(this.curentUser.getAvailableAction().includes("BUY_FIRM")){
-            if(this.listCard.get(this.curentUser.getIndexPosition()).getType() == "CARD_FIRM") {
+            if(this.listCard[this.curentUser.getIndexPosition()].getType() == "CARD_FIRM") {
                 //CardFirm
-                var cardF = this.listCard.get(this.curentUser.getIndexPosition());
+                var cardF = this.listCard[this.curentUser.getIndexPosition()];
                 if(cardF.getUserOwner()==null && this.curentUser.getMoney()>=cardF.getPrice()) {
                     this.curentUser.setMoney(this.curentUser.getMoney() - cardF.getPrice());
                     cardF.setUserOwner(this.curentUser);
