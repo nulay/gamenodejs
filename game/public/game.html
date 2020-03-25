@@ -454,7 +454,7 @@ var gameMonopoly={
             type: "GET"
         }).done(function(data) {
             if(data!=null) {
-                 console.log(JSON.strringify(data));
+                 console.log(JSON.stringify(data));
                 if(this.keyLoad!=0){
                     if(thisEl.gamers.length!=thisEl.room.maxCountUser){
                         if(data.listAction.length>0){
