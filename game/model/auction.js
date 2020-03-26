@@ -1,3 +1,5 @@
+var ActionUser = require("./actionuser");
+
 class Auction {
     //private GameMonopoly gameMonopoly;
     gameMonopoly;
