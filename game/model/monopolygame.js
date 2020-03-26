@@ -234,7 +234,7 @@ class MonopolyGame{
 
     //public String getImageCenter() {
     getImageCenter() {
-        return imageCenter;
+        return this.imageCenter;
     }
 
     //public void setImageCenter(String imageCenter) {
@@ -307,7 +307,7 @@ class MonopolyGame{
     //получение денег за круг
     //private void getMoneybyCircle(UserMonopoly curentUser) {
     getMoneybyCircle(curentUser) {
-        curentUser.setMoney(curentUser.getMoney() + circleMoney);
+        curentUser.setMoney(curentUser.getMoney() + this.circleMoney);
     }
 
     //@Override
