@@ -64,7 +64,7 @@ class CardFirm extends CardDefault {
 
     //public void setUserOwner(UserMonopoly userOwner) {
     setUserOwner( userOwner) {
-        this.userOwner = userOwner;
+        this.userOwner = userOwner.getName();
     }
 
     //public int getCountFilial() {
@@ -142,7 +142,7 @@ class CardFirm extends CardDefault {
             Util.addUnicAll(userMonopoly.getAvailableAction(),["AUCTION_START"]);
             console.log('add AUCTION_START: '+userMonopoly.getAvailableAction());
         } else {
-            if (userMonopoly != this.getUserOwner() && !this.isPut() ) {
+            if (userMonopoly.getName() != this.getUserOwner() && !this.isPut() ) {
                 userMonopoly.setPenalty(0 - this.getPenalty());
                 if(userMonopoly.getMoney()>this.getPenalty()) {
                     //userMonopoly.getAvailableAction().add(PAY_PENALTY);
@@ -176,7 +176,7 @@ class CardFirm extends CardDefault {
 
     //public void sellFilial(MonopolyGame monopolyGame,UserMonopoly user){
     sellFilial(monopolyGame, user){
-        if(this.getUserOwner()!=null && user==this.getUserOwner() && this.getFilialStay()>0) {
+        if(this.getUserOwner()!=null && user.getName()==this.getUserOwner() && this.getFilialStay()>0) {
             user.setMoney(user.getMoney() + this.getFilialPrice());
             this.setFilialStay(this.getFilialStay()-1);
         }else{
@@ -189,7 +189,8 @@ class CardFirm extends CardDefault {
     //public void returnInBank(GameMonopoly gameMonopoly) {
     returnInBank(gameMonopoly) {
         //фирму в банк деньги пользователю
-        userOwner.setMoney(userOwner.getMoney()+this.getFilialStay()*this.getFilialPrice()+this.getPrice());
+        var fullUser = gameMonopoly.getUserByName(this.getUserOwner());
+        fullUser.setMoney(fullUser.getMoney()+this.getFilialStay()*this.getFilialPrice()+this.getPrice());
         this.setUserOwner(null);
     }
 
@@ -201,7 +202,7 @@ class CardFirm extends CardDefault {
 
     //public boolean putFirm(MonopolyGame monopolyGame, UserMonopoly curentUser) {
     putFirm(monopolyGame, curentUser) {
-        if(this.getUserOwner()==curentUser & this.getFilialStay()==0){
+        if(this.getUserOwner()==curentUser.getName() & this.getFilialStay()==0){
             curentUser.setMoney(curentUser.getMoney()+Math.round(this.getPrice()/2));
             this.put=true;
             return true;
@@ -214,7 +215,7 @@ class CardFirm extends CardDefault {
 
     //public boolean redeemFirm(MonopolyGame monopolyGame, UserMonopoly curentUser) {
     redeemFirm(monopolyGame, curentUser) {
-       if(this.getUserOwner()==curentUser && this.isPut() && curentUser.getMoney()>this.getPrice()){
+       if(this.getUserOwner()==curentUser.getName() && this.isPut() && curentUser.getMoney()>this.getPrice()){
             curentUser.setMoney(curentUser.getMoney()-this.getPrice());
             put=false;
             return true;
