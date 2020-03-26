@@ -140,6 +140,7 @@ Gamer.prototype = {
         this.build();
     },
     build:function(){
+        console.log('kkk:'+this.user.name+this.user.money);
         var t=Math.round(this.gameM.actSize.shCPl/4);
         var v=Math.floor(this.gameM.actSize.shCPl/4);
         this.vid=$('<div style="border-radius: '+this.gameM.actSize.fontsize+'px;font-size:'+this.gameM.actSize.fontsize+'pt;position:relative; display:inline-block;vertical-align:top;width: '+(v-20)+'px;height: '+(t-20)+'px; background-color: '+this.fishka.colorF[this.fishka.numF-1]+';background-image: url(/'+this.gameM.room.imageFolder+'/setka.png);margin: 5px;"><div style="color:'+this.fishka.colorText[this.fishka.numF-1]+';margin: 5px;">'+this.fishka.numF+' '+this.user.name+'</div></div>');
