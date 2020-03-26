@@ -631,7 +631,9 @@ var gameMonopoly={
         this.infoGame.prepend('<div>'+text+'</div>');
     },
     getUserByName:function(name){
+        console.log('getUserByName:'+name);
         for(var y=0;y<this.gamers.length;y++){
+            console.log(JSON.stringify(this.gamers[y].user));
             if(this.gamers[y].user.name==name){
                 return this.gamers[y];
             }
