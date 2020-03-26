@@ -148,11 +148,13 @@ class UserMonopoly extends DefaultUserRoom {
     //public List<ActionUser> getAndClearActionsAllUser() {
     getAndClearActionsAllUser() {
        // synchronized (actionsAllUser) {
+            console.log('getAndClearActionsAllUser:'+this.actionsAllUser.length);
            // List<ActionUser> oldAU = new ArrayList<>();
             var oldAU =[];         
             Util.addUnicAll(oldAU, this.actionsAllUser);
             //oldAU.addAll(actionsAllUser);
             Util.clear(this.actionsAllUser);
+            console.log(this.actionsAllUser.length+'/'+oldAU.length);
             return oldAU;
        // }
     }
