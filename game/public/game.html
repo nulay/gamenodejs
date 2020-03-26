@@ -485,9 +485,9 @@ var gameMonopoly={
                         }
                         if (gamerA != null) {
                             gamerA.user = thisEl.getUserByNameL(data.listAction[i].user, data.listUser);
-                            gamerA.user.name = gamerA.user.name;
+                            //console.log(gamerA.user)
                             gamerA.updateVid();
-                            thisEl.loginfo(gamerA.user.name + ' - ' + data.listAction[i].action+'('+data.listAction[i].infoAction+')');
+                            thisEl.loginfo('user:' + gamerA.user.name + ' - ' + data.listAction[i].action+'('+data.listAction[i].infoAction+')');
                             if (data.listAction[i].action == "THROW_CUBE") {
                                 thisEl.throw_cubeObr(data.listAction[i].infoAction, gamerA.fishka);
                             }
