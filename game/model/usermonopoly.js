@@ -4,10 +4,10 @@ class UserMonopoly extends DefaultUserRoom {
 //implements UserMonopoly{
     //money
     //private int 
-    money;
+    money=0;
     //penalty
     //private int 
-    penalty;
+    penalty=0;
     //++@JsonIgnore
     //++private SecureRandom rand=new SecureRandom();
     //position of user
@@ -15,7 +15,7 @@ class UserMonopoly extends DefaultUserRoom {
     indexPosition=0;
     //credit for user
     //private int 
-    credit;
+    credit=0;
     //active user or not
     //private boolean 
     activGamer=false;
