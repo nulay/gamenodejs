@@ -27,7 +27,7 @@ class CardPlusMinus extends CardDefault {
          
         var pm=userMonopoly.getPenalty();
         if(pm==0) {
-            pm = possibleShtraf[Util.getRandom(0,this.possibleShtraf.length)];
+            pm = this.possibleShtraf[Util.getRandom(0,this.possibleShtraf.length)];
         }
         if(pm>0){
             userMonopoly.setMoney(userMonopoly.getMoney() + pm);
