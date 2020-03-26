@@ -12,7 +12,7 @@ class Util{
   }
   static isElementInArray( arr, element){
        for(const ell of arr){
-         if(ell == element){
+         if(JSON.stringify(ell) === JSON.stringify(element)){
             return true;
          }
        }
