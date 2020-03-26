@@ -457,6 +457,7 @@ var gameMonopoly={
                  console.log(JSON.stringify(data));
                 if(this.keyLoad!=0){
                     if(thisEl.gamers.length!=thisEl.room.maxCountUser){
+                        alert('error count of gamers');
                         if(data.listAction.length>0){
                             var t=false;
                             for(var i=0;i<data.listAction.length;i++){
@@ -479,9 +480,10 @@ var gameMonopoly={
                         // thisEl.loginfo(data.listAction[i].infoAction+" "+data.listAction[i].user);
                         //console.log("loadgamedata0 : " + thisEl.gamers[0].user.name + "/"+thisEl.gamers[1].user.name);
                         if (gamerA == null) {
-                             console.log('ERROR!!!!');
+                             alert('ERROR!!!!');
                              console.log("loadgamedata1 : " + data.listAction[i].user);
                              console.log("loadgamedata2 : " + JSON.stringify(data.listUser));
+                             alert('diagnostic!!!!'+data.listUser.length);
                         }
                         if (gamerA != null) {
                             gamerA.user = thisEl.getUserByNameL(data.listAction[i].user, data.listUser);
@@ -771,7 +773,6 @@ var gameMonopoly={
             }
             topline.append(this.buildCard(listCardObj,i,p));
         }
-        alert('1');
         var centerLine=$('<div style="display: inline; clear: left;">');
         var leftCard=$('<div class="leftCard" style="width:'+size.shBc+'px;clear:left;float:left;">');
         for(var i=listCardObj.length-1;i>=(listCardObj.length-gC);i--){
