@@ -133,10 +133,10 @@ Fishka.prototype = {
 
 var Gamer=Class.create();
 Gamer.prototype = {
-    initialize:function(user,gameM,num){
-        this.user=user;
-        this.fishka=new Fishka(num,user.indexPosition,user.name,gameM.actSize);
-        this.gameM=gameM;
+    initialize:function(user,gameM, num){
+        this.user = user;
+        this.fishka = new Fishka(num,user.indexPosition,user.name,gameM.actSize);
+        this.gameM = gameM;
         this.build();
     },
     build:function(){
@@ -726,11 +726,11 @@ var gameMonopoly={
             
             var gamer=this.getUserByName(users[i].name);
             //console.log('synhroGame:'+JSON.stringify(gamer));
-            if(gamer==null){
-                var num=this.gamers.length;
-                //console.log('создаем пользователя');
-                this.gamers[num]=new Gamer(users[i],this,num+1);
-                gamer=this.gamers[num];
+            if(gamer == null){
+                var num = this.gamers.length;
+                console.log('создаем пользователя'+users[i].name);
+                this.gamers[num] = new Gamer(users[i], this, num+1);
+                gamer = this.gamers[num];
             }
             this.listCard[gamer.user.indexPosition].goOn(gamer);
             this.userPanel.append(gamer.vid);
