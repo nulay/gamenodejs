@@ -351,8 +351,9 @@ class MonopolyGame{
                 if(c.getType() == "CARD_FIRM"){
                     //CardFirm 
                     var card=c;
-                    card.getUserOwner().setMoney(card.getUserOwner().getMoney()-this.curentUser.getPenalty());
-                    ActionUser.createInstance(this, this.curentUser, "RECEIVE_INCOME", card.getUserOwner().getName());
+                    var cardUserOwner=this.getUserByName(card.getUserOwner());
+                    cardUserOwner.setMoney(cardUserOwner.getMoney()-this.curentUser.getPenalty());
+                    ActionUser.createInstance(this, this.curentUser, "RECEIVE_INCOME", card.getUserOwner());
                 }
                 Util.clear(this.curentUser.getAvailableAction());
                 //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
@@ -597,7 +598,7 @@ class MonopolyGame{
         for(const card of listCard){
             if(card.getType() == "CARD_FIRM"){
                 cf = card;
-                if(cf.getUserOwner()!=null && umFCH == cf.getUserOwner() && !cf.isPut() && cf.getFilialStay()==0 && !isBuyFilialInMonopoly(cf.getNumMonopoly())){
+                if(cf.getUserOwner()!=null && umFCH.getName() == cf.getUserOwner() && !cf.isPut() && cf.getFilialStay()==0 && !isBuyFilialInMonopoly(cf.getNumMonopoly())){
                     lC[lC.length]=getListCard().indexOf(cf);
                 }
             }
@@ -659,7 +660,7 @@ class MonopolyGame{
             if (card.getType() == "CARD_FIRM") {
                 var cf = card;
                 if(cf.getUserOwner()!=null){
-                    if(user!=null && !cf.getUserOwner().getName()==user.getName()){
+                    if(user!=null && !cf.getUserOwner()==user.getName()){
                         continue;
                     }
                     //Set<CardFirm>
@@ -897,7 +898,7 @@ class MonopolyGame{
             for(const card of getListCard()){
                 if(card.getType() == "CARD_FIRM"){
                     var cardF=card;
-                    if(cardF.getUserOwner()!=null && cardF.getUserOwner().getName()==user.getName()) {
+                    if(cardF.getUserOwner()!=null && cardF.getUserOwner()==user.getName()) {
                         cardF.returnInBank(this);
                         ActionUser.createInstance(this, this.curentUser, "RETURN_IN_BANK", cardF);
                     }
@@ -912,7 +913,8 @@ class MonopolyGame{
                     if(retM>user.getMoney()){
                         retM=user.getMoney();
                     }
-                    card.getUserOwner().setMoney(card.getUserOwner().getMoney() + retM);
+                    var cardUserOwner=this.getUserByName(card.getUserOwner());
+                    cardUserOwner.setMoney(cardUserOwner.getMoney() + retM);
                     user.setPenalty(0);
                 }
             }
@@ -991,7 +993,7 @@ class MonopolyGame{
     //public void firmFilialSell(UserMonopoly userMonopoly){
     firmFilialSell( userMonopoly){
         for(const card of this.getListCard()){
-            if(card.getType() == "CARD_FIRM" && card.getUserOwner()==userMonopoly){
+            if(card.getType() == "CARD_FIRM" && card.getUserOwner()==userMonopoly.getName()){
                 //заложить фирму
                 if(!card.isPut() && card.getFilialStay()==0) {
                     //userMonopoly.getAvailableAction().add(PUT_FIRM);
