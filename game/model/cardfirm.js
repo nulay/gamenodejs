@@ -130,15 +130,17 @@ class CardFirm extends CardDefault {
     //@Override
     //public void transferCardForUser(Room room, UserRoom userRoom) {
     transferCardForUser(gameMonopoly, userMonopoly) {
-        
+        console.log('transferCardForUser');
         //если фирма ничья то ее можно купить или выставить на аукцион
         if (this.getUserOwner() == null) {
             if (userMonopoly.getMoney() >= this.getPrice()) {
                 Util.addUnicAll(userMonopoly.getAvailableAction(),["BUY_FIRM"]);
+                console.log('add buy: '+userMonopoly.getAvailableAction());
                 //userMonopoly.getAvailableAction().add(BUY_FIRM);
             }
             //userMonopoly.getAvailableAction().add(AUCTION_START);
             Util.addUnicAll(userMonopoly.getAvailableAction(),["AUCTION_START"]);
+            console.log('add AUCTION_START: '+userMonopoly.getAvailableAction());
         } else {
             if (userMonopoly != this.getUserOwner() && !this.isPut() ) {
                 userMonopoly.setPenalty(0 - this.getPenalty());
