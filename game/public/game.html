@@ -502,7 +502,8 @@ var gameMonopoly={
                             var card=null;
                             if (data.listAction[i].action == "CHANGE_USER") {
                                 var gamer = thisEl.getUserByName(data.listAction[i].infoAction);
-                                gamer.user = thisEl.getUserByName(data.listAction[i].infoAction);
+                                gamer.user = thisEl.getUserByNameL(data.listAction[i].infoAction, data.listUser);
+                                if(gamer.user.money==null)alert(JSON.stringfy(gamer));                              
                                 gamer.updateVid();
                             }
                             if (data.listAction[i].action == "BUY_FIRM") {
@@ -516,7 +517,8 @@ var gameMonopoly={
                             }
                             if (data.listAction[i].action == "RECEIVE_INCOME") {
                                 var gamer = thisEl.getUserByName(data.listAction[i].infoAction);
-                                gamer.user = thisEl.getUserByName(data.listAction[i].infoAction);
+                                gamer.user = thisEl.getUserByNameL(data.listAction[i].infoAction);
+                                if(gamer.user.money==null)alert(JSON.stringfy(gamer));
                                 gamer.updateVid();
                             }
                             if (data.listAction[i].action == "PUT_FIRM") {
