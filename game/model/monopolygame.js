@@ -249,9 +249,11 @@ class MonopolyGame{
     //Бросить кубик
     //public int[] throwCube() {
     throwCube() {
+        console.log('throwCube');
         if(this.curentUser.getAvailableAction().includes("THROW_CUBE")){
             //this.curentUser.getAvailableAction().splice(0, this.curentUser.getAvailableAction().length);
             Util.clear(this.curentUser.getAvailableAction());
+            console.log('Available action for curent user shold be 0 :'+this.curentUser.getAvailableAction().length);
             var toValue=[Util.getRandom(1,6), Util.getRandom(1,6)];
             this.curentUser.isthrowDoubleF(toValue[0]==toValue[1]);
             
@@ -262,7 +264,7 @@ class MonopolyGame{
                     this.curentUser.setPrison(0);
                 }else{
                     this.curentUser.setPrison(this.curentUser.getPrison()+1);
-                    nextGamer();
+                    this.nextGamer();
                 }
             }
             if(this.curentUser.getCountThrowDouble()==3){
@@ -1016,6 +1018,7 @@ class MonopolyGame{
 
     //public void goToCard(int countStep){
     goToCard(countStep){
+        console.log("goToCard :"+ countStep);
         var pos=0;
         if(this.curentUser.isGoForward()){
             pos=this.curentUser.getIndexPosition()+countStep;
