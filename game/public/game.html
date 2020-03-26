@@ -145,6 +145,7 @@ Gamer.prototype = {
         this.vid=$('<div style="border-radius: '+this.gameM.actSize.fontsize+'px;font-size:'+this.gameM.actSize.fontsize+'pt;position:relative; display:inline-block;vertical-align:top;width: '+(v-20)+'px;height: '+(t-20)+'px; background-color: '+this.fishka.colorF[this.fishka.numF-1]+';background-image: url(/'+this.gameM.room.imageFolder+'/setka.png);margin: 5px;"><div style="color:'+this.fishka.colorText[this.fishka.numF-1]+';margin: 5px;">'+this.fishka.numF+' '+this.user.name+'</div></div>');
         this.bord=$('<img style="border-radius: '+this.gameM.actSize.fontsize+'px;position:absolute; top:0; left:0;" src="/'+this.gameM.room.imageFolder+'/ramka.png" width="'+(v-20)+'px" height="'+(t-20)+'px"/>');
         this.vid.append(this.bord);
+        if(this.user.money==null)alert('error build');
         this.moneyV=$('<div style="color:'+this.fishka.colorText[this.fishka.numF-1]+';margin: 5px;">Деньги: '+this.user.money+'</div>');
         this.penaltyV=$('<div style="color:'+this.fishka.colorText[this.fishka.numF-1]+';margin: 5px;">Штраф: '+this.user.penalty+'</div>');
         if(this.user.penalty==0){
@@ -155,6 +156,7 @@ Gamer.prototype = {
         this.updateVid();
     },
     updateVid:function(){
+        if(this.user.money==null)alert('error update');
         this.moneyV.text("Деньги: "+this.user.money);
         if(this.user.penalty!=0){
             this.penaltyV.text("Штраф: "+Math.abs(this.user.penalty));
@@ -487,7 +489,7 @@ var gameMonopoly={
                         }
                         if (gamerA != null) {
                             gamerA.user = thisEl.getUserByNameL(data.listAction[i].user, data.listUser);
-                            //console.log(gamerA.user)
+                            if(gamerA.user.money==null)alert(JSON.stringfy(gamerA.user));
                             gamerA.updateVid();
                             thisEl.loginfo('user:' + gamerA.user.name + ' - ' + data.listAction[i].action+'('+data.listAction[i].infoAction+')');
                             if (data.listAction[i].action == "THROW_CUBE") {
