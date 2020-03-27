@@ -410,7 +410,7 @@ class MonopolyGame{
                 }
             }
             if(!this.canCheckPenalty(this.curentUser)){
-                var card=this.listCard[getCurentUser().getIndexPosition()];
+                var card=this.listCard[this.getCurentUser().getIndexPosition()];
                 if(card.getType() == "CARD_FIRM") {
                     if (card.getUserOwner()==null && this.curentUser.getMoney() >= card.getPrice()) {
                         Util.addUnicAll(this.curentUser.getAvailableAction(),["BUY_FIRM"]);
@@ -987,6 +987,14 @@ class MonopolyGame{
             //userMonopoly.getAvailableAction().add(TAKE_CREDIT);
             Util.addUnicAll(userMonopoly.getAvailableAction(),["TAKE_CREDIT"]);          
         }
+    }
+    
+    takeCredit(){
+        if(this.getCurentUser().getCredit()==0 && this.getCurentUser().getAvailableAction().includes("TAKE_CREDIT")){
+           this.getCurentUser().setMoney(this.getCurentUser().getMoney()+this.getPossibleCredit());
+           
+        }
+        giveTakeCredit(this.getCurentUser());
     }
 
     //проверка на возможность продать филиал или заложить или выкупить фирму
