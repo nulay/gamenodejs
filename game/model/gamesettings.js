@@ -51,8 +51,9 @@ class GameSettings{
        var monopolyGame=new MonopolyGame(listCard, startMoney, moneyForCircle, roomForJoin.nameRoom, roomForJoin.maxCountUser, listUsers);
        monopolyGame.setImageFolder("images/monopoly");
        monopolyGame.setImageCenter("center.jpg");
-       monopolyGame.setCredit(10000);
+       //monopolyGame.setCredit(10000);
        monopolyGame.setPenalty_cheating(10000);
+       monopolyGame.setPosibleCredit(startMoney*3);
        
        monopolyGame.startGameF();
        console.log(monopolyGame);
