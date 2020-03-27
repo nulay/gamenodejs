@@ -490,7 +490,7 @@ var gameMonopoly={
                         }
                         if (gamerA != null) {
                             gamerA.user = thisEl.getUserByNameL(data.listAction[i].user, data.listUser);
-                            //if(gamerA.user.money==null)alert(JSON.stringfy(gamerA.user));
+                            //if(gamerA.user.money==null)alert(JSON.stringify(gamerA.user));
                             gamerA.updateVid();
                             thisEl.loginfo('user:' + gamerA.user.name + ' - ' + data.listAction[i].action+'('+data.listAction[i].infoAction+')');
                             if (data.listAction[i].action == "THROW_CUBE") {
@@ -503,7 +503,7 @@ var gameMonopoly={
                             if (data.listAction[i].action == "CHANGE_USER") {
                                 var gamer = thisEl.getUserByName(data.listAction[i].infoAction);
                                 gamer.user = thisEl.getUserByNameL(data.listAction[i].infoAction, data.listUser);
-                                //if(gamer.user.money==null)alert(JSON.stringfy(gamer));                              
+                                //if(gamer.user.money==null)alert(JSON.stringify(gamer));                              
                                 gamer.updateVid();
                             }
                             if (data.listAction[i].action == "BUY_FIRM") {
@@ -518,7 +518,7 @@ var gameMonopoly={
                             if (data.listAction[i].action == "RECEIVE_INCOME") {
                                 var gamer = thisEl.getUserByName(data.listAction[i].infoAction);
                                 gamer.user = thisEl.getUserByNameL(data.listAction[i].infoAction);
-                                //if(gamer.user.money==null)alert(JSON.stringfy(gamer));
+                                //if(gamer.user.money==null)alert(JSON.stringify(gamer));
                                 gamer.updateVid();
                             }
                             if (data.listAction[i].action == "PUT_FIRM") {
@@ -1083,7 +1083,7 @@ var gameMonopoly={
         var datat="json";
         this.numError=0;
 
-        console.log('actionsUser send ' + JSON.stringfy(actions));
+        console.log('actionsUser send ' + JSON.stringify(actions));
         jQuery.ajaxSettings.traditional = false;
         if (actions == 'PUT_FIRM' | actions == 'REDEEM_FIRM' | actions == 'BUY_FILIAL' | actions == 'SELL_FILIAL'){
             if (this.listSelectFirm.length == 0) {
