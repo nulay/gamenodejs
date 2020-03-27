@@ -40,7 +40,7 @@ class MonopolyGame{
     startMoney;
     //возможный кредит
     //private int credit;
-    credit;
+    posibleCredit;
     maxCountUser;
 
     //public MonopolyGame(List<Card> listCard) {
@@ -948,13 +948,13 @@ class MonopolyGame{
     }
 
     //public int getCredit() {
-    getCredit() {
-        return this.credit;
+    getPosibleCredit() {
+        return this.posibleCredit;
     }
 
     //public void setCredit(int credit) {
-    setCredit(credit) {
-        this.credit = credit;
+    setPosibleCredit(posibleCredit) {
+        this.posibleCredit = posibleCredit;
     }
 
    // public Room getRoom() {
@@ -980,7 +980,7 @@ class MonopolyGame{
     //проверка на возможность взять отдать кредит
     //public void giveTakeCredit(UserMonopoly userMonopoly) {
     giveTakeCredit( userMonopoly) {
-        if(userMonopoly.getCredit()>0){
+        if(userMonopoly.getPosibleCredit()>0){
             Util.addUnicAll(userMonopoly.getAvailableAction(),["GIVE_CREDIT"]);
             //userMonopoly.getAvailableAction().add(GIVE_CREDIT);
         }else{
@@ -1029,7 +1029,7 @@ class MonopolyGame{
                 //выдать деньги за круг
                 this.getMoneybyCircle(this.curentUser);
                 //увеличить кредит на 50%
-                this.curentUser.setCredit(this.curentUser.getCredit()*1.5);
+                this.curentUser.setCredit(this.curentUser.getCredit()*1.3);
             }
         }else{
             pos=this.curentUser.getIndexPosition()-countStep;
