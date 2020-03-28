@@ -994,7 +994,8 @@ class MonopolyGame{
            this.getCurentUser().setMoney(this.getCurentUser().getMoney()+this.getPossibleCredit());
            
         }
-        this.giveTakeCredit(this.getCurentUser());
+        Util.clear(this.curentUser.getAvailableAction());
+        this.goToCard(0);
     }
 
     //проверка на возможность продать филиал или заложить или выкупить фирму
