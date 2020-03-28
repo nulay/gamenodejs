@@ -747,7 +747,7 @@ var gameMonopoly={
         $('.userOwner').remove();
         for(var i=0;i<this.listCard.length;i++){
             if(this.listCard[i].obj.userOwner!=null){
-                var g=this.getUserByName(this.listCard[i].obj.userOwner.name);
+                var g=this.getUserByName(this.listCard[i].obj.userOwner);
                 this.listCard[i].buyFirm(g);
             }
         }
