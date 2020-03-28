@@ -53,7 +53,7 @@ class GameSettings{
        monopolyGame.setImageCenter("center.jpg");
        //monopolyGame.setCredit(10000);
        monopolyGame.setPenalty_cheating(10000);
-       monopolyGame.setPosibleCredit(startMoney*3);
+       monopolyGame.setPossibleCredit(startMoney*3);
        
        monopolyGame.startGameF();
        console.log(monopolyGame);
