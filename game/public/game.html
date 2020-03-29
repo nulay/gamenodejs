@@ -77,7 +77,7 @@ var langRu={
     BUY_FIRM:"Купить фирму",
     BUY_FILIAL:"Купить филиал",
     TAKE_CREDIT:"Взять кредит",
-    GIVE_CREDIT:"Вернуть кредит",
+    RETURN_CREDIT:"Вернуть кредит",
     PUT_FIRM:"Заложить фирму",
     REDEEM_FIRM:"Выкупить фирму",
     CHANGE_FIRM:"Обмен фирмами",
@@ -97,7 +97,7 @@ var langEn={
     BUY_FIRM:"Buy firm",
     BUY_FILIAL:"Buy filial",
     TAKE_CREDIT:"Take credit",
-    GIVE_CREDIT:"Give credit",
+    RETURN_CREDIT:"Give credit",
     PUT_FIRM:"Put firm",
     REDEEM_FIRM:"Redeem Firm",
     CHANGE_FIRM:"Change firm",
@@ -827,11 +827,15 @@ var gameMonopoly={
         this.createBut('AUCTION_BUY');
         this.createBut('AUCTION_FOLD');
         this.createBut('TAKE_CREDIT');
-        this.createBut('GIVE_CREDIT');
+        this.createBut('RETURN_CREDIT');
         //this.createBut('GAME_END');
         this.createBut('GAME_CLOSE');
         this.buttons['GAME_CLOSE'].hide().click(function(){
             document.location.href="/games/monopoly/actions/game_close";
+        });
+
+        this.buttons['RETURN_CREDIT'].click(function(){
+            
         });
 
         this.butGE=this._createBut('GAME_END');
