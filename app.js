@@ -369,6 +369,10 @@ app.route('/games/monopoly/actions')
            if(req.query.action == "take_credit"){
                curentRoom.game.takeCredit();
            }
+           if(req.query.action == "return_credit"){
+               console.log('try to return:'+req.query.sum);
+               curentRoom.game.returnCredit(req.query.sum);
+           }
            if(req.query.action == "auction_buy"){
                var userFromGame=curentRoom.game.getUserByName(req.session.user.name);
                if(curentRoom.game.getAuction() != null && userFromGame==curentRoom.game.getAuction().getAuctionUser()){
