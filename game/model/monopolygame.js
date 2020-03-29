@@ -981,8 +981,8 @@ class MonopolyGame{
     //public void giveTakeCredit(UserMonopoly userMonopoly) {
     giveTakeCredit( userMonopoly) {
         if(userMonopoly.getCredit()>0){
-            Util.addUnicAll(userMonopoly.getAvailableAction(),["GIVE_CREDIT"]);
-            //userMonopoly.getAvailableAction().add(GIVE_CREDIT);
+            Util.addUnicAll(userMonopoly.getAvailableAction(),["RETURN_CREDIT"]);
+            //userMonopoly.getAvailableAction().add(RETURN_CREDIT);
         }else{
             //userMonopoly.getAvailableAction().add(TAKE_CREDIT);
             Util.addUnicAll(userMonopoly.getAvailableAction(),["TAKE_CREDIT"]);          
@@ -996,6 +996,16 @@ class MonopolyGame{
         }
         Util.clear(this.curentUser.getAvailableAction());
         this.goToCard(0);
+    }
+
+    returnCredit(sum){
+       if(this.getCurentUser().getCredit() > 0 && this.getCurentUser().getAvailableAction().includes("RETURN_CREDIT")
+           && this.getCurentUser().getMoney()>sum){
+           this.getCurentUser().setMoney(this.getCurentUser().getMoney()-sum);
+           this.getCurentUser().setCredit(this.getCurentUser().getCredit()-sum);
+
+           //Util.remove(this.getCurentUser().getAvailableAction(), "RETURN_CREDIT");
+       }
     }
 
     //проверка на возможность продать филиал или заложить или выкупить фирму
