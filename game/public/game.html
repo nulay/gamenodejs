@@ -834,9 +834,9 @@ var gameMonopoly={
             document.location.href="/games/monopoly/actions/game_close";
         });
 
-        this.buttons['RETURN_CREDIT'].click(function(){
+      //  this.buttons['RETURN_CREDIT'].click(function(){
             
-        });
+      //  });
 
         this.butGE=this._createBut('GAME_END');
 
@@ -893,7 +893,25 @@ var gameMonopoly={
         this.poleF=$('<div style="width:'+Math.round(this.actSize.shCPl/2)+'px;height:'+(t*2-30)+'px; overflow: auto; border:1px solid white;margin:1px;"></div>');
         this.panelSum=$('<div style="color: white; width:'+Math.round(this.actSize.shCPl/2)+'px;height:25px; overflow: auto; border:1px solid white;margin:1px;"></div>')
         this.panelSelectFirm.append($('<div style="width:'+Math.round(this.actSize.shCPl/2)+'px;height:'+(t*2-2)+'px;float:left;margin:3px;"></div>').append(this.poleF).append(this.panelSum)).append($('<div></div>').append(butPut).append(butRed).append(butBuyF).append(butPutF).append(butPutCancal));
-        topPanel.append(this.buildChangePanel()).append(('<div style="background-color:black;opacity:0.85;width: '+this.actSize.shCPl+'px;height:'+(t*2)+'px;text-align:center;position:absolute;z-index:1;top:0;left:0;">')).append(this.butPanel).append(this.panelSelectFirm).append(this.panelAuction).append(this.panelThrowCube);
+        this.panelReturnCredit=$('<div style="background:black;position:absolute;z-index:10;top:0;left:0;width:'+this.actSize.shCPl+'px;height:'+(t*2-2)+'px;"></div>').hide();
+        this.panelReturnCredit.append('<div><label for="fname">Summ for return:</label><input type="text" id="sumreturncredit" name="sumreturncredit" value="0"/></div></div>');
+        var panelButtonForReturnPanel=$('<div></div>');
+        var buttonCancelReturnCredit=$('<button value="'+this.lang['CANCAL']+'">'+this.lang['CANCAL']+'</button>').click(function(){
+            thisEl.panelReturnCredit().hide();
+        });
+        var buttonOkReturnCredit=$('<button value="Ok">Ok</button>').click(function(){
+            var sum=parseInt($('#sumreturncredit').val());
+            if(sum>0){
+               thisEl.actionsUser('RETURN_CREDIT', );
+               thisEl.panelReturnCredit().hide();
+            }else{
+               thisEl.loginfo('sum shold be more then 0');
+            }
+        });
+        this.panelReturnCredit.append(panelButtonForReturnPanel);
+
+
+        topPanel.append(this.buildChangePanel()).append(('<div style="background-color:black;opacity:0.85;width: '+this.actSize.shCPl+'px;height:'+(t*2)+'px;text-align:center;position:absolute;z-index:1;top:0;left:0;">')).append(this.butPanel).append(this.panelSelectFirm).append(this.panelReturnCredit).append(this.panelAuction).append(this.panelThrowCube);
         $('#centerPl').append($('<div id="systContr" style="position:absolute;left: 0;top:0; z-index: 10; width: '+this.actSize.shCPl+'px;height:'+this.actSize.shCPl+'px;">').
                 append(topPanel).append(bottomPanel));
     },
@@ -947,7 +965,7 @@ var gameMonopoly={
                 }
                 if(action=="CHANGE_FIRM"){
                     isum+=this.listCard[this.listSelectFirm[i]].obj.price;
-                }
+                }           
             }
         }else{
             for(var i=0;i<this.listSelectFirm2.length;i++){
@@ -957,6 +975,7 @@ var gameMonopoly={
         if(action!="CHANGE_FIRM"){
             this.panelSum.text(isum);
         }else{
+            
             if(ind==1){
 
             }else{
@@ -1127,6 +1146,9 @@ var gameMonopoly={
         if (actions == 'GAME_END'){
             this.buttons['GAME_CLOSE'].show();
             this.butGE.hide();
+        }
+        if (actions == 'RETURN_CREDIT'){
+            datas = {'sum':$('#sumreturncredit').val()};           
         }
         this.hideAllBut();
         this.keyLoad=0;
