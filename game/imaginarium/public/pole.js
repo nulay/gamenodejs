@@ -683,74 +683,33 @@ var gameImaginarium={
                             if (data.listAction[i].action == "THROW_CUBE") {
                                 thisEl.throw_cubeObr(data.listAction[i].infoAction, gamerA.fishka);
                             }
-                            if (data.listAction[i].action == "GO_SELL") {
-                                thisEl.startGoSellFunction(data.listAction[i].infoAction, gamerA.fishka);
+                            if (data.listAction[i].action == "PUSH_CARD") {
+                                thisEl.addCard();
+                                thisEl.setAssosiation(data.listAction[i].infoAction);
                             }
-                            var card=null;
-                            if (data.listAction[i].action == "CHANGE_USER") {
-                                var gamer = thisEl.getUserByName(data.listAction[i].infoAction.name);
-                                gamer.user = data.listAction[i].infoAction;
-                                gamer.updateVid();
+                            if (data.listAction[i].action == "PUSH_ASSOCIATE_CARD") {
+                                
+                                thisEl.addCard();
                             }
-                            if (data.listAction[i].action == "BUY_FIRM") {
-                                card=thisEl.listCard[thisEl.getIndexFirm(data.listAction[i].infoAction)];
-                                card.obj=data.listAction[i].infoAction;
-                                card.buyFirm(gamerA);
-                                thisEl.panelAuction.hide();
+                            if (data.listAction[i].action == "SHOW_ALL_CARD") {
+                                
+                                thisEl.showCard(data.listAction[i].infoAction);//list ind + imgpath
                             }
-                            if(data.listAction[i].action == "NOT_MONEY"){
-                                this.loginfo('У вас не достаточно денег. Нужно '+data.listAction[i].infoAction);
+                            if (data.listAction[i].action == "USER_VOTE") {
+                                
+                                thisEl.userVote(data.listAction[i].infoAction);//nameUser
                             }
-                            if (data.listAction[i].action == "RECEIVE_INCOME") {
-                                var gamer = thisEl.getUserByName(data.listAction[i].infoAction.name);
-                                gamer.user = data.listAction[i].infoAction;
-                                gamer.updateVid();
+                            if (data.listAction[i].action == "SHOW_ALL_VOTE") {
+                                
+                                thisEl.showVote(data.listAction[i].infoAction);//list card with  namevotedusers
                             }
-                            if (data.listAction[i].action == "PUT_FIRM") {
-                                card=thisEl.listCard[thisEl.getIndexFirm(data.listAction[i].infoAction)];
-                                card.obj=data.listAction[i].infoAction;
-                                card.putFirm();
-                                thisEl.cancalSelectFirm();
+                            if (data.listAction[i].action == "WAIT_ASSOSIATION") {
+                                
+                                thisEl.vaitAssosiation(data.listAction[i].infoAction);//nameuser
                             }
-                            if (data.listAction[i].action == "BUY_FILIAL") {
-                                card=thisEl.listCard[thisEl.getIndexFirm(data.listAction[i].infoAction)];
-                                card.obj=data.listAction[i].infoAction;
-                                card.buyFilial();
-                                thisEl.cancalSelectFirm();
-                            }
-                            if (data.listAction[i].action == "SELL_FILIAL") {
-                                card=thisEl.listCard[thisEl.getIndexFirm(data.listAction[i].infoAction)];
-                                card.obj=data.listAction[i].infoAction;
-                                card.putFilial();
-                                thisEl.cancalSelectFirm();
-                            }
-                            if (data.listAction[i].action == "REDEEM_FIRM") {
-                                card=thisEl.listCard[thisEl.getIndexFirm(data.listAction[i].infoAction)];
-                                card.obj=data.listAction[i].infoAction;
-                                card.redeemFirm();
-                                thisEl.cancalSelectFirm();
-                            }
-                            if(data.listAction[i].action=="RETURN_IN_BANK"){
-                                card=thisEl.listCard[thisEl.getIndexFirm(data.listAction[i].infoAction)];
-                                card.obj=data.listAction[i].infoAction;
-                                card.sellFirm();
-                            }
-                            if(data.listAction[i].action=="AUCTION_BRACK"){
-                                thisEl.panelAuction.hide();
-                            }
-                            if(data.listAction[i].action=="WIN"){
-                                thisEl.win();
-                            }
-                            if(data.listAction[i].action=="GO_PRISON"){
-                                var gamer = thisEl.getUserByName(data.listAction[i].infoAction.name);
-                                gamer.user = data.listAction[i].infoAction;
-                                thisEl.startFunctionGoPrison(gamer);
-                            }
-                            if(data.listAction[i].action=="EXCHANGE_OFFERS"){
-                                if(data.listAction[i].infoAction.user.name==data.userRoom.name){
-                                    thisEl.razborExchOff(data.listAction[i].infoAction);
-                                }
-                            }
+
+
+                            
                         }
                     }
                 }
@@ -787,37 +746,8 @@ var gameImaginarium={
         this.changePanel.panelBut.parent().append(panelBut);
         this.changePanel.vid.show();
     },
-    cleanChPanel:function(data,panelBut){
-        this.changePanel.userSelect.empty();
-        this.changePanel.userSelect.removeAttr("disabled");
-        this.changePanel.myMoney.removeAttr("disabled");
-        this.changePanel.myMoney.val(0);
-        this.changePanel.apponentMoney.removeAttr("disabled");
-        this.changePanel.apponentMoney.val(0);
-        this.changePanel.mySelect.empty();
-        this.changePanel.apponentSelect.empty();
-        for(var i=0;i<data.indFirmUserChanger.length;i++){
-            var card=this.listCard[data.indFirmUserChanger[i]];
-            card.listVid.remove();
-            card.selectVid2.remove();
-        }
-        for(i=0;i<data.indFirm.length;i++){
-            var card=this.listCard[data.indFirm[i]];
-            card.listVid.remove();
-            card.selectVid.remove();
-        }
-        panelBut.remove();
-        panelBut=null;
-        this.changePanel.panelBut.show();
-        this.changePanel.vid.hide();
-    },
-    getIndexFirm:function(card){
-        for(var i=0;i<this.listCard.length;i++){
-            if(this.listCard[i].obj.name==card.name){
-                return i;
-            }
-        }
-    },
+    
+    
     loginfo:function(text){
         this.infoGame.prepend('<hr style="color:orange; width:60px;"/>');
         this.infoGame.prepend('<div>'+text+'</div>');
@@ -872,16 +802,7 @@ var gameImaginarium={
             thisEl.getStartGamers();
             thisEl.startloadgamedata();
         }
-        /* }else{
-               thisEl.listCard=[];
-               thisEl.buildPlace(data,thisEl.getSizePl(data.length));
-               for(var i=0;i<thisEl.listCard.length;i++){
-                    thisEl.listCard[i].checkedData();
-               }
-               thisEl.buildSystemControl();
-               thisEl.getStartGamers();
-               thisEl.startloadgamedata();
-        } */
+        
     },
     getStartGamers:function(){
         var thisEl=this;
