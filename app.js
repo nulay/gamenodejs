@@ -474,20 +474,46 @@ app.route('/games/monopoly/actions')
  */
 
 
-app.route('/games/imaginarium/gameinfo')                       .get(sessionCheckerFalse, (req, res) => {                   var curentGameName = req.session.curentGameName;                                                                var curentRoom = getRoom(curentGameName);               if (curentRoom!=null){                                     res.json(curentRoom.game);                           }else {                                                    return res.json(curentRoom);                         }
+app.route('/games/imaginarium/gameinfo')
+   .get(sessionCheckerFalse, (req, res) => {
+        var curentGameName = req.session.curentGameName;                                        
+        var curentRoom = getRoom(curentGameName);      
+        if (curentRoom!=null){                          
+           res.json(curentRoom.game);                 
+        }else {                                           
+           return res.json(curentRoom);            
+        }
     });
 
-app.route('/games/imaginarium/loadgamedata')                   .get(sessionCheckerFalse, (req, res) => {                   var roomName = req.query.roomName;                      var curentRoom = getRoom(roomName);                     if (curentRoom!=null){
-                         var userFromGame=curentRoom.game.getUserByName(req.session.user.name);                                         console.log('loadgamedata: '+userFromGame);            var dataForImajinarium=new DataForImajinarium(userFromGame, userFromGame.getAvailableAction(), userFromGame.getAndCl
-earActionsAllUser(), curen
-tRoom.game.getListUser());
-                                                                   res.json(dataForImajinarium);                               }else {                                                    return res.json(curentRoom);                         }                                                   });
+app.route('/games/imaginarium/loadgamedata')
+   .get(sessionCheckerFalse, (req, res) => {
+        var roomName = req.query.roomName; 
+        var curentRoom = getRoom(roomName);            
+        if (curentRoom!=null){
+             var userFromGame=curentRoom.game.getUserByName(req.session.user.name);                           
+             console.log('loadgamedata: '+userFromGame); 
+             var dataForImajinarium=new DataForImajinarium(userFromGame, userFromGame.getAvailableAction(), userFromGame.getAndClearActionsAllUser(), curentRoom.game.getListUser());
+             res.json(dataForImajinarium);           
+        }else {                                             
+             return res.json(curentRoom);                   
+        }                                            
+});
 
 app.route('/games/monopoly/actions')
     .get(sessionCheckerFalse, (req, res) => {
-        JSON.stringify('/games/monopoly/actions: '+req.query.action);                                                   var roomName = req.query.roomName;                      var curentRoom = getRoom(roomName);                     if(req.session.user.name==curentRoom.game.getCurentUser().getName()){                                              if(req.query.action == "push_card"){                      
- curentRoom.game.pushCard(req.query.indcard, req.query.assosiation);                        }                                                       if(req.query.action == "push_associate_card"){                         curentRoom.game.pushAssociateCard(req.query.indcard, req.session.user.name);                          }
-if(req.query.action == "vote_card"){                         curentRoom.game.voteCard(req.query.indcard, req.session.user.name);                          }
+        JSON.stringify('/games/monopoly/actions: '+req.query.action);                                  
+        var roomName = req.query.roomName;         
+        var curentRoom = getRoom(roomName);           
+        if(req.session.user.name==curentRoom.game.getCurentUser().getName()){                                     
+           if(req.query.action == "push_card"){                      
+               curentRoom.game.pushCard(req.query.indcard, req.query.assosiation);                
+           }                                               
+           if(req.query.action == "push_associate_card"){                 
+               curentRoom.game.pushAssociateCard(req.query.indcard, req.session.user.name);                   
+           }
+           if(req.query.action == "vote_card"){               
+               curentRoom.game.voteCard(req.query.indcard, req.session.user.name);                
+           }
 
         
     }).post(sessionCheckerFalse, (req, res) => {
