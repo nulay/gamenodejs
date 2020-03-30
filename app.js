@@ -492,8 +492,8 @@ app.route('/games/imaginarium/loadgamedata')
         if (curentRoom!=null){
              var userFromGame=curentRoom.game.getUserByName(req.session.user.name);                           
              console.log('loadgamedata: '+userFromGame); 
-             var dataForImajinarium=new DataForImajinarium(userFromGame, userFromGame.getAvailableAction(), userFromGame.getAndClearActionsAllUser(), curentRoom.game.getListUser());
-             res.json(dataForImajinarium);           
+             var dataForImaginarium=new DataForImaginarium(userFromGame, userFromGame.getAvailableAction(), userFromGame.getAndClearActionsAllUser(), curentRoom.game.getListUser());
+             res.json(dataForImaginarium);           
         }else {                                             
              return res.json(curentRoom);                   
         }                                            
