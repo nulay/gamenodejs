@@ -456,6 +456,44 @@ app.route('/games/monopoly/actions')
          }
     });
 
+//==============imaginarium===============
+
+/**
+ * Created by Mikhail_Kachanouski on 7/28/2017.
+ * Class every possible action from user for imaginarium game
+ * Получить 6 карт каждый игрок
+ * 1 игрок становится ведущим
+ * Загадывает ассоциацию и озвучивает
+ * Выставляет карту спрятано
+ * Все игроки выкладывают по 1 карте (связь с ассоциацией)
+ * Все кроме ведущего голосуют за какую нить карту(за свою голосовать нельзя)
+ * Если карточку ведущего угадали все игроки, то он идет на 3 хода назад (или на поле 1, если он еще не продвинулся дальше третьего поля), а остальные игроки стоят на месте.
+ * Если карточку ведущего никто не угадал, то ведущий идет на 2 хода назад. Плюс, очки получают игроки, чьи карточки угадали.
+ * В любом другом случае по 3 очка получают все игроки, правильно угадавшие карточку. Ведущий получает 3 очка плюс по очку за каждого угадавшего его игрока.
+ * Все игроки получают по одному очку за каждого игрока, который угадал их картинку.
+ */
+
+
+app.route('/games/imaginarium/gameinfo')                       .get(sessionCheckerFalse, (req, res) => {                   var curentGameName = req.session.curentGameName;                                                                var curentRoom = getRoom(curentGameName);               if (curentRoom!=null){                                     res.json(curentRoom.game);                           }else {                                                    return res.json(curentRoom);                         }
+    });
+
+app.route('/games/imaginarium/loadgamedata')                   .get(sessionCheckerFalse, (req, res) => {                   var roomName = req.query.roomName;                      var curentRoom = getRoom(roomName);                     if (curentRoom!=null){
+                         var userFromGame=curentRoom.game.getUserByName(req.session.user.name);                                         console.log('loadgamedata: '+userFromGame);            var dataForImajinarium=new DataForImajinarium(userFromGame, userFromGame.getAvailableAction(), userFromGame.getAndCl
+earActionsAllUser(), curen
+tRoom.game.getListUser());
+                                                                   res.json(dataForImajinarium);                               }else {                                                    return res.json(curentRoom);                         }                                                   });
+
+app.route('/games/monopoly/actions')
+    .get(sessionCheckerFalse, (req, res) => {
+        JSON.stringify('/games/monopoly/actions: '+req.query.action);                                                   var roomName = req.query.roomName;                      var curentRoom = getRoom(roomName);                     if(req.session.user.name==curentRoom.game.getCurentUser().getName()){                                              if(req.query.action == "push_card"){                      
+ curentRoom.game.pushCard(req.query.indcard, req.query.assosiation);                        }                                                       if(req.query.action == "push_associate_card"){                         curentRoom.game.pushAssociateCard(req.query.indcard, req.session.user.name);                          }
+if(req.query.action == "vote_card"){                         curentRoom.game.voteCard(req.query.indcard, req.session.user.name);                          }
+
+        
+    }).post(sessionCheckerFalse, (req, res) => {
+        
+    });
+
 
 //====================================
 
