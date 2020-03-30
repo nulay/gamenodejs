@@ -680,6 +680,10 @@ var gameImaginarium={
                             gamerA.user = data.listAction[i].user;
                             gamerA.updateVid();
                             thisEl.loginfo(gamerA.user.name + ' - ' + data.listAction[i].action+'('+data.listAction[i].infoAction+')');
+                            if (data.listAction[i].action == "CHOISE_SET_CARD") {
+                                thisEl.choiseSetCard(data.listAction[i].infoAction);//list set card
+                            }
+
                             if (data.listAction[i].action == "THROW_CUBE") {
                                 thisEl.throw_cubeObr(data.listAction[i].infoAction, gamerA.fishka);
                             }
@@ -716,8 +720,11 @@ var gameImaginarium={
             }
         });
     },
-    razborExchOff:function(data){
-        this.changePanel.userSelect.append('<option value="' + data.userChanger.name + '">' + data.userChanger.name + '</option>');
+    choiseSetCard:function(data){
+        for(const setname of data){
+           this.choiseSetCardPanel.append('<div><input type="checkbox" id="setcard" name="setcard" value="'+setname[i]+'"><label for="setcard">'+setname[i]+'</label></div>');
+        
+        }
         this.changePanel.userSelect.attr("disabled","disabled");
         this.changePanel.myMoney.attr("disabled","disabled");
         this.changePanel.myMoney.val(data.money);
