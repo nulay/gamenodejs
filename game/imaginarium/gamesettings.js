@@ -1,9 +1,9 @@
-var ImaginariumGame = require("./monopolygame");
+var ImaginariumGame = require("./imaginariumgame");
 //var CardFirm = require("./cardfirm");
 //var CardPlusMinus = require("./cardplusminus");
 //var CardPrison = require("./cardprison");
 //var CardCheating = require("./cardcheating");
-var UserImaginarium = require("./usermonopoly");
+var UserImaginarium = require("./userimaginarium");
 
 class GameSettings{
     static createStandartGame(roomForJoin){
