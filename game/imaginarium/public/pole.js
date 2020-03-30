@@ -1124,3 +1124,194 @@ var gameImaginarium={
             this.panelThrowCube.show();
         }
         this.imgThrowCube1.attr('src',this.imgName+'cube/'+this.getRandomInt(1,6)+'.png');
+        this.imgThrowCube2.attr('src',this.imgName+'cube/'+this.getRandomInt(1,6)+'.png');
+        if(ind<10){
+            ind+=1;
+            setTimeout(function(){thisEl.throw_cubeObr(data,fishka,ind)},100);
+        }else{
+            this.imgThrowCube1.attr('src',this.imgName+'cube/'+data[0]+'.png');
+            this.imgThrowCube2.attr('src',this.imgName+'cube/'+data[1]+'.png');
+            //this.go_sellObr2(data,fishka);
+        }
+    },
+    getRandomInt:function (min, max){
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+    startGoSellFunction:function(data,fishka){
+        var thisEl=this;
+        setTimeout(function(){thisEl.go_sellObr(data,fishka);},2000);
+    },
+    startFunctionGoPrison:function(gamer){
+        var thisEl=this;
+        setTimeout(function(){
+            gamer.updateVid();
+            gamer.fishka.posit=gamer.user.indexPosition;
+            card=thisEl.listCard[gamer.user.indexPosition];
+            card.goOn(gamer);
+            thisEl.panelThrowCube.find('img').hide();
+            thisEl.panelThrowCube.append($('<img style="vertical-align: middle;" src="'+thisEl.imgName+'goPrison.png" width="auto" height="'+Math.round(thisEl.actSize.shCPl/3)+'px"/>'));
+            setTimeout(function(){
+                thisEl.panelThrowCube.find('img:visible').remove();
+                thisEl.panelThrowCube.hide();
+                thisEl.panelThrowCube.find('img').show();
+            },2000);
+        },2000);
+    },
+    go_sellObr:function(data,fishka){
+        var step=parseInt(data);
+        fishka.posit+=step;
+        if(fishka.posit>this.listCard.length-1){
+            fishka.posit=fishka.posit-this.listCard.length;
+        }
+        this.setFishkaI(fishka,step);
+    },
+    getPossibleFirm:function(action,userName){
+        var thisEl=this;
+        var urlD=predictURL+"/games/monopoly/actions/getPossibleFirm/"+action;
+        if(userName){
+            urlD=predictURL+"/games/monopoly/actions/getPossibleFirmCh/"+userName;
+        }
+        $.ajax({
+            url: urlD,
+            dataType : "json",
+            type: "GET"
+        }).done(function(data) {
+            if(data) {
+                for (var i = 0; i < data.length; i++) {
+                    if (!userName) {
+                        thisEl.listCard[data[i]].canSelect(action);
+                    } else {
+                        thisEl.listCard[data[i]].canSelect2(action);
+                    }
+                }
+            }
+            if(action=="CHANGE_FIRM"){
+                if(!userName) {
+                    for (var i = 0; i < thisEl.gamers.length; i++) {
+                        if (thisEl.curentUser.name != thisEl.gamers[i].user.name) {
+                            thisEl.changePanel.userSelect.append('<option value="' + thisEl.gamers[i].user.name + '">' + thisEl.gamers[i].user.name + '</option>');
+                            if(!userName){
+                                userName=thisEl.gamers[i].user.name;
+                                thisEl.getPossibleFirm(action,userName);
+                            }
+                        }
+                    }
+                    thisEl.changePanel.vid.show();
+                }
+            }else{
+                thisEl.buttonsWinBAY[action].show();
+                thisEl.panelSelectFirm.show();
+            }
+            thisEl.updPanelSum(action);
+        }).error(function(){
+
+        });
+    },
+    actionsUser:function(actions, functObr) {
+        var thisEl=this;
+        var datas = null;
+        var typeReq="GET";
+        var datat="json";
+        this.numError=0;
+        jQuery.ajaxSettings.traditional = false;
+        if (actions == 'PUT_FIRM' | actions == 'REDEEM_FIRM' | actions == 'BUY_FILIAL' | actions == 'SELL_FILIAL'){
+            if (this.listSelectFirm.length == 0) {
+                this.getPossibleFirm(actions);
+                return;
+            } else {
+                datas = {'indFirm': this.listSelectFirm};
+            }
+        }
+        if (actions == 'CHANGE_FIRM'){
+            if (this.listSelectFirm.length == 0 & this.listSelectFirm2.length == 0) {
+                if(this.changePanel.vid.is(':visible')){
+                    this.loginfo("Для обмена нужно выбрать хотябы одну фирму с любой стороны");
+                    return;
+                }
+                this.getPossibleFirm(actions);
+                return;
+            } else {
+                jQuery.ajaxSettings.traditional = true;
+                typeReq="POST";
+                datat="html";
+                var money1=parseInt(this.changePanel.myMoney.val());
+                if(isNaN(money1)){money1=0;}
+                var money2=parseInt(this.changePanel.apponentMoney.val());
+                if(isNaN(money2)){money2=0;}
+//                'indFirmUserChanger': this.listSelectFirm,'indFirm': this.listSelectFirm2,
+                datas = {'indFirmUserChanger': this.listSelectFirm,'indFirm':this.listSelectFirm2,'moneyUserChanger':money1,'money':money2, 'userName':this.changePanel.userSelect.val()};
+//                alert(datas);
+            }
+        }
+        if (actions == 'SEND_MESSAGE'){
+            datas = {'message':  this.messageField.val()};
+            this.messageField.val("");
+            typeReq="POST";
+        }
+        if (actions == 'GAME_END'){
+            this.buttons['GAME_CLOSE'].show();
+            this.butGE.hide();
+        }
+        this.hideAllBut();
+        this.keyLoad=0;
+        $.ajax({
+            url: predictURL+"/games/monopoly/actions/"+actions.toLowerCase(),
+            dataType : datat,
+            data:datas,
+//            contentType: "application/json",
+            type: typeReq
+        }).done(function(data) {
+            thisEl.keyLoad=2000;
+            thisEl.loadgamedata();
+            if (actions == 'GAME_END'){
+                thisEl.buttons['GAME_CLOSE'].removeAttr('disabled').css('font-weight','bold');
+            }
+        }).error(function(){
+            if(thisEl.numError<10){
+                thisEl.numError+=1;
+            }
+            setTimeout(function(){thisEl.actionsUser(actions,functObr)},3000*thisEl.numError);
+        });
+    },
+    setFishkaI:function(fishka,step){
+        var ind=fishka.posit-step;
+        if(ind<0){
+            ind=this.listCard.length+ind;
+        }
+        this.listCard[ind].goOnFishka(fishka);
+        if(step>0){
+            var thisEl=this;
+            setTimeout(function(){thisEl.setFishkaI(fishka,step-1)},200);
+        }else{
+            this.panelThrowCube.hide();
+        }
+    },
+    win:function(ind){
+        var thisEl=this;
+        if(!ind){
+            ind=0;
+            this.panelWin=$('<div style="background:black;position:absolute;z-index:40;top:0;left:0;width:'+this.actSize.shCPl+'px;height:'+(this.actSize.shCPl-2)+'px; text-align:center;"></div>');
+            $('#systContr').append(this.panelWin);
+            this.imgWin=$('<img style="" src="'+this.imgName+'win/'+1+'.gif" width="'+Math.round(this.actSize.shCPl/2)+'px" height="'+Math.round((this.actSize.shCPl-2)/2)+'px"/>');
+            this.panelWin.append($('<div style="display: inline-block; vertical-align: middle; color: WHITE; padding: 60px;color:white; font-weight: bold;font-size: 20pt;"></div>')
+                    .append('<div>'+this.lang['YOURS_WIN']+'</div>').append(this.imgWin).append($('<div>'+this.lang['GAME_CLOSE']+'</div>')
+                            .click(function(){document.location.href=predictURL+"/games/monopoly/actions/game_close";})))
+                    .append('<div style="vertical-align: middle;display:inline-block;height:100%;"></div>');
+        }
+        this.imgWin.attr('src',this.imgName+'win/'+this.getRandomInt(1,3)+'.gif');
+        ind+=1;
+        setTimeout(function(){thisEl.win(ind)},2000);
+    }
+};
+
+function arrToString(namePr,arrm){
+    var res="";
+    for(var i=0;i<arrm.length;i++){
+        res+=namePr
+    }
+    return
+}
+
+$(function(){	
+	StartGame.showStartWindow();    
+});
