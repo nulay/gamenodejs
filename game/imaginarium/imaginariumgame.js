@@ -6,14 +6,14 @@ var Util = require("./../../../model/util");
 class ImaginariumGame{
 
     roomName;
-    listUsers=[];
-    listViewUser=[];
+    listUsers = [];
+    listViewUser = [];
 
     timeStartGame;
     currentTime;
     listCard = [];
 
-    startGame=false;
+    startGame = false;
     
     imageFolder;
     
@@ -21,16 +21,19 @@ class ImaginariumGame{
 
     penalty_cheating;
 
-    curentUser=null;
+    curentUser = null;
 
     maxCountUser;
 
-    constructor(listCard, roomName,maxCountUser,listUsers) {
-        this.timeStartGame=new Date().getTime();
+    cardset = [];
+
+    constructor(listCard, roomName, maxCountUser,listUsers, cardset) {
+        this.timeStartGame = new Date().getTime();
         this.listCard = listCard;
         this.roomName = roomName;
-        this.listUsers=listUsers       
-        this.maxCountUser=maxCountUser;        
+        this.listUsers = listUsers       
+        this.maxCountUser = maxCountUser;   
+        this.cardset = cardset;     
     }
     
      getUserByName(nameUser){
@@ -88,11 +91,13 @@ class ImaginariumGame{
     }
 
     startGameF(){
-        //this.maxCountUser=this.getListUser().length-1               
+                      
         for(var i= 0 ;i<this.getListUser().length; i++) {
             var user = this.getListUser()[i];
             user.setMoney(this.getStartMoney());
             ActionUser.createInstance(this, user, "START_GAME", "Hello in GameRoom");
+            ActionUser.createInstance(this, user, "CHOISE_SET_CARD", this.cardset);
+
         }
         this.curentUser=this.getListUser()[Util.getRandom(0, this.maxCountUser)];
         this.nextGamer();
