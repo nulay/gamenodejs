@@ -618,13 +618,14 @@ GameImaginarium.prototype = {={
         }
         if(online){
             this.online=online;
-            this.dataGameLoader = new DataGameNoLoad();
+            this.dataGameLoader = new DataGameLoad();
         }else{
             this.online=online;
-            this.dataGameLoader = new DataGameLoad();
+            this.dataGameLoader = new DataGameNoLoad();
         }
+        
         this.dataGameLoader.loadDataGame(this, "loadPlace");
-        this.dataGameLoader.loadCurentPosition(this, "changeViewer");
+        // this.dataGameLoader.loadCurentPosition(this, "changeViewer");
     },
     migEl:null,
     changeViewer:function(data){
@@ -742,6 +743,19 @@ GameImaginarium.prototype = {={
 
         
     },
+    loadPlace:function(data){
+        var thisEl=this;
+        if(data !=null) {
+	    
+            
+            thisEl.buildPlace(data, getMaxSizeInnerBlock(567,794,this.pageS[2],this.pageS[3]));
+
+           // thisEl.buildSystemControl();
+           // thisEl.getStartGamers();
+           // thisEl.startloadgamedata();
+        }
+        
+    },
     buildPlace:function(data,size){
         $('body').css('background','black');
         var gC=1;
@@ -802,18 +816,7 @@ GameImaginarium.prototype = {={
             this.timeLoad=2000;
         }
     },
-    loadPlace:function(data){
-        var thisEl=this;
-        if(data!=null) {
-	    //thisEl.listCard=data.cards;
-            thisEl.buildPlace(data, getMaxSizeInnerBlock(567,794,this.pageS[2],this.pageS[3]));
-
-            thisEl.buildSystemControl();
-            thisEl.getStartGamers();
-            thisEl.startloadgamedata();
-        }
-        
-    },
+    
     getStartGamers:function(){
         var thisEl=this;
         $.ajax({
