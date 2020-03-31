@@ -594,7 +594,8 @@ var StartGame={
 }
 
 
-var gameImaginarium={
+var GameImaginarium=Class.create();
+GameImaginarium.prototype = {={
     pageS:getPageSize(),
     gamers:[],
     listCard:[],
@@ -609,13 +610,18 @@ var gameImaginarium={
     timeLoad:2000,
     curentUser:null,
     online:true,
-	dataGameLoader : new DataGameNoLoad(),
+    dataGameLoader : null,
+
     init:function(lang, online){
         if(lang){
             this.lang=lang;
         }
         if(online){
             this.online=online;
+            this.dataGameLoader = new DataGameNoLoad();
+        }else{
+            this.online=online;
+            this.dataGameLoader = new DataGameLoad();
         }
         this.dataGameLoader.loadDataGame(this, "loadPlace");
         this.dataGameLoader.loadCurentPosition(this, "changeViewer");
@@ -721,39 +727,36 @@ var gameImaginarium={
         });
     },
     choiseSetCard:function(data){
-        for(const setname of data){
-           this.choiseSetCardPanel.append('<div><input type="checkbox" id="setcard" name="setcard" value="'+setname[i]+'"><label for="setcard">'+setname[i]+'</label></div>');
+        if(this.choiseSetCardPanel == null){
+           for(const setname of data){
+              this.choiseSetCardPanel.append('<div><input type="checkbox" id="setcard" name="setcard" value="'+setname[i]+'"><label for="setcard">'+setname[i]+'</label></div>');      
+           }        
+           var butPanel = $('<div>');       
+           var butSetIsChosen =$('<button>Готово</button>').click(function(){
+
+           }
+           butPanel.append(butSetIsChosen);
+           this.choiseSetCardPanel.append(butPanel);
+        }
+        this.choiseSetCardPanel.show();
+
         
-        }
-        this.changePanel.userSelect.attr("disabled","disabled");
-        this.changePanel.myMoney.attr("disabled","disabled");
-        this.changePanel.myMoney.val(data.money);
-        this.changePanel.apponentMoney.attr("disabled","disabled");
-        this.changePanel.apponentMoney.val(data.moneyUserChanger);
-        for(var i=0;i<data.indFirmUserChanger.length;i++){
-            var card=this.listCard[data.indFirmUserChanger[i]];
-            this.changePanel.apponentSelect.append(card.listVid);
-            card.vid.append(card.getSelectVid2());
-        }
-        for(i=0;i<data.indFirm.length;i++){
-            var card=this.listCard[data.indFirm[i]];
-            this.changePanel.mySelect.append(card.listVid);
-            card.vid.append(card.getSelectVid());
-        }
-        this.changePanel.panelBut.hide();
-        var thisEl=this;
-        var panelBut=$('<div>');
-        panelBut.append($('<button>Принять</button>').click(function(){
-            thisEl.cleanChPanel(data,panelBut);
-            thisEl.actionsUser("CHANGE_FIRM_OK","change_firm_okObr");
-        })).append($('<button>Отказать</button>').click(function(){
-            thisEl.cleanChPanel(data,panelBut);
-            thisEl.actionsUser("CHANGE_FIRM_CANCAL","change_firm_cancalObr");
-        }));
-        this.changePanel.panelBut.parent().append(panelBut);
-        this.changePanel.vid.show();
     },
-    
+    buildPlace:function(data,size){
+        $('body').css('background','black');
+        var gC=1;
+
+        var topline=$('<div>');
+        $('#poleGame').css('width', (size[0]-2)+'px');
+        $('#poleGame').css('font-size', 10+'pt');
+
+        var centerLine=$('<div style="display: inline; clear: left;">');
+        centerLine.append('<div id="centerPl" class="centerPlace" style="position:relative;width:'+(size[0]-2)+'px;height:'+(size[1]-2)+'px;display: inline; float: left;"><img src="'+data.pole.src+'" width="'+(size[0]-2)+'px" height="'+(size[1]-2)+'px"/></div>');
+        this.poleGame.append($('<div id="place" style="float:left;">').append(centerLine));
+    },
+
+
+
     
     loginfo:function(text){
         this.infoGame.prepend('<hr style="color:orange; width:60px;"/>');
@@ -802,7 +805,7 @@ var gameImaginarium={
     loadPlace:function(data){
         var thisEl=this;
         if(data!=null) {
-			thisEl.listCard=data.cards;
+	    //thisEl.listCard=data.cards;
             thisEl.buildPlace(data, getMaxSizeInnerBlock(567,794,this.pageS[2],this.pageS[3]));
 
             thisEl.buildSystemControl();
@@ -846,19 +849,7 @@ var gameImaginarium={
             }
         }
     },
-    buildPlace:function(data,size){
-		//?
-		$('body').css('background','black');
-        var gC=1;
-
-        var topline=$('<div>');
-        $('#poleGame').css('width', (size[0]-2)+'px');
-        $('#poleGame').css('font-size', 10+'pt');
-
-        var centerLine=$('<div style="display: inline; clear: left;">');
-        centerLine.append('<div id="centerPl" class="centerPlace" style="position:relative;width:'+(size[0]-2)+'px;height:'+(size[1]-2)+'px;display: inline; float: left;"><img src="'+data.pole.src+'" width="'+(size[0]-2)+'px" height="'+(size[1]-2)+'px"/></div>');
-        this.poleGame.append($('<div id="place" style="float:left;">').append(centerLine));
-    },
+    
     buildCard:function(listCardObj,ind,razm){
         this.listCard[ind]=new Card(this,listCardObj[ind],ind,razm);
         return this.listCard[ind].vid;
@@ -1241,5 +1232,5 @@ function arrToString(namePr,arrm){
 }
 
 $(function(){	
-	StartGame.showStartWindow();    
+	new GameImaginarium(langRu, true);    
 });
