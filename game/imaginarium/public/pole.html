@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="../../../public/bootstrap.min.css" >
     <link rel="stylesheet" href="../../../public/jquery-ui.css">
 <!--     <link rel="stylesheet" href="/resources/demos/style.css">-->
-    <script src="../../../public/js/jquery-1.12.4.js"></script>
+    <script src="../../../public/js/jquery-3.4.1.min.js"></script>
     <script src="../../../public/js/jquery-ui.js"></script>
 
 <!--  <script type="text/javascript" src="../../../public/js/YConsole-compiled.js"></script>
@@ -21,11 +21,73 @@
 
 <body class="container">
 
-<style type="text/css">body{margin: 0;padding: 0;}</style>
+<style type="text/css">
+body{margin: 0;padding: 0;}
+
+a.button9 {
+  position: relative;
+  display: inline-block;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  text-shadow: rgba(255,255,255,.5) 1px 1px, rgba(100,100,100,.3) 3px 7px 3px;
+  user-select: none;
+  padding: 0.3em 1.5em;
+  outline: none;
+  border-radius: 3px / 100%;
+  background-image:
+   linear-gradient(45deg, rgba(255,255,255,.0) 30%, rgba(255,255,255,.8), rgba(255,255,255,.0) 70%),
+   linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0) 20%, rgba(255,255,255,0) 90%, rgba(255,255,255,.3)),
+   linear-gradient(to right, rgba(125,125,125,1), rgba(255,255,255,.9) 45%, rgba(125,125,125,.5)),
+   linear-gradient(to right, rgba(125,125,125,1), rgba(255,255,255,.9) 45%, rgba(125,125,125,.5)),
+   linear-gradient(to right, rgba(223,190,170,1), rgba(255,255,255,.9) 45%, rgba(223,190,170,.5)),
+   linear-gradient(to right, rgba(223,190,170,1), rgba(255,255,255,.9) 45%, rgba(223,190,170,.5));
+  background-repeat: no-repeat;
+  background-size: 200% 100%, auto, 100% 2px, 100% 2px, 100% 1px, 100% 1px;
+  background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+  box-shadow: rgba(0,0,0,.5) 3px 10px 10px -10px;
+  font-size:20px
+}
+a.buttonsmall{
+  padding: 0.2em 0.5em;
+  font-size:15px
+}
+a.button9:hover {
+  transition: .5s linear;
+  background-position: -200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+}
+a.button9:active {
+  top: 1px;
+}
+.playerField{
+  padding-top: 10px;
+}
+</style>
 <div id="poleGame" style="margin: 0 auto; width: 1819px;">
-</div>
-<div id="waitGwin" style="position:absolute;z-index:1000;left:0;top:0; background:black; height:1000px;opacity: 0.8;width: 100%;">
-    <div style="color: white;font-size: 40pt;margin: 0 auto;padding: 300px;text-align: center;width: 500px;">Ожидание игроков!!</div>
+    <div id="waitGwin" style="display:none;position:absolute;z-index:1000;left:0;top:0; background:black; height:1000px;opacity: 0.8;width: 100%;">
+        <div style="color: white;font-size: 20pt;margin: 0 auto;padding: 300px;text-align: center;width: 500px;">Ожидание игроков!!</div>
+    </div>
+    <div id="startWindow" style="position:absolute;z-index:1000; background:black;opacity: 0.8;float:left;">
+        <div style="color: white;font-size: 10pt;margin: 0 auto;padding-top: 20%;px;width: 100%;">
+		    <div>Выбирите количество игроков: <a href="#" id="minusPlayer" class="button9 buttonsmall">-</a><span id="countPlayers" style="padding:0 10px 0 10px">1</span><a href="#" id="plusPlayer" class="button9 buttonsmall">+</a></div>
+		    <div id="playerPanel">
+			    <div align="right" class="playerField">Введите имя <span class="numPlayer">1</span> игрока: <input class="namePlayer" type="text" size="15" style="background:black; color:#FFFFFF;font-size:10px;"/><span class="passPanel" style="display:none;"> пароль: <input class="passPlayer" type="password" size="15" style="background:black; color:#FFFFFF;font-size:10px;"/><span></div>
+		    </div>
+            <div style="padding:20px;"><label style=" font-size:10px;"><input id="passSwitch" type="checkbox"> Включить пароли</label></div>
+		    <div style="padding:20px;"><a href="#" id="buttonStart" class="button9">Start</a></div>
+		    <div id="errorPlace" style="padding:10px;color:red;"></div>
+	    </div>
+    </div>
+	<div id="poleCell" style="position:absolute;z-index:500; background:black;opacity: 0.8;float:left;">
+        
+    </div>
+    <div id="transferDevice" style="position:absolute;z-index:1000;left:0;top:0; background:black; height:1000px;width: 100%;display:none">
+        <div style="color: white;font-size: 10pt;margin: 0 auto;padding: 300px;text-align: center;width: 500px;">
+            <div>Передайте устройство игроку : <span class="namePlayerTransfer"></span> <div>пароль: <input class="passTransfer" type="text" size="15" style="background:black; color:#FFFFFF;font-size:20px;display:none;"/></div></div>
+            <div style="padding:20px;"><input id="TransferComplete" type="button" value="Complete" style=" font-size:30px;"></div>
+            <div id="errorPlacetransferDevice" style="padding:10px;color:red;"></div>
+        </div>
+    </div>
 </div>
 </body>
 

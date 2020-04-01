@@ -136,31 +136,32 @@ var Fishka = Class.create();
 Fishka.prototype = {
     colorF: ["red", "darkblue", "yellow", "lightblue"],
     colorText: ["white;", "white;", "black", "black"],
-    initialize: function (numF, posit, name, size) {
+    initialize: function (numF, posit, name, size, countUser) {
         this.numF = numF;
         this.posit = posit;
         this.name = name;
         this.size = size;
+		this.countUser = countUser;
         this.build();
     },
     build: function () {
-        var r = Math.round(this.size.shMc / 4);
+        var r = Math.round(this.size.shMc / this.countUser);
         this.vid = $('<div style="border-radius:' + r + 'px;display:inline;margin:auto;text-align:center;width:' + r + 'px;height:' + r + 'px; background-color: ' + this.colorF[this.numF - 1] + ';border: 3px solid white;"><span style="color:' + this.colorText[this.numF - 1] + 'font-weight:bold;font-size:' + this.size.fontsize + 'pt;">' + this.numF + '</span></div>')
             this.vid.hide().show();
     }
-} //"money":100000,"penalty":0,"indexPosition":0,"credit":0,"activGamer":false,"goForward":true,"name":"admin"
+}
 
 var Gamer = Class.create();
 Gamer.prototype = {
     initialize: function (user, game, num) {
         this.user = user;
-        this.fishka = new Fishka(num, user.indexPosition, user.name, game.actSize);
+        this.fishka = new Fishka(num, user.indexPosition, user.name, game.actSize, game.room.maxCountUser);
         this.game = game;
         this.build();
     },
     build: function () {
-        var t = Math.round(this.game.actSize.shCPl / 4);
-        var v = Math.floor(this.game.actSize.shCPl / 4);
+        var t = Math.round(this.game.actSize.shCPl / this.game.room.maxCountUser);
+        var v = Math.floor(this.game.actSize.shCPl / this.game.room.maxCountUser);
         this.vid = $('<div style="border-radius: ' + this.game.actSize.fontsize + 'px;font-size:' + this.game.actSize.fontsize + 'pt;position:relative; display:inline-block;vertical-align:top;width: ' + (v - 20) + 'px;height: ' + (t - 20) + 'px; background-color: ' + this.fishka.colorF[this.fishka.numF - 1] + ';background-image: url(/resources/images/games/' + this.game.room.imageFolder + '/setka.png);margin: 5px;"><div style="color:' + this.fishka.colorText[this.fishka.numF - 1] + ';margin: 5px;">' + this.fishka.numF + ' ' + this.user.name + '</div></div>');
         this.bord = $('<img style="border-radius: ' + this.game.actSize.fontsize + 'px;position:absolute; top:0; left:0;" src="/resources/images/games/' + this.game.room.imageFolder + '/pole.jpg" width="' + (v - 20) + 'px" height="' + (t - 20) + 'px"/>');
         this.vid.append(this.bord);
@@ -189,220 +190,30 @@ Gamer.prototype = {
     }
 }
 
-var Card = Class.create();
-Card.prototype = {
-    initialize: function (gameM, obj, ind, rasp) {
-        this.gameM = gameM;
-        this.obj = obj;
+var Cell = Class.create();
+Cell.prototype = {
+    procentPosition:[[92,7],[80,4],[69,3],[58,5],[47,4],[37,3],[27,6],[17,4],[7,3],[2,15],
+	[10,21],[19,21],[29,23],[40,20],[51,21],[62,20],[72,22],[82,22],
+	[84,36],[74,39],[64,39],[54,37],[44,38],[33,39],[22,38],[12,39],[3,40],
+	[3,53],[12,56],[21,55],[31,56],[41,55],[51,56],[61,56],[71,56],[81,55],[90,54],[94,40],[94,26]],
+    initialize: function (gameM, ind) {
+        this.gameM = gameM;      
         this.ind = ind;
-        this.buildCard(rasp);
+        this.buildCell();
     },
-    buildCard: function (rasp) {
-        this.h = this.gameM.actSize.shBc;
-        this.w = this.gameM.actSize.shMc;
-        if (rasp == 'big') {
-            this.w = this.gameM.actSize.shBc;
-        }
-        this.infocard = $('<div class="infocard" style="position: absolute; z-index: 40; top: 0;left: 0;width:' + this.w + 'px;height:' + this.h + 'px;">').append('<input type="hidden" value="' + this.ind + '"/>');
-        //'height="'+size.shBc+'px" width="auto"'
-        var img = $('<img src="/resources/images/games/' + this.gameM.room.imageFolder + '/' + this.obj.image + '"/>').css('width', this.w + 'px');
-        this.vid = $('<div style="position:relative;text-aligne:center;">').css('float', 'left').css('height', this.h + 'px').append(img).append(this.infocard);
-        this.poleForFishka = $('<div style="display:inline-block;vertical-align: middle;"></div>');
-        this.vid.append($('<div style="text-align: center;position:absolute;z-index:30;top:0;left:0;width:' + this.w + 'px;height:' + this.h + 'px;">').append(this.poleForFishka).append('<div style="display:inline-block;height:' + this.h + 'px;vertical-align:middle;width:0;">'));
-        if (rasp == 'left') {
-            this.vid.css('height', this.gameM.actSize.shMc + 'px');
-            this.vid.css('transform', 'rotate(270deg)').css('transform-origin', Math.round(this.gameM.actSize.shMc / 2) + 'px ' + Math.round(this.gameM.actSize.shMc / 2) + 'px'); // translate('+this.gameM.actSize.shMc/2+'px,'+this.gameM.actSize.shMc/2+'px)');
-        }
-        if (rasp == 'right') {
-            this.vid.css('height', this.gameM.actSize.shMc + 'px');
-            this.vid.css('transform', 'rotate(90deg)').css('transform-origin', Math.round(this.gameM.actSize.shMc / 2) + 'px ' + Math.round(this.gameM.actSize.shMc / 2) + 'px').css('float', 'right');
-        }
-        var info = $('<div style="color:white;font-size:' + this.gameM.actSize.fontsize + 'pt;position: absolute; z-index: -5; top: 0;left: 0;width:100%;height:100%;">').append(this.infoFirm);
-        if (this.obj.price) {
-            this.infoMoneyBG = $('<div style="z-index:-5;position:relative;background-image: url(/resources/images/games/' + this.gameM.room.imageFolder + '/setka.png);">').css('height', Math.round(this.h / 4) + 'px').css('width', this.w + 'px');
-            this.infoMoney = $('<div style="position: absolute; z-index: -2; top: 0;left: 0;text-align: center; vertical-align: middle;display: table-cell;">');
-            this.infoMoney.css('height', Math.round(this.h / 4) + 'px').css('width', this.w + 'px').text(this.obj.price);
-            this.infomoneyBG.append(this.infomoney);
-            info.append(this.infoMoneyBG);
-        }
-        this.infoFirm = $('<div style="text-align: center; vertical-align: middle;">').css('height', Math.round((this.h / 4) * 3) + 'px').css('width', this.w + 'px');
-        this.infoFirm.text(this.obj.name);
-        info.append(this.infoFirm);
-        var bg = $('<div class="infocard" style="background:black;position: absolute; z-index: -10; top: 0;left: 0;">').css('height', this.h + 'px').css('width', this.w + 'px');
-        this.vid.append(info).append(bg);
-        this.listVid = $('<div style="color:white; cursor:default;">' + this.obj.name + ' - ' + this.obj.price + '/' + this.obj.filialPrice + '</div>');
+    buildCell: function () {
+        this.h = this.gameM.pageS[0]-2;
+        this.w = this.gameM.pageS[1]-2;      
+        this.vid = $('<div style="position:absolute;text-aligne:center;">').css('float', 'left').css('height', this.h/15 + 'px').css('width', this.w/7 + 'px').css('left',this.w/100*this.procentPosition[this.ind][1] + 'px').css('top',this.h/100*this.procentPosition[this.ind][0] + 'px');
+        this.poleForFishka = $('<div style="display:inline-block;vertical-align: middle;">'+""+(this.ind+1)+'</div>');
+        this.vid.append(this.poleForFishka);
         return this.vid;
-    },
-    checkedData: function () {
-        if (this.obj.put) {
-            this.putFirm();
-        }
-        if (this.obj.filialStay > 0) {
-            for (var i = 0; i < this.obj.filialStay; i++) {
-                this.buyFilial();
-            }
-        }
-    },
-    sellFirm: function () {
-        this.infoMoneyBG.css("background-color", "");
-        this.infoMoney.text(this.obj.price);
-    },
-    buyFirm: function (gamer) {
-        this.infoMoneyBG.css("background-color", gamer.fishka.colorF[gamer.fishka.numF - 1]);
-        this.obj.userOwner = gamer;
-        this.recalculatePenalty();
-    },
-    recalculatePenalty: function () {
-        this.infoMoney.text(this.obj.price);
-        if (this.obj.userOwner != null && !this.obj.put) {
-            this.infoMoney.text(Math.round(this.obj.price / 5 + (this.obj.price * (this.obj.filialStay * this.obj.filialStay)) / 10));
-        }
     },
     goOn: function (gamer) { //фишка попала на поле
         this.goOnFishka(gamer.fishka)
     },
     goOnFishka: function (fishka) {
         this.poleForFishka.append(fishka.vid);
-    },
-    canSelect: function (action) {
-        this.actionUser = action;
-        var thisEl = this;
-        this.getSelectVid();
-        this.vid.append(this.selectVid);
-        if (action == 'BUY_FILIAL' || action == 'SELL_FILIAL') {
-            this.infoMoney.text(this.obj.priceFilial);
-        }
-        if (action == 'PUT_FIRM') {
-            this.infoMoney.text(this.obj.price / 2);
-        }
-        this.vkldf = function () {
-            thisEl.infocard.off('click', thisEl.vkldf).on('click', thisEl.vkldf2);
-            thisEl.vkldf2on = true;
-            thisEl.listVid.on('click', thisEl.vkldf2);
-            if (action != "CHANGE_FIRM") {
-                thisEl.gameM.poleF.append(thisEl.listVid);
-            } else {
-                thisEl.gameM.changePanel.mySelect.append(thisEl.listVid);
-            }
-            thisEl.gameM.listSelectFirm[thisEl.gameM.listSelectFirm.length] = thisEl.ind;
-            thisEl.gameM.updPanelSum(thisEl.actionUser);
-            if (thisEl.actionUser == "BUY_FILIAL") {
-                for (var i = 0; i < thisEl.gameM.listCard.length; i++) {
-                    if (thisEl.gameM.listCard[i] != thisEl && thisEl.gameM.listCard[i].obj.numMonopoly == thisEl.obj.numMonopoly) {
-                        if (thisEl.gameM.listCard[i].vkldf2on) {
-                            thisEl.gameM.listCard[i].infocard.click();
-                        }
-                    }
-                }
-            }
-            thisEl.selectVid.css('background', 'blue');
-        };
-        this.vkldf2 = function () {
-            thisEl.listVid.off('click', thisEl.vkldf2);
-            thisEl.vkldf2on = false;
-            thisEl.infocard.off('click', thisEl.vkldf2).on('click', thisEl.vkldf);
-            thisEl.listVid.remove();
-            thisEl.selectVid.css('background', 'white');
-            //            thisEl.vid.append(thisEl.selectVid);
-            thisEl.gameM.listSelectFirm.splice($.inArray(thisEl.ind, thisEl.gameM.listSelectFirm), 1);
-            thisEl.gameM.updPanelSum(thisEl.actionUser);
-        };
-        this.infocard.on('click', this.vkldf);
-    },
-    getSelectVid: function () {
-        if (this.selectVid == null) {
-            this.selectVid = $('<div style="background:white;position:absolute;z-index:20;top:0;left:0;width:' + this.w + 'px;height:' + this.h + 'px;opacity:0.4"></div>');
-        }
-        return this.selectVid;
-    },
-    getSelectVid2: function () {
-        if (this.selectVid2 == null) {
-            this.selectVid2 = $('<div style="background:yellow;position:absolute;z-index:20;top:0;left:0;width:' + this.w + 'px;height:' + this.h + 'px;opacity:0.4"></div>');
-        }
-        return this.selectVid2;
-    },
-    canSelect2: function (action) {
-        var thisEl = this;
-        this.getSelectVid2();
-        this.vid.append(this.selectVid2);
-        this.infoMoney.text(this.obj.price);
-        this.vkldf3 = function () {
-            thisEl.infocard.off('click', thisEl.vkldf3).on('click', thisEl.vkldf4);
-            thisEl.listVid.on('click', thisEl.vkldf4);
-            thisEl.gameM.changePanel.apponentSelect.append(thisEl.listVid);
-            thisEl.gameM.listSelectFirm2[thisEl.gameM.listSelectFirm2.length] = thisEl.ind;
-            thisEl.gameM.updPanelSum(thisEl.actionUser, 1);
-            thisEl.selectVid2.css('background', 'green');
-        };
-        this.vkldf4 = function () {
-            thisEl.listVid.off('click', thisEl.vkldf4);
-            thisEl.infocard.off('click', thisEl.vkldf4).on('click', thisEl.vkldf3);
-            thisEl.listVid.remove();
-            thisEl.selectVid2.css('background', 'yellow');
-            //thisEl.vid.append(thisEl.selectVid2);
-            thisEl.gameM.listSelectFirm2.splice($.inArray(thisEl.ind, thisEl.gameM.listSelectFirm2), 1);
-            thisEl.gameM.updPanelSum(thisEl.actionUser, 2);
-        };
-        this.infocard.on('click', this.vkldf3);
-    },
-    putFirm: function () {
-        if (this.putVid == null) {
-            this.putVid = $('<div style="background:red;position:absolute;z-index:20;top:0;left:0;width:' + this.w + 'px;height:' + this.h + 'px;opacity:0.4"></div>');
-        }
-        this.vid.append(this.putVid);
-        this.infoMoney.text(this.obj.price);
-    },
-    redeemFirm: function () {
-        this.putVid.remove();
-        this.recalculatePenalty();
-    },
-    canSelectCancal: function () {
-        if (this.selectVid && this.selectVid.is(':visible')) {
-            this.selectVid.css('background', 'white');
-            this.selectVid.remove();
-            this.listVid.off('click', this.vkldf).off('click', this.vkldf2);
-            this.infocard.off('click', this.vkldf).off('click', this.vkldf2);
-            this.actionUser = null;
-            this.vkldf2on = null;
-            this.recalculatePenalty();
-        }
-    },
-    canSelectCancal2: function () {
-        if (this.selectVid2 && this.selectVid2.is(':visible')) {
-            this.selectVid2.css('background', 'yellow')
-            this.selectVid2.remove();
-            this.infocard.off('click', this.vkldf3).off('click', this.vkldf4);
-            this.listVid.off('click', this.vkldf3).off('click', this.vkldf4);
-            this.recalculatePenalty();
-        }
-    },
-    buyFilial: function () {
-        if (this.poleStar == null) {
-            this.poleStar = $('<div style="position: absolute; z-index: -3; top: 0;left: 0;text-align: center; vertical-align: middle;display: table-cell;">').css('height', Math.round(this.h / 4) + 'px').css('width', this.w + 'px');
-            this.infoMoneyBG.append(this.poleStar);
-        }
-        var imgS = 'zvezd01.png';
-        var razm = Math.round(this.gameM.actSize.shMc / 4) - 3;
-        if (this.obj.filialStay >= 5) {
-            this.poleStar.empty();
-            imgS = 'zvezd02.png';
-            razm = Math.round(razm * 1.5);
-        }
-        this.poleStar.append('<img src="/resources/images/games/' + this.gameM.room.imageFolder + '/' + imgS + '" width="' + razm + 'px" height="auto"/>');
-        this.recalculatePenalty();
-    },
-    putFilial: function () {
-        var razm = Math.round(this.w / 4) - 3;
-        if (this.obj.filialStay == 4) {
-            this.poleStar.empty();
-            imgS = 'zvezd02.png';
-            for (var i = 0; i < 4; i++) {
-                this.poleStar.append('<img src="/resources/images/games/' + this.gameM.room.imageFolder + '/' + imgS + '" width="' + razm + 'px" height="auto"/>');
-            }
-        } else {
-            this.poleStar.find('img:first').remove();
-        }
-        this.recalculatePenalty();
     }
 }
 
@@ -426,9 +237,7 @@ DataGameLoader.prototype = {
         }).done(function (data) {
             if (data != null) {
                 thisEl.room = data;
-                if (thisEl.listCard.length == 0) {
-                    thisEl[collbackNameFunction]();
-                }
+                thisEl[collbackNameFunction]();
             }
         });
     },
@@ -441,12 +250,14 @@ DataGameLoader.prototype = {
         }).done(function (data) {
             if (data != null) {
                 thisEl.room = data;
-                if (thisEl.listCard.length == 0) {
-                    thisEl[collbackNameFunction]();
-                }
+                thisEl[collbackNameFunction]();
             }
         });
-    }
+    },
+	loadUser: function (obj, collbackNameFunction) {
+	},
+	loadgamedata: function (obj, collbackNameFunction) {
+	}
 }
 
 var DataGameNoLoad = Class.create();
@@ -460,7 +271,9 @@ DataGameNoLoad.prototype.loadDataGame = function (obj, collbackNameFunction) {
     data.pole = new Object();
 	data.cardset = ["Base","Ariadna","Himera","Pandora"]; 
     data.pole.src = rootPath + "pole.jpg";
-    this.users = StartGame.getAllUser();
+	
+	
+    
 //    var countcard = Math.floor(96 / this.users.length) * this.users.length;
 //    for (var i = 1; i < (countcard + 1); i++) {
 //        var card = new Object();
@@ -502,12 +315,13 @@ DataGameNoLoad.prototype.loadDataGame = function (obj, collbackNameFunction) {
             thisEl.showError($('#errorPlacetransferDevice'), "Не правильный пароль");
         }
     });
-*/	
+
     if (data != null) {
-        obj.room = data;
-        if (obj.listCard.length == 0) {
-            obj[collbackNameFunction](data);
-        }
+        obj[collbackNameFunction](data);
+    }
+	*/	
+	if (data != null) {
+        obj[collbackNameFunction](data);     
     }
 	
 }
@@ -523,26 +337,30 @@ DataGameNoLoad.prototype.loadCurentPosition = function (obj, collbackNameFunctio
 
 }
 DataGameNoLoad.prototype.loadUser = function (obj, collbackNameFunction) {
-    var listPlayerEl = $(".playerField");
-    for (var i = 0; i < listPlayerEl.length; i++) {}
+    StartGame.showStartWindow(obj, collbackNameFunction);
+}
+DataGameNoLoad.prototype.loadgamedata = function (obj, collbackNameFunction) {
+    var data = {};
+	
+	if (data != null) {
+        obj[collbackNameFunction](data);     
+    }
 }
 
 var StartGame = {
     skeepneed: true,
-    showStartWindow: function () {
+    showStartWindow: function (obj, collbackNameFunction) {
         this.addOnePlayer();
-        this.addOnePlayer();
-        if (this.skipNeed())
-            return;
+        if (this.skipNeed()) return;
         var thisEl = this;
-        $(document).on('click', '#minusPlayer', function () {
+        $(document).on('click', '#minusPlayer', function () {	            	
             thisEl.removeOnePlayer()
         });
         $(document).on('click', '#plusPlayer', function () {
             thisEl.addOnePlayer()
         });
         $(document).on('click', '#buttonStart', function () {
-            thisEl.startGame()
+            thisEl.startGame(obj, collbackNameFunction);
         });
         $(document).on('change', '#passSwitch', function () {
             if (this.checked) {
@@ -551,6 +369,7 @@ var StartGame = {
                 $('.passPanel').hide();
             }
         });
+		$('.playerField').show();
     },
     skipNeed: function () {
         if (this.skeepneed) {
@@ -558,8 +377,9 @@ var StartGame = {
             for (var i = 0; i < listPlayerEl.length; i++) {
                 $(listPlayerEl[i]).val("Player " + (i + 1));
             }
-            this.startGame();
+            //this.startGame();
         }
+		this.skeepneed = false;
         return this.skeepneed;
     },
     addOnePlayer: function () {
@@ -575,7 +395,7 @@ var StartGame = {
     },
     removeOnePlayer: function () {
         var el = $(".playerField");
-        if (el.length == 3) {
+        if (el.length == 2) {
             this.showError("We have minimum players!");
             return;
         }
@@ -589,10 +409,19 @@ var StartGame = {
             err.remove();
         });
     },
-    startGame: function () {
-        $('#startWindow').hide();
-        gameImaginarium.init(null, false);
-
+    startGame: function (obj, collbackNameFunction) {
+        var data={};
+		var listUsers=[];
+		var plF=$('.playerField');
+		for(var i=0; i< plF.length;i++){
+			listUsers[i]={};
+			listUsers[i].name=plF.find('.namePlayer').val();
+			listUsers[i].password=plF.find('.passPlayer').val();
+		}
+		data.listUsers = listUsers;
+		data.room={};
+		data.room.maxCountUser = listUsers.length;
+        obj[collbackNameFunction](data);
     },
     getAllUser() {
         var listPlayerEl = $(".namePlayer");
@@ -613,33 +442,31 @@ var GameImaginarium = Class.create();
 GameImaginarium.prototype = {
     pageS: null,
     gamers: [],
-    listCard: [],
+    listCell: [],
     room: {},
     step: 0,
     lang: langRu,
     infoGame: '',
     poleGame: $('#poleGame'),
     buttons: [],
-    timeLoad: 2000,
+    timeLoad: 12000,
     curentUser: null,
     online: true,
     dataGameLoader: null,
-
     initialize: function (lang, online) {
 		this.pageS = getPageSize();
         if (lang) {
             this.lang = lang;
         }
+		this.online = online;
         if (online) {
-            this.online = online;
             this.dataGameLoader = new DataGameLoader();
         } else {
-            this.online = online;
             this.dataGameLoader = new DataGameNoLoad();
         }
 
         this.dataGameLoader.loadDataGame(this, "loadPlace");
-        // this.dataGameLoader.loadCurentPosition(this, "changeViewer");
+		this.dataGameLoader.loadUser(this,"synhroGame"); 
     },
     migEl: null,
     changeViewer: function (data) {},
@@ -647,10 +474,8 @@ GameImaginarium.prototype = {
         var t = this.migEl;
         this.migEl = el;
         if (t != null) {
-            //            t.attr('src', '/resources/images/games/' + this.room.imageFolder + '/ramka.png');
             t.fadeIn('slow');
         }
-        //        this.migEl.attr('src','/resources/images/games/'+this.room.imageFolder+'/ramka.gif');
     },
     blink: function () {
         var thisEl = this;
@@ -664,17 +489,12 @@ GameImaginarium.prototype = {
         var thisEl = this;
         this.loadgamedata();
         setTimeout(function () {
-            thisEl.startloadgamedata()
+            thisEl.dataGameLoader.loadgamedata(thisEl, "loadgamedata");
         }, thisEl.timeLoad);
     },
-    loadgamedata: function () {
-        var thisEl = this;
-        $.ajax({
-            url: predictURL + "/games/monopoly/loadgamedata",
-            dataType: "json",
-            type: "GET"
-        }).done(function (data) {
-            if (data != null) {
+    loadgamedata: function (data) {
+        var thisEl = this;        
+            if (data != null) {				
                 if (this.keyLoad != 0) {
                     if (thisEl.gamers.length != thisEl.room.maxCountUser) {
                         if (data.listAction.length > 0) {
@@ -685,8 +505,8 @@ GameImaginarium.prototype = {
                                     break;
                                 }
                             }
-                            if (t) {
-                                thisEl.getStartGamers();
+                            if (t) {								
+								thisEl.dataGameLoader.loadUser(this,"getStartGamers");                                
                             }
                         }
                     } else {}
@@ -737,10 +557,10 @@ GameImaginarium.prototype = {
                     }
                 }
             }
-        });
+       
     },
     choiseSetCard: function (data) {
-        if (this.choiseSetCardPanel == null) {
+        if (!this.choiseSetCardPanel.build) {
             for (const setname of data) {
                 this.choiseSetCardPanel.append('<div><input type="checkbox" id="setcard" name="setcard" value="' + setname[i] + '"><label for="setcard">' + setname[i] + '</label></div>');
             }
@@ -749,19 +569,21 @@ GameImaginarium.prototype = {
                     butPanel.append(butSetIsChosen);
                     this.choiseSetCardPanel.append(butPanel);
                 });
+			this.choiseSetCardPanel.build = true;
         }
         this.choiseSetCardPanel.show();
 
     },
+	
     loadPlace: function (data) {
         var thisEl = this;
         if (data != null) {
             thisEl.buildPlace(data, getMaxSizeInnerBlock(567, 794, this.pageS[2], this.pageS[3]));
+			
             //thisEl.buildSystemControl();
             // thisEl.getStartGamers();
             // thisEl.startloadgamedata();
         }
-
     },
     buildPlace: function (data, size) {
         $('body').css('background', 'black');
@@ -774,10 +596,39 @@ GameImaginarium.prototype = {
 
         var centerLine = $('<div style="display: inline; clear: left;">');
         centerLine.append('<div id="centerPl" class="centerPlace" style="position:relative;width:' + (size[0] - 2) + 'px;height:' + (size[1] - 2) + 'px;display: inline; float: left;"><img src="' + data.pole.src + '" width="' + (size[0] - 2) + 'px" height="' + (size[1] - 2) + 'px"/></div>');
-        this.poleGame.append($('<div id="place" style="float:left;">').append(centerLine));
+		
+		//var fullPlace = $('<div id="fullPlace" class="centerPlace" style="position:relative;width:' + (size[0] - 2) + 'px;height:' + (size[1] - 2) + 'px;display: inline; float: left; background : black"></div>');
+        
+		//fullPlace.append(choiseSetCardPanel)
+		
+		this.choiseSetCardPanel = $('<div id="choiseSetCardPanel" class="centerPlace" style="position:absolute;z-index:10;width:' + (size[0] - 2) + 'px;height:' + (size[1] - 2) + 'px; float: left; background : black"></div>').hide();
+		this.choiseSetCardPanel.build=false;
+		
+		$('#startWindow').css("width", ""+(size[0] - 2) + "px");
+		$('#startWindow').css("height", "" + (size[1] - 2) + "px");
+
+        $('#poleCell').css("width", ""+(size[0] - 2) + "px");
+		$('#poleCell').css("height", "" + (size[1] - 2) + "px");
+		
+	    this.poleGame.append($('<div id="place" style="float:left;">').append(centerLine)).append(this.choiseSetCardPanel);
 		$('#waitGwin').hide();
+		
+		this.buildCell();
     },
-	
+    getSizePl:function(countCard){
+        var cCardInW=(countCard-4)/4+2;
+        var cCardInH=cCardInW;
+        var razmP=this.pageS[2];
+        if(this.pageS[2]>this.pageS[3]){
+            razmP=this.pageS[3];
+        }
+        var shMc=Math.floor(razmP/(cCardInW+1.2));
+        var shBc=Math.floor(shMc+shMc*0.6);
+        razmP=shMc*(cCardInW-2)+2*shBc;
+        var shCPl=shMc*(cCardInW-2);
+        this.actSize={cCardInW:cCardInW,cCardInH:cCardInH,razmP:razmP,shMc:shMc,shBc:shBc,shCPl:shCPl,fontsize:Math.round(shMc/8)};
+        return this.actSize;
+    },	
 	buildSystemControl: function () {
         var thisEl = this;
         this.createBut('THROW_CUBE');
@@ -877,7 +728,6 @@ GameImaginarium.prototype = {
         }
     },
     showButton: function (data) {
-        //this.hideAllBut();
         for (var b in this.buttons) {
             var show = false;
             for (var i = 0; i < data.availAction.length; i++) {
@@ -897,46 +747,38 @@ GameImaginarium.prototype = {
             this.timeLoad = 2000;
         }
     },
-
-    getStartGamers: function () {
-        var thisEl = this;
-        $.ajax({
-            url: predictURL + "/games/monopoly/getStartGamers",
-            dataType: "json",
-            type: "GET"
-        }).done(function (data) {
-            if (data != null) {
-                thisEl.synhroGame(data);
-                if (thisEl.gamers.length == thisEl.room.maxCountUser) {
-                    $('#waitGwin').hide();
-                    thisEl.blink();
-                }
-            }
-        });
-    },
-    synhroGame: function (users) {
-        for (var i = 0; i < users.length; i++) {
-            var gamer = this.getUserByName(users[i].name);
-            if (gamer == null) {
-                var num = this.gamers.length;
-                this.gamers[num] = new Gamer(users[i], this, num + 1);
-                gamer = this.gamers[num];
-            }
-            this.listCard[gamer.user.indexPosition].goOn(gamer);
-            this.userPanel.append(gamer.vid);
-        }
-        $('.userOwner').remove();
-        for (var i = 0; i < this.listCard.length; i++) {
-            if (this.listCard[i].obj.userOwner != null) {
-                var g = this.getUserByName(this.listCard[i].obj.userOwner.name);
-                this.listCard[i].buyFirm(g);
-            }
-        }
+    synhroGame: function (data) {
+		if (data != null) {
+			if(data.room != null){
+				this.room.maxCountUser = data.room.maxCountUser;
+			}
+			var users=data.listUsers;
+			for (var i = 0; i < users.length; i++) {
+				var gamer = this.getUserByName(users[i].name);
+				if (gamer == null) {
+					var num = this.gamers.length;
+					this.gamers[num] = new Gamer(users[i], this, num + 1);
+					gamer = this.gamers[num];
+				}
+				this.listCell[gamer.user.indexPosition].goOn(gamer);
+				this.userPanel.append(gamer.vid);
+			}
+		} 
+        //$('.userOwner').remove();
+        //for (var i = 0; i < this.listCard.length; i++) {
+        //    if (this.listCard[i].obj.userOwner != null) {
+        //        var g = this.getUserByName(this.listCard[i].obj.userOwner.name);
+        //        this.listCard[i].buyFirm(g);
+        //    }
+        //}
     },
 
-    buildCard: function (listCardObj, ind, razm) {
-        this.listCard[ind] = new Card(this, listCardObj[ind], ind, razm);
-        return this.listCard[ind].vid;
+    buildCell: function () {
+        for(var ind=0; ind<39; ind++){
+			this.listCell[ind] = new Cell(this, ind);
+			$('#poleCell').append(this.listCell[ind].vid);
+		}
+        
     },
     createBut: function (butName) {
         this.buttons['' + butName] = this._createBut(butName);
@@ -960,8 +802,8 @@ GameImaginarium.prototype = {
         panelChMy.append('<div style="height:22px;">Вы</div>').append(ochf.mySelect).append($('<div style="padding: 3px;">').append(ochf.myMoney));
         ochf.userSelect = $('<select style="background: black; color:#ffffff;margin: 3px;">');
         ochf.userSelect.change(function () {
-            for (var i = 0; i < thisEl.listCard.length; i++) {
-                thisEl.listCard[i].canSelectCancal2();
+            for (var i = 0; i < thisEl.listCell.length; i++) {
+                thisEl.listCell[i].canSelectCancal2();
             }
             thisEl.listSelectFirm2 = [];
             thisEl.changePanel.apponentSelect.empty();
@@ -985,58 +827,7 @@ GameImaginarium.prototype = {
     },
     updPanelSum: function (action, ind) {
         var isum = 0;
-        if (!ind || ind == 1) {
-            for (var i = 0; i < this.listSelectFirm.length; i++) {
-                if (action == "PUT_FIRM") {
-                    isum += Math.round(this.listCard[this.listSelectFirm[i]].obj.price / 2);
-                }
-                if (action == "REDEEM_FIRM") {
-                    isum += this.listCard[this.listSelectFirm[i]].obj.price;
-                }
-                if (action == "BUY_FILIAL" || action == "SELL_FILIAL") {
-                    isum += this.listCard[this.listSelectFirm[i]].obj.filialPrice;
-                }
-                if (action == "CHANGE_FIRM") {
-                    isum += this.listCard[this.listSelectFirm[i]].obj.price;
-                }
-            }
-        } else {
-            for (var i = 0; i < this.listSelectFirm2.length; i++) {
-                isum += this.listCard[this.listSelectFirm2[i]].obj.price;
-            }
-        }
-        if (action != "CHANGE_FIRM") {
-            this.panelSum.text(isum);
-        } else {
-            if (ind == 1) {}
-            else {}
-        }
-    },
-    cancalSelectFirm: function () {
-        if (this.panelSelectFirm.is(':visible')) {
-            for (var i = 0; i < this.listCard.length; i++) {
-                this.listCard[i].canSelectCancal();
-            }
-            for (var b in this.buttonsWinBAY) {
-                this.buttonsWinBAY[b].hide();
-            }
-            this.listSelectFirm = [];
-            this.poleF.empty();
-            this.panelSelectFirm.hide();
-        }
-    },
-    cancalChangeFirm: function () {
-        for (var i = 0; i < this.listCard.length; i++) {
-            this.listCard[i].canSelectCancal2();
-            this.listCard[i].canSelectCancal();
-        }
-        this.listSelectFirm = [];
-        this.listSelectFirm2 = [];
-        this.changePanel.apponentSelect.empty();
-        this.changePanel.apponentMoney.val("");
-        this.changePanel.mySelect.empty();
-        this.changePanel.myMoney.val("");
-        this.changePanel.vid.hide();
+        this.panelSum.text(isum);     
     },
     throw_cubeObr: function (data, fishka, ind) {
         var thisEl = this;
@@ -1065,70 +856,6 @@ GameImaginarium.prototype = {
         setTimeout(function () {
             thisEl.go_sellObr(data, fishka);
         }, 2000);
-    },
-    startFunctionGoPrison: function (gamer) {
-        var thisEl = this;
-        setTimeout(function () {
-            gamer.updateVid();
-            gamer.fishka.posit = gamer.user.indexPosition;
-            card = thisEl.listCard[gamer.user.indexPosition];
-            card.goOn(gamer);
-            thisEl.panelThrowCube.find('img').hide();
-            thisEl.panelThrowCube.append($('<img style="vertical-align: middle;" src="' + thisEl.imgName + 'goPrison.png" width="auto" height="' + Math.round(thisEl.actSize.shCPl / 3) + 'px"/>'));
-            setTimeout(function () {
-                thisEl.panelThrowCube.find('img:visible').remove();
-                thisEl.panelThrowCube.hide();
-                thisEl.panelThrowCube.find('img').show();
-            }, 2000);
-        }, 2000);
-    },
-    go_sellObr: function (data, fishka) {
-        var step = parseInt(data);
-        fishka.posit += step;
-        if (fishka.posit > this.listCard.length - 1) {
-            fishka.posit = fishka.posit - this.listCard.length;
-        }
-        this.setFishkaI(fishka, step);
-    },
-    getPossibleFirm: function (action, userName) {
-        var thisEl = this;
-        var urlD = predictURL + "/games/monopoly/actions/getPossibleFirm/" + action;
-        if (userName) {
-            urlD = predictURL + "/games/monopoly/actions/getPossibleFirmCh/" + userName;
-        }
-        $.ajax({
-            url: urlD,
-            dataType: "json",
-            type: "GET"
-        }).done(function (data) {
-            if (data) {
-                for (var i = 0; i < data.length; i++) {
-                    if (!userName) {
-                        thisEl.listCard[data[i]].canSelect(action);
-                    } else {
-                        thisEl.listCard[data[i]].canSelect2(action);
-                    }
-                }
-            }
-            if (action == "CHANGE_FIRM") {
-                if (!userName) {
-                    for (var i = 0; i < thisEl.gamers.length; i++) {
-                        if (thisEl.curentUser.name != thisEl.gamers[i].user.name) {
-                            thisEl.changePanel.userSelect.append('<option value="' + thisEl.gamers[i].user.name + '">' + thisEl.gamers[i].user.name + '</option>');
-                            if (!userName) {
-                                userName = thisEl.gamers[i].user.name;
-                                thisEl.getPossibleFirm(action, userName);
-                            }
-                        }
-                    }
-                    thisEl.changePanel.vid.show();
-                }
-            } else {
-                thisEl.buttonsWinBAY[action].show();
-                thisEl.panelSelectFirm.show();
-            }
-            thisEl.updPanelSum(action);
-        }).error(function () {});
     },
     actionsUser: function (actions, functObr) {
         var thisEl = this;
@@ -1215,9 +942,9 @@ GameImaginarium.prototype = {
     setFishkaI: function (fishka, step) {
         var ind = fishka.posit - step;
         if (ind < 0) {
-            ind = this.listCard.length + ind;
+            ind = this.listCell.length + ind;
         }
-        this.listCard[ind].goOnFishka(fishka);
+        this.listCell[ind].goOnFishka(fishka);
         if (step > 0) {
             var thisEl = this;
             setTimeout(function () {
