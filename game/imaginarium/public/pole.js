@@ -260,6 +260,7 @@ DataGameNoLoad.prototype.loadDataGame = function (obj, collbackNameFunction) {
     data.pole = new Object();
     data.cardset = ["Base", "Ariadna", "Himera", "Pandora"];
     data.pole.src = rootPath + "pole.jpg";
+	data.rootPath = rootPath;
     if (data != null) {
         obj[collbackNameFunction](data);
     }
@@ -298,7 +299,7 @@ DataGameNoLoad.prototype.actions = function (obj, collbackNameFunction, dataReq)
 		for (var i = 0; i < dataReq.datas.setCard.length; i++) {
 		    for (var y = 0; y < 96; y++) {
 		        var card = {};
-		        card.src = dataReq.datas.setCard[i] + '/' + ((y < 10) ? '00' + y : '0' + y) + '.jpg';
+		        card.src = "cards/"+dataReq.datas.setCard[i] + '/' + ((y < 10) ? '00' + y : '0' + y) + '.jpg';
 		        listCard[listCard.length] = card;
 		    }
 		}
@@ -307,7 +308,7 @@ DataGameNoLoad.prototype.actions = function (obj, collbackNameFunction, dataReq)
 		
 		StartGame.giveCardsForUsers();
 		
-		this.createAction(StartGame.currentUser, "PUSH_CARD");
+		StartGame.createAction(StartGame.currentUser.name, "PUSH_CARD",StartGame.currentUser.listCard);
 		//obj[collbackNameFunction]();
 	}
 }
@@ -323,7 +324,7 @@ var StartGame = {
 				if(this.listUsers[i].listCard == null){ 
 					this.listUsers[i].listCard = [];
 				}
-				this.listUsers[i].listCard[this.listUsers[i].listCard.length] = this.listCard[this.listCard.length];
+				this.listUsers[i].listCard[this.listUsers[i].listCard.length] = this.listCard[this.listCard.length-1];
 				this.listCard.splice(this.listCard.length-1, 1);
 			}
 		}
@@ -458,10 +459,11 @@ GameImaginarium.prototype = {
     infoGame: '',
     poleGame: $('#poleGame'),
     buttons: [],
-    timeLoad: 2000,
+    timeLoad: 10000,
     currentUser: null,
     online: true,
     dataGameLoader: null,
+	rootPath:"",
     initialize: function (lang, online) {
         this.pageS = getPageSize();
         if (lang) {
@@ -473,10 +475,8 @@ GameImaginarium.prototype = {
         } else {
             this.dataGameLoader = new DataGameNoLoad();
         }
-
         this.dataGameLoader.loadDataGame(this, "loadPlace");
-        this.dataGameLoader.loadUser(this, "synhroGame");
-       
+        this.dataGameLoader.loadUser(this, "synhroGame");       
     },
     migEl: null,
     changeViewer: function (data) {},
@@ -498,7 +498,7 @@ GameImaginarium.prototype = {
     startloadgamedata: function () {
         var thisEl = this;
        
-        setTimeout(function () {
+        setInterval(function () {
             thisEl.dataGameLoader.loadgamedata(thisEl, "loadgamedata");
         }, thisEl.timeLoad);
     },
@@ -532,21 +532,20 @@ GameImaginarium.prototype = {
                     var gamerA = thisEl.getUserByName(data.listAction[i].user);
                     // thisEl.loginfo(data.listAction[i].infoAction+" "+data.listAction[i].user.name);
                     if (gamerA != null) {
-                        gamerA.user = data.listAction[i].user;
+                        gamerA.user = thisEl.getUserByNameL(data.listAction[i].user, data.listUser);
                         gamerA.updateVid();
                         thisEl.loginfo(gamerA.user.name + ' - ' + data.listAction[i].action + '(' + data.listAction[i].infoAction + ')');
                         if (data.listAction[i].action == "CHOISE_SET_CARD") {
                             thisEl.choiseSetCard(data.listAction[i].infoAction); //list set card
                         }
-					
-
                         if (data.listAction[i].action == "THROW_CUBE") {
                             thisEl.throw_cubeObr(data.listAction[i].infoAction, gamerA.fishka);
                         }
                         if (data.listAction[i].action == "PUSH_CARD") {
-							thisEl.showCard();
+							
+							thisEl.showCard(data.listAction[i].infoAction);
                             //thisEl.addCard();
-                            thisEl.setAssosiation(data.listAction[i].infoAction);
+                            //thisEl.setAssosiation(data.listAction[i].infoAction);
                         }
                         if (data.listAction[i].action == "PUSH_ASSOCIATE_CARD") {
 
@@ -574,7 +573,14 @@ GameImaginarium.prototype = {
             }
         }
 
-    },
+    },	
+	showCard: function (data) {	
+		$('#selectCard').show();
+	    var elForCard = $('#selectCard .card img');
+		for(var i = 0;i<data.length;i++){
+			$(elForCard[i]).attr("src" , this.rootPath+"/"+data[i].src);
+		}
+	},
 	showTransfer: function (data) {		
 		$('#transferDevice').show();
 		$('.namePlayerTransfer').text(this.currentUser.name);
@@ -583,10 +589,10 @@ GameImaginarium.prototype = {
     choiseSetCard: function (data) {
         $('#selectSetCard').show();
     },
-
     loadPlace: function (data) {
         var thisEl = this;
         if (data != null) {
+			this.rootPath = data.rootPath;
             thisEl.buildPlace(data, getMaxSizeInnerBlock(567, 794, this.pageS[2], this.pageS[3]));
 
             //thisEl.buildSystemControl();
@@ -625,7 +631,45 @@ GameImaginarium.prototype = {
 
         $('#poleCell').css("width", "" + (size[0] - 2) + "px");
         $('#poleCell').css("height", "" + (size[1] - 2) + "px");
+		
+        $('#selectCard').css("width", "" + (size[0] - 2) + "px");
+        $('#selectCard').css("height", "" + (size[1] - 2) + "px");
+		
+		var widthCard = Math.floor(size[0] / 3);
+		var haightCard = Math.floor(widthCard * 1.5);
 
+		$('#selectCard .card img').css("width", "" + (Math.floor(size[0] / 3)) + "px");
+		$('#selectCard .card').on("mouseenter", function (ev) {
+		   $(ev.currentTarget).css("border","2px solid gray");
+		})
+		.on("mouseleave", function (ev) {
+		     $(ev.currentTarget).css("border","");
+		});
+		$('#selectCard .card').on("dblclick", function (el) {
+		    if ($(el.currentTarget).hasClass("big")) {
+		        $(el.currentTarget).removeClass("big");
+		        
+				$(el.currentTarget).animate({"left" : thisEl.posC.l,"top":thisEl.posC.t});
+		        $(el.target).animate({
+		            "width": widthCard+"px"
+		        },"slow");
+				$(el.currentTarget).css({"width" : ""});
+				$(el.currentTarget).animate({"z-index":"1005"});
+			}else {
+				thisEl.posC={};
+				
+				$(el.currentTarget).addClass("big");
+		        $(el.currentTarget).css("z-index","1050");
+				thisEl.posC.t = $(el.currentTarget).css("top");
+				thisEl.posC.l = $(el.currentTarget).css("left");
+				$(el.currentTarget).animate({"left" : "0px","top":"0px"});
+		        $(el.target).animate({
+		            "width": Math.floor(size[0]-size[0]*0.08)+"px",					
+		        },"slow");	
+                $(el.currentTarget).animate({"width" : "100%"});		
+		    }
+		});
+		
         var setC = $('#setCardPanel').find('.setCard');
         setC.find('label').text(data.cardset[0]);
         setC.find('input').val(data.cardset[0]);
@@ -645,8 +689,8 @@ GameImaginarium.prototype = {
 		});
 		
 		$(document).on('click', '#buttonStartSelCard', function () {
-			  
 			thisEl.actionsUser("CHOISE_SET_CARD", "CHOISE_SET_CARD".toLowerCase() + "Obr");
+			$('#selectSetCard').hide();
         });
 
         this.poleGame.append($('<div id="place" style="float:left;">').append(centerLine)).append(this.choiseSetCardPanel);
@@ -762,6 +806,14 @@ GameImaginarium.prototype = {
             }
         }
     },
+	getUserByNameL:function(name, listUser){
+        for(var y=0;y<listUser.length;y++){
+            if(listUser[y].name==name){
+                return listUser[y];
+            }
+        }
+        return null;
+    },
     showHidebut: function (pos, but) {
         if (pos) {
             but.removeAttr('disabled').css('font-weight', 'bold');
@@ -791,7 +843,7 @@ GameImaginarium.prototype = {
         if (data.availAction.length > 1) {
             this.timeLoad = 10000;
         } else {
-            this.timeLoad = 2000;
+            this.timeLoad = 10000;
         }
     },
     synhroGame: function (data) {
@@ -840,7 +892,6 @@ GameImaginarium.prototype = {
             thisEl.actionsUser(butName, butName.toLowerCase() + "Obr");
         });
     },
-
     buildChangePanel: function () {
         var thisEl = this;
         var ochf = {};
@@ -985,7 +1036,7 @@ GameImaginarium.prototype = {
             //this.butGE.hide();
         }
         this.hideAllBut();
-        this.keyLoad = 0;
+        this.keyLoad = 1;
        
 		this.dataGameLoader.actions(this, "actionCallBack", dataReq);
     },

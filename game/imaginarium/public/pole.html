@@ -22,7 +22,8 @@
 <body class="">
 
 <style type="text/css">
-body{margin: 0;padding: 0;}
+body{margin: 0;padding: 0;
+overflow-y:hidden;}
 
 a.button9 {
   position: relative;
@@ -62,6 +63,7 @@ a.button9:active {
 .playerField{
   padding-top: 10px;
 }
+
 </style>
 <div id="poleGame" style="margin: 0 auto; width: 1819px;">
     <div id="waitGwin" style="display:none;position:absolute;z-index:1000;left:0;top:0; background:black; height:1000px;opacity: 0.8;width: 100%;">
@@ -82,10 +84,20 @@ a.button9:active {
         <div style="color: white;font-size: 10pt;margin: 0 auto;padding-top: 20%;px;width: 100%;">
 		    <div>Выберите наборы карт для игры:</div>
 		    <div id="setCardPanel" style="padding-right:30px">
-			    <div align="right" class="setCard"><label>Base</label><input type="checkbox" name="setCard" class="inputSetCard" value="Base"></div>
+			    <div align="right" class="setCard"><label>Base</label><input type="checkbox" checked name="setCard" class="inputSetCard" value="Base"></div>
 		    </div>
             <div style="padding:20px;"><a href="#" id="buttonStartSelCard" class="button9">Start</a></div>
 		    <div id="errorPlace" style="padding:10px;color:red;"></div>
+	    </div>
+    </div>
+	<div id="selectCard" style="position:absolute;z-index:1002; background:black;float:left;display:none;">
+        <div>		    
+		    <div class="card card1" style="position: absolute; z-index:1005;background:black;"><img src=""></div>
+			<div class="card card2" style="position: absolute; z-index:1005;background:black; left:33%;"><img src=""></div>
+            <div class="card card3" style="position: absolute; z-index:1005;background:black; left:66%;"><img src=""></div>
+			<div class="card card4" style="position: absolute; z-index:1005;background:black; top:36%"><img src=""></div>
+			<div class="card card5" style="position: absolute; z-index:1005;background:black; top:36%;left:33%;"><img src=""></div>
+			<div class="card card6" style="position: absolute; z-index:1005;background:black; top:36%;left:66%"><img src=""></div>
 	    </div>
     </div>
 	<div id="poleCell" style="position:absolute;z-index:500;float:left;">
