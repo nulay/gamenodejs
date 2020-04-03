@@ -147,7 +147,7 @@ Fishka.prototype = {
     build: function () {
         var r = Math.round(this.size[0] / this.countUser);
         this.vid = $('<div style="border-radius:' + r + 'px;display:inline;margin:auto;text-align:center;width:' + r + 'px;height:' + r + 'px; background-color: ' + this.colorF[this.numF - 1] + ';border: 3px solid white;"><span style="color:' + this.colorText[this.numF - 1] + 'font-weight:bold;font-size:' + 10 + 'pt;">' + this.numF + '</span></div>')
-            this.vid.hide().show();
+        this.vid.hide().show();
     }
 }
 
@@ -160,25 +160,10 @@ Gamer.prototype = {
         this.build();
     },
     build: function () {
-        /*var t = Math.round(this.game.pageS[1] / this.game.room.maxCountUser);
-        var v = Math.floor(this.game.pageS[1] / this.game.room.maxCountUser);
-        this.vid = $('<div style="border-radius: ' + 10 + 'px;font-size:' + 10 + 'pt;position:relative; display:inline-block;vertical-align:top;width: ' + (v - 20) + 'px;height: ' + (t - 20) + 'px; background-color: ' + this.fishka.colorF[this.fishka.numF - 1] + ';background-image: url(/resources/images/games/' + this.game.room.imageFolder + '/setka.png);margin: 5px;"><div style="color:' + this.fishka.colorText[this.fishka.numF - 1] + ';margin: 5px;">' + this.fishka.numF + ' ' + this.user.name + '</div></div>');
-        this.bord = $('<img style="border-radius: ' + 10 + 'px;position:absolute; top:0; left:0;" src="/resources/images/games/' + this.game.room.imageFolder + '/pole.jpg" width="' + (v - 20) + 'px" height="' + (t - 20) + 'px"/>');
-        this.vid.append(this.bord);
-        this.moneyV = $('<div style="color:' + this.fishka.colorText[this.fishka.numF - 1] + ';margin: 5px;">Деньги: ' + this.user.money + '</div>');
-        this.penaltyV = $('<div style="color:' + this.fishka.colorText[this.fishka.numF - 1] + ';margin: 5px;">Штраф: ' + this.user.penalty + '</div>');
-        if (this.user.penalty == 0) {
-        this.penaltyV.hide();
-        }
-        //this.moneyV=$('<div>'+this.user.c+'</div>');
-        this.vid.append(this.moneyV).append(this.penaltyV); //.append;
-        this.updateVid();*/
+        
     },
     updateVid: function () {
-        /*
-        if (this.user.activGamer) {
-            this.game.setMigEl(this.bord);
-        }*/
+       
     }
 }
 
@@ -212,7 +197,7 @@ Cell.prototype = {
 var DataGameLoader = Class.create();
 DataGameLoader.prototype = {
     colorF: "",
-	numError=0,
+	numError: 0,
     cards: [],
     users: [],
     activeUser: null,
@@ -220,8 +205,7 @@ DataGameLoader.prototype = {
     initialize: function () {},
     build: function () {},
     initialize: function (lang, online) {},
-    loadDataGame: function (obj, collbackNameFunction) {
-        
+    loadDataGame: function (obj, collbackNameFunction) {        
         $.ajax({
             url: "/games/monopoly/gameinfo",
             dataType: "json",
@@ -239,7 +223,6 @@ DataGameLoader.prototype = {
                 obj.room = data;
                 obj[collbackNameFunction]();
             }
-
         }
     },
     loadUser: function (obj, collbackNameFunction) {},
@@ -274,15 +257,12 @@ DataGameNoLoad.prototype.loadDataGame = function (obj, collbackNameFunction) {
     //here we need pull in place and cards
     var data = new Object();
     var rootPath = "images/"; //resources/images/games/imaginarium/
-
     data.pole = new Object();
     data.cardset = ["Base", "Ariadna", "Himera", "Pandora"];
     data.pole.src = rootPath + "pole.jpg";
-
     if (data != null) {
         obj[collbackNameFunction](data);
     }
-
 }
 DataGameNoLoad.prototype.showError = function (el, text) {
     var err = $("<div>").text(text);
@@ -293,7 +273,6 @@ DataGameNoLoad.prototype.showError = function (el, text) {
 }
 DataGameNoLoad.prototype.loadCurrentPosition = function (obj, collbackNameFunction) {
     var thisEl = obj;
-
 }
 DataGameNoLoad.prototype.loadUser = function (obj, collbackNameFunction) {
     StartGame.showStartWindow(obj, collbackNameFunction);
@@ -324,16 +303,31 @@ DataGameNoLoad.prototype.actions = function (obj, collbackNameFunction, dataReq)
 		    }
 		}
 		StartGame.listCard = shuffle(listCard);
-		data.listCard = StartGame.listCard.slice(0);
+		data.listCard = StartGame.listCard.slice(0);		
+		
+		StartGame.giveCardsForUsers();
+		
+		this.createAction(StartGame.currentUser, "PUSH_CARD");
 		//obj[collbackNameFunction]();
 	}
-
 }
 
 var StartGame = {
     skeepneed: true,
 	listUsers:[],
 	listAction:[],
+	listCard:[],
+	giveCardsForUsers:function(){
+		for(var i=0;i<this.listUsers.length;i++){
+			for(var y=0;y<6;y++){
+				if(this.listUsers[i].listCard == null){ 
+					this.listUsers[i].listCard = [];
+				}
+				this.listUsers[i].listCard[this.listUsers[i].listCard.length] = this.listCard[this.listCard.length];
+				this.listCard.splice(this.listCard.length-1, 1);
+			}
+		}
+	},
     showStartWindow: function (obj, collbackNameFunction) {
         this.addOnePlayer();
         if (this.skipNeed())
@@ -356,8 +350,7 @@ var StartGame = {
             }
         });
         $('.playerField').show();
-    },
-	
+    },	
     skipNeed: function () {
         if (this.skeepneed) {
             var listPlayerEl = $(".namePlayer");
@@ -415,10 +408,10 @@ var StartGame = {
         data.room.maxCountUser = this.maxCountUser;
         $('#startWindow').hide();
         this.listUsers = data.listUsers;
-		this.listAction[this.listAction.length]=this.createAction(this.listUsers[0].name, "CHOISE_SET_CARD", ["Base", "Ariadna", "Himera", "Pandora"]);
+		this.createAction(this.listUsers[0].name, "CHOISE_SET_CARD", ["Base", "Ariadna", "Himera", "Pandora"]);
 		this.listUsers[0].approve = false;
 		for(var i = 1; i<this.listUsers.length;i++){
-			this.listAction[this.listAction.length]=this.createAction(this.listUsers[i].name, "WAIT");
+			this.createAction(this.listUsers[i].name, "WAIT");
 			this.listUsers[i].approve = false;
 		}
         obj[collbackNameFunction](data);
@@ -429,6 +422,7 @@ var StartGame = {
         action.action = actionName;
         action.infoAction = infoAction;
         action.dateAction=new Date();
+		this.listAction[this.listAction.length]=action;
 		return action;
 	},
     nextUser() {
@@ -544,12 +538,14 @@ GameImaginarium.prototype = {
                         if (data.listAction[i].action == "CHOISE_SET_CARD") {
                             thisEl.choiseSetCard(data.listAction[i].infoAction); //list set card
                         }
+					
 
                         if (data.listAction[i].action == "THROW_CUBE") {
                             thisEl.throw_cubeObr(data.listAction[i].infoAction, gamerA.fishka);
                         }
                         if (data.listAction[i].action == "PUSH_CARD") {
-                            thisEl.addCard();
+							thisEl.showCard();
+                            //thisEl.addCard();
                             thisEl.setAssosiation(data.listAction[i].infoAction);
                         }
                         if (data.listAction[i].action == "PUSH_ASSOCIATE_CARD") {
@@ -999,6 +995,7 @@ GameImaginarium.prototype = {
 		if (data.action == 'GAME_END') {
 		    this.buttons['GAME_CLOSE'].removeAttr('disabled').css('font-weight', 'bold');
 		}
+		
 	},
     setFishkaI: function (fishka, step) {
         var ind = fishka.posit - step;
