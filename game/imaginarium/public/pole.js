@@ -141,12 +141,12 @@ Fishka.prototype = {
         this.posit = posit;
         this.name = name;
         this.size = size;
-		this.countUser = countUser;
+        this.countUser = countUser;
         this.build();
     },
     build: function () {
-        var r = Math.round(this.size.shMc / this.countUser);
-        this.vid = $('<div style="border-radius:' + r + 'px;display:inline;margin:auto;text-align:center;width:' + r + 'px;height:' + r + 'px; background-color: ' + this.colorF[this.numF - 1] + ';border: 3px solid white;"><span style="color:' + this.colorText[this.numF - 1] + 'font-weight:bold;font-size:' + this.size.fontsize + 'pt;">' + this.numF + '</span></div>')
+        var r = Math.round(this.size[0] / this.countUser);
+        this.vid = $('<div style="border-radius:' + r + 'px;display:inline;margin:auto;text-align:center;width:' + r + 'px;height:' + r + 'px; background-color: ' + this.colorF[this.numF - 1] + ';border: 3px solid white;"><span style="color:' + this.colorText[this.numF - 1] + 'font-weight:bold;font-size:' + 10 + 'pt;">' + this.numF + '</span></div>')
             this.vid.hide().show();
     }
 }
@@ -155,57 +155,49 @@ var Gamer = Class.create();
 Gamer.prototype = {
     initialize: function (user, game, num) {
         this.user = user;
-        this.fishka = new Fishka(num, user.indexPosition, user.name, game.actSize, game.room.maxCountUser);
+        this.fishka = new Fishka(num, user.indexPosition, user.name, game.pageS, game.room.maxCountUser);
         this.game = game;
         this.build();
     },
     build: function () {
-        var t = Math.round(this.game.actSize.shCPl / this.game.room.maxCountUser);
-        var v = Math.floor(this.game.actSize.shCPl / this.game.room.maxCountUser);
-        this.vid = $('<div style="border-radius: ' + this.game.actSize.fontsize + 'px;font-size:' + this.game.actSize.fontsize + 'pt;position:relative; display:inline-block;vertical-align:top;width: ' + (v - 20) + 'px;height: ' + (t - 20) + 'px; background-color: ' + this.fishka.colorF[this.fishka.numF - 1] + ';background-image: url(/resources/images/games/' + this.game.room.imageFolder + '/setka.png);margin: 5px;"><div style="color:' + this.fishka.colorText[this.fishka.numF - 1] + ';margin: 5px;">' + this.fishka.numF + ' ' + this.user.name + '</div></div>');
-        this.bord = $('<img style="border-radius: ' + this.game.actSize.fontsize + 'px;position:absolute; top:0; left:0;" src="/resources/images/games/' + this.game.room.imageFolder + '/pole.jpg" width="' + (v - 20) + 'px" height="' + (t - 20) + 'px"/>');
+        /*var t = Math.round(this.game.pageS[1] / this.game.room.maxCountUser);
+        var v = Math.floor(this.game.pageS[1] / this.game.room.maxCountUser);
+        this.vid = $('<div style="border-radius: ' + 10 + 'px;font-size:' + 10 + 'pt;position:relative; display:inline-block;vertical-align:top;width: ' + (v - 20) + 'px;height: ' + (t - 20) + 'px; background-color: ' + this.fishka.colorF[this.fishka.numF - 1] + ';background-image: url(/resources/images/games/' + this.game.room.imageFolder + '/setka.png);margin: 5px;"><div style="color:' + this.fishka.colorText[this.fishka.numF - 1] + ';margin: 5px;">' + this.fishka.numF + ' ' + this.user.name + '</div></div>');
+        this.bord = $('<img style="border-radius: ' + 10 + 'px;position:absolute; top:0; left:0;" src="/resources/images/games/' + this.game.room.imageFolder + '/pole.jpg" width="' + (v - 20) + 'px" height="' + (t - 20) + 'px"/>');
         this.vid.append(this.bord);
         this.moneyV = $('<div style="color:' + this.fishka.colorText[this.fishka.numF - 1] + ';margin: 5px;">Деньги: ' + this.user.money + '</div>');
         this.penaltyV = $('<div style="color:' + this.fishka.colorText[this.fishka.numF - 1] + ';margin: 5px;">Штраф: ' + this.user.penalty + '</div>');
         if (this.user.penalty == 0) {
-            this.penaltyV.hide();
+        this.penaltyV.hide();
         }
         //this.moneyV=$('<div>'+this.user.c+'</div>');
         this.vid.append(this.moneyV).append(this.penaltyV); //.append;
-        this.updateVid();
+        this.updateVid();*/
     },
     updateVid: function () {
-        this.moneyV.text("Деньги: " + this.user.money);
-        if (this.user.penalty != 0) {
-            this.penaltyV.text("Штраф: " + Math.abs(this.user.penalty));
-            this.penaltyV.show();
-        } else {
-            this.penaltyV.text("Штраф: 0");
-            this.penaltyV.hide();
-        }
-        //this.penaltyV()
+        /*
         if (this.user.activGamer) {
             this.game.setMigEl(this.bord);
-        }
+        }*/
     }
 }
 
 var Cell = Class.create();
 Cell.prototype = {
-    procentPosition:[[92,7],[80,4],[69,3],[58,5],[47,4],[37,3],[27,6],[17,4],[7,3],[2,15],
-	[10,21],[19,21],[29,23],[40,20],[51,21],[62,20],[72,22],[82,22],
-	[84,36],[74,39],[64,39],[54,37],[44,38],[33,39],[22,38],[12,39],[3,40],
-	[3,53],[12,56],[21,55],[31,56],[41,55],[51,56],[61,56],[71,56],[81,55],[90,54],[94,40],[94,26]],
+    procentPosition: [[90, 8], [78, 5], [67, 4], [56, 7], [46, 5], [36, 4], [26, 8], [16, 5], [7, 5], [2, 21],
+        [10, 29], [18, 29], [28, 32], [39, 28], [49, 29], [60, 28], [69, 30], [80, 32],
+        [81, 53], [72, 56], [62, 55], [52, 53], [42, 55], [32, 55], [22, 54], [12, 56], [3, 56],
+        [2, 75], [11, 80], [20, 78], [30, 80], [40, 79], [49, 79], [59, 79], [69, 80], [79, 78], [87, 76], [91, 57], [91, 36]],
     initialize: function (gameM, ind) {
-        this.gameM = gameM;      
+        this.gameM = gameM;
         this.ind = ind;
         this.buildCell();
     },
     buildCell: function () {
-        this.h = this.gameM.pageS[0]-2;
-        this.w = this.gameM.pageS[1]-2;      
-        this.vid = $('<div style="position:absolute;text-aligne:center;">').css('float', 'left').css('height', this.h/15 + 'px').css('width', this.w/7 + 'px').css('left',this.w/100*this.procentPosition[this.ind][1] + 'px').css('top',this.h/100*this.procentPosition[this.ind][0] + 'px');
-        this.poleForFishka = $('<div style="display:inline-block;vertical-align: middle;">'+""+(this.ind+1)+'</div>');
+        this.h = this.gameM.pageS[1] - 2;
+        this.w = this.gameM.pageS[0] - 2;
+        this.vid = $('<div style="position:absolute;text-aligne:center;">').css('float', 'left').css('height', Math.round(this.h / 15) + 'px').css('width', Math.round(this.w / 7) + 'px').css('left', this.procentPosition[this.ind][1] + '%').css('top', this.procentPosition[this.ind][0] + '%');
+        this.poleForFishka = $('<div style="display:inline-block;vertical-align: middle;"></div>');
         this.vid.append(this.poleForFishka);
         return this.vid;
     },
@@ -220,43 +212,58 @@ Cell.prototype = {
 var DataGameLoader = Class.create();
 DataGameLoader.prototype = {
     colorF: "",
+	numError=0,
     cards: [],
     users: [],
     activeUser: null,
     indexActiveUser: 0, //index active user in users array
     initialize: function () {},
     build: function () {},
-	initialize: function (lang, online) {
-	},
+    initialize: function (lang, online) {},
     loadDataGame: function (obj, collbackNameFunction) {
-        var thisEl = obj;
+        
         $.ajax({
             url: "/games/monopoly/gameinfo",
             dataType: "json",
             type: "GET"
         }).done(function (data) {
             if (data != null) {
-                thisEl.room = data;
-                thisEl[collbackNameFunction]();
+                obj.room = data;
+                obj[collbackNameFunction]();
             }
         });
     },
-    loadCurentPosition: function (obj, collbackNameFunction) {
-        var thisEl = obj;
-        $.ajax({
-            url: "/games/monopoly/gameinfo",
-            dataType: "json",
-            type: "GET"
-        }).done(function (data) {
+    loadCurrentPosition: function (obj, collbackNameFunction) {
+        if (data != null) {
             if (data != null) {
-                thisEl.room = data;
-                thisEl[collbackNameFunction]();
+                obj.room = data;
+                obj[collbackNameFunction]();
             }
-        });
+
+        }
     },
-	loadUser: function (obj, collbackNameFunction) {
-	},
-	loadgamedata: function (obj, collbackNameFunction) {
+    loadUser: function (obj, collbackNameFunction) {},
+    loadgamedata: function (obj, collbackNameFunction) {},
+	actions: function (obj, collbackNameFunction, dataReq) {
+		var thisEl = this;		
+		$.ajax({
+            url: predictURL + "/games/monopoly/actions/" + dataReq.action.toLowerCase(),
+            dataType: dataReq.datat,
+            data: dataReq.datas,
+            //            contentType: "application/json",
+            type: dataReq.typeReq
+        }).done(function (data) {
+            if (data != null) {                
+                obj[collbackNameFunction](data);
+            }
+        }).error(function () {
+            if (thisEl.numError < 10) {
+                thisEl.numError += 1;
+            }
+            setTimeout(function () {
+                thisEl.actions(obj, collbackNameFunction, dataReq)
+            }, 3000 * thisEl.numError);
+        });		
 	}
 }
 
@@ -269,61 +276,13 @@ DataGameNoLoad.prototype.loadDataGame = function (obj, collbackNameFunction) {
     var rootPath = "images/"; //resources/images/games/imaginarium/
 
     data.pole = new Object();
-	data.cardset = ["Base","Ariadna","Himera","Pandora"]; 
+    data.cardset = ["Base", "Ariadna", "Himera", "Pandora"];
     data.pole.src = rootPath + "pole.jpg";
-	
-	
-    
-//    var countcard = Math.floor(96 / this.users.length) * this.users.length;
-//    for (var i = 1; i < (countcard + 1); i++) {
-//        var card = new Object();
-//        var t = (i < 10) ? "00" : "0";
-//        card.src = rootPath + "" + t + i + ".jpg";
-//        card.id = i;
-//        this.cards[i - 1] = card;
-//    }
-//    console.log("count card is " + this.cards.length);
-    //		data.cardsVote=[];
-    //
-    //		for(var i = 0;i<49;i++){
-    //			var card=new Object();
-    //			card.src=rootPath+"cardVote"+i+".jpg";
-    //			data.cardsVote[i]=card;
-    //		}
-//    this.cards = shuffle(this.cards);
-//    this.users = shuffle(StartGame.getAllUser());
-//    for (var i = 0; i < this.users.length; i++) {
-//        this.users[i].cards = [];
-//        for (var j = 0; j < 6; j++) {
-//            this.users[i].cards[j] = this.cards[this.cards.length - 1];
-//            this.cards.splice(this.cards.length - 1, 1);
-//        }
-//    }
-
-/*    this.activeUser = this.users[this.indexActiveUser];
-    data.activeUser = this.activeUser;
-    $('.namePlayerTransfer').text(this.activeUser.name);
-    $('#transferDevice').show();
-    if (this.activeUser.pass != null && this.activeUser.pass != "") {
-        $('.passTransfer').show();
-    }
-    thisEl = this;
-    $(document).on('click', '#TransferComplete', function () {
-        if (thisEl.activeUser.pass == null || thisEl.activeUser.pass == "" || thisEl.activeUser.pass == $('.passTransfer').val()) {
-            $('#transferDevice').hide();
-        } else {
-            thisEl.showError($('#errorPlacetransferDevice'), "Не правильный пароль");
-        }
-    });
 
     if (data != null) {
         obj[collbackNameFunction](data);
     }
-	*/	
-	if (data != null) {
-        obj[collbackNameFunction](data);     
-    }
-	
+
 }
 DataGameNoLoad.prototype.showError = function (el, text) {
     var err = $("<div>").text(text);
@@ -332,28 +291,55 @@ DataGameNoLoad.prototype.showError = function (el, text) {
         err.remove();
     });
 }
-DataGameNoLoad.prototype.loadCurentPosition = function (obj, collbackNameFunction) {
+DataGameNoLoad.prototype.loadCurrentPosition = function (obj, collbackNameFunction) {
     var thisEl = obj;
 
 }
 DataGameNoLoad.prototype.loadUser = function (obj, collbackNameFunction) {
     StartGame.showStartWindow(obj, collbackNameFunction);
 }
+
 DataGameNoLoad.prototype.loadgamedata = function (obj, collbackNameFunction) {
     var data = {};
+
+    data.userRoom = StartGame.currentUser;
+    data.listAction = StartGame.listAction.slice(0);
+    data.availAction = [];
+    data.listUser = StartGame.listUsers;
 	
-	if (data != null) {
-        obj[collbackNameFunction](data);     
+	Util.clear(StartGame.listAction);
+    if (data != null) {
+        obj[collbackNameFunction](data);
     }
+}
+DataGameNoLoad.prototype.actions = function (obj, collbackNameFunction, dataReq) {
+    if(dataReq.datat.action = "CHOISE_SET_CARD"){	
+        var data={};	
+		var listCard = [];
+		for (var i = 0; i < dataReq.datas.setCard.length; i++) {
+		    for (var y = 0; y < 96; y++) {
+		        var card = {};
+		        card.src = dataReq.datas.setCard[i] + '/' + ((y < 10) ? '00' + y : '0' + y) + '.jpg';
+		        listCard[listCard.length] = card;
+		    }
+		}
+		StartGame.listCard = shuffle(listCard);
+		data.listCard = StartGame.listCard.slice(0);
+		//obj[collbackNameFunction]();
+	}
+
 }
 
 var StartGame = {
     skeepneed: true,
+	listUsers:[],
+	listAction:[],
     showStartWindow: function (obj, collbackNameFunction) {
         this.addOnePlayer();
-        if (this.skipNeed()) return;
+        if (this.skipNeed())
+            return;
         var thisEl = this;
-        $(document).on('click', '#minusPlayer', function () {	            	
+        $(document).on('click', '#minusPlayer', function () {
             thisEl.removeOnePlayer()
         });
         $(document).on('click', '#plusPlayer', function () {
@@ -369,8 +355,9 @@ var StartGame = {
                 $('.passPanel').hide();
             }
         });
-		$('.playerField').show();
+        $('.playerField').show();
     },
+	
     skipNeed: function () {
         if (this.skeepneed) {
             var listPlayerEl = $(".namePlayer");
@@ -379,7 +366,7 @@ var StartGame = {
             }
             //this.startGame();
         }
-		this.skeepneed = false;
+        this.skeepneed = false;
         return this.skeepneed;
     },
     addOnePlayer: function () {
@@ -410,18 +397,46 @@ var StartGame = {
         });
     },
     startGame: function (obj, collbackNameFunction) {
-        var data={};
-		var listUsers=[];
-		var plF=$('.playerField');
-		for(var i=0; i< plF.length;i++){
-			listUsers[i]={};
-			listUsers[i].name=plF.find('.namePlayer').val();
-			listUsers[i].password=plF.find('.passPlayer').val();
+        var data = {};
+        var listUsers = [];
+        var plF = $('.playerField');
+        for (var i = 0; i < plF.length; i++) {
+            listUsers[i] = {};
+            listUsers[i].name = $(plF[i]).find('.namePlayer').val();
+            listUsers[i].password = $(plF[i]).find('.passPlayer').val();
+            listUsers[i].indexPosition = 0;
+        }
+        data.listUsers = shuffle(listUsers);
+        this.listUsers = data.listUsers;
+        this.currentUserInd = 0;
+        this.currentUser = data.listUsers[0];
+        this.maxCountUser = listUsers.length;
+        data.room = {};
+        data.room.maxCountUser = this.maxCountUser;
+        $('#startWindow').hide();
+        this.listUsers = data.listUsers;
+		this.listAction[this.listAction.length]=this.createAction(this.listUsers[0].name, "CHOISE_SET_CARD", ["Base", "Ariadna", "Himera", "Pandora"]);
+		this.listUsers[0].approve = false;
+		for(var i = 1; i<this.listUsers.length;i++){
+			this.listAction[this.listAction.length]=this.createAction(this.listUsers[i].name, "WAIT");
+			this.listUsers[i].approve = false;
 		}
-		data.listUsers = listUsers;
-		data.room={};
-		data.room.maxCountUser = listUsers.length;
         obj[collbackNameFunction](data);
+    },
+	createAction(userName, actionName, infoAction){
+		var action = {};
+		action.user=userName;
+        action.action = actionName;
+        action.infoAction = infoAction;
+        action.dateAction=new Date();
+		return action;
+	},
+    nextUser() {
+        this.currentUserInd += 1;
+        if (this.currentUserInd >= this.maxCountUser) {
+            this.currentUserInd = 0;
+        }
+        this.currentUser = this.listUsers[this.currentUserInd];
     },
     getAllUser() {
         var listPlayerEl = $(".namePlayer");
@@ -449,16 +464,16 @@ GameImaginarium.prototype = {
     infoGame: '',
     poleGame: $('#poleGame'),
     buttons: [],
-    timeLoad: 12000,
-    curentUser: null,
+    timeLoad: 2000,
+    currentUser: null,
     online: true,
     dataGameLoader: null,
     initialize: function (lang, online) {
-		this.pageS = getPageSize();
+        this.pageS = getPageSize();
         if (lang) {
             this.lang = lang;
         }
-		this.online = online;
+        this.online = online;
         if (online) {
             this.dataGameLoader = new DataGameLoader();
         } else {
@@ -466,7 +481,8 @@ GameImaginarium.prototype = {
         }
 
         this.dataGameLoader.loadDataGame(this, "loadPlace");
-		this.dataGameLoader.loadUser(this,"synhroGame"); 
+        this.dataGameLoader.loadUser(this, "synhroGame");
+       
     },
     migEl: null,
     changeViewer: function (data) {},
@@ -487,149 +503,184 @@ GameImaginarium.prototype = {
     },
     startloadgamedata: function () {
         var thisEl = this;
-        this.loadgamedata();
+       
         setTimeout(function () {
             thisEl.dataGameLoader.loadgamedata(thisEl, "loadgamedata");
         }, thisEl.timeLoad);
     },
     loadgamedata: function (data) {
-        var thisEl = this;        
-            if (data != null) {				
-                if (this.keyLoad != 0) {
-                    if (thisEl.gamers.length != thisEl.room.maxCountUser) {
-                        if (data.listAction.length > 0) {
-                            var t = false;
-                            for (var i = 0; i < data.listAction.length; i++) {
-                                if (data.listAction[i].action == "START_GAME") {
-                                    t = true;
-                                    break;
-                                }
-                            }
-                            if (t) {								
-								thisEl.dataGameLoader.loadUser(this,"getStartGamers");                                
+        var thisEl = this;
+        if (data != null) {
+            if (this.keyLoad != 0) {
+                if (thisEl.gamers.length != thisEl.room.maxCountUser) {
+                    if (data.listAction.length > 0) {
+                        var t = false;
+                        for (var i = 0; i < data.listAction.length; i++) {
+                            if (data.listAction[i].action == "START_GAME") {
+                                t = true;
+                                break;
                             }
                         }
-                    } else {}
-                    if (thisEl.curentUser == null) {
-                        thisEl.curentUser = data.userRoom;
+                        if (t) {
+                            thisEl.dataGameLoader.loadUser(this, "getStartGamers");
+                        }
                     }
-                    thisEl.showButton(data);
-                    for (var i = 0; i < data.listAction.length; i++) {
-                        var gamerA = thisEl.getUserByName(data.listAction[i].user.name);
-                        // thisEl.loginfo(data.listAction[i].infoAction+" "+data.listAction[i].user.name);
-                        if (gamerA != null) {
-                            gamerA.user = data.listAction[i].user;
-                            gamerA.updateVid();
-                            thisEl.loginfo(gamerA.user.name + ' - ' + data.listAction[i].action + '(' + data.listAction[i].infoAction + ')');
-                            if (data.listAction[i].action == "CHOISE_SET_CARD") {
-                                thisEl.choiseSetCard(data.listAction[i].infoAction); //list set card
-                            }
-
-                            if (data.listAction[i].action == "THROW_CUBE") {
-                                thisEl.throw_cubeObr(data.listAction[i].infoAction, gamerA.fishka);
-                            }
-                            if (data.listAction[i].action == "PUSH_CARD") {
-                                thisEl.addCard();
-                                thisEl.setAssosiation(data.listAction[i].infoAction);
-                            }
-                            if (data.listAction[i].action == "PUSH_ASSOCIATE_CARD") {
-
-                                thisEl.addCard();
-                            }
-                            if (data.listAction[i].action == "SHOW_ALL_CARD") {
-
-                                thisEl.showCard(data.listAction[i].infoAction); //list ind + imgpath
-                            }
-                            if (data.listAction[i].action == "USER_VOTE") {
-
-                                thisEl.userVote(data.listAction[i].infoAction); //nameUser
-                            }
-                            if (data.listAction[i].action == "SHOW_ALL_VOTE") {
-
-                                thisEl.showVote(data.listAction[i].infoAction); //list card with  namevotedusers
-                            }
-                            if (data.listAction[i].action == "WAIT_ASSOSIATION") {
-
-                                thisEl.vaitAssosiation(data.listAction[i].infoAction); //nameuser
-                            }
-
+                } else {}
+                if (thisEl.currentUser == null) {
+                    thisEl.currentUser = data.userRoom;
+                }
+                thisEl.showButton(data);
+				if(data.listAction.length>0 && !this.online && !thisEl.currentUser.approve){
+					this.showTransfer(data);
+					return;
+				}
+                for (var i = 0; i < data.listAction.length; i++) {
+                    var gamerA = thisEl.getUserByName(data.listAction[i].user);
+                    // thisEl.loginfo(data.listAction[i].infoAction+" "+data.listAction[i].user.name);
+                    if (gamerA != null) {
+                        gamerA.user = data.listAction[i].user;
+                        gamerA.updateVid();
+                        thisEl.loginfo(gamerA.user.name + ' - ' + data.listAction[i].action + '(' + data.listAction[i].infoAction + ')');
+                        if (data.listAction[i].action == "CHOISE_SET_CARD") {
+                            thisEl.choiseSetCard(data.listAction[i].infoAction); //list set card
                         }
+
+                        if (data.listAction[i].action == "THROW_CUBE") {
+                            thisEl.throw_cubeObr(data.listAction[i].infoAction, gamerA.fishka);
+                        }
+                        if (data.listAction[i].action == "PUSH_CARD") {
+                            thisEl.addCard();
+                            thisEl.setAssosiation(data.listAction[i].infoAction);
+                        }
+                        if (data.listAction[i].action == "PUSH_ASSOCIATE_CARD") {
+
+                            thisEl.addCard();
+                        }
+                        if (data.listAction[i].action == "SHOW_ALL_CARD") {
+
+                            thisEl.showCard(data.listAction[i].infoAction); //list ind + imgpath
+                        }
+                        if (data.listAction[i].action == "USER_VOTE") {
+
+                            thisEl.userVote(data.listAction[i].infoAction); //nameUser
+                        }
+                        if (data.listAction[i].action == "SHOW_ALL_VOTE") {
+
+                            thisEl.showVote(data.listAction[i].infoAction); //list card with  namevotedusers
+                        }
+                        if (data.listAction[i].action == "WAIT_ASSOSIATION") {
+
+                            thisEl.vaitAssosiation(data.listAction[i].infoAction); //nameuser
+                        }
+
                     }
                 }
             }
-       
-    },
-    choiseSetCard: function (data) {
-        if (!this.choiseSetCardPanel.build) {
-            for (const setname of data) {
-                this.choiseSetCardPanel.append('<div><input type="checkbox" id="setcard" name="setcard" value="' + setname[i] + '"><label for="setcard">' + setname[i] + '</label></div>');
-            }
-            var butPanel = $('<div>');
-            var butSetIsChosen = $('<button>Готово</button>').click(function () {
-                    butPanel.append(butSetIsChosen);
-                    this.choiseSetCardPanel.append(butPanel);
-                });
-			this.choiseSetCardPanel.build = true;
         }
-        this.choiseSetCardPanel.show();
 
     },
-	
+	showTransfer: function (data) {		
+		$('#transferDevice').show();
+		$('.namePlayerTransfer').text(this.currentUser.name);
+		this.currentdata = data;		
+	},
+    choiseSetCard: function (data) {
+        $('#selectSetCard').show();
+    },
+
     loadPlace: function (data) {
         var thisEl = this;
         if (data != null) {
             thisEl.buildPlace(data, getMaxSizeInnerBlock(567, 794, this.pageS[2], this.pageS[3]));
-			
+
             //thisEl.buildSystemControl();
             // thisEl.getStartGamers();
             // thisEl.startloadgamedata();
         }
     },
     buildPlace: function (data, size) {
+		var thisEl = this;
         $('body').css('background', 'black');
         var gC = 1;
 
         var topline = $('<div>');
         this.poleGame = $('#poleGame');
-		this.poleGame.css('width', (size[0] - 2) + 'px');
+        this.poleGame.css('width', (size[0] - 2) + 'px');
         this.poleGame.css('font-size', 10 + 'pt');
 
         var centerLine = $('<div style="display: inline; clear: left;">');
         centerLine.append('<div id="centerPl" class="centerPlace" style="position:relative;width:' + (size[0] - 2) + 'px;height:' + (size[1] - 2) + 'px;display: inline; float: left;"><img src="' + data.pole.src + '" width="' + (size[0] - 2) + 'px" height="' + (size[1] - 2) + 'px"/></div>');
-		
-		//var fullPlace = $('<div id="fullPlace" class="centerPlace" style="position:relative;width:' + (size[0] - 2) + 'px;height:' + (size[1] - 2) + 'px;display: inline; float: left; background : black"></div>');
-        
-		//fullPlace.append(choiseSetCardPanel)
-		
-		this.choiseSetCardPanel = $('<div id="choiseSetCardPanel" class="centerPlace" style="position:absolute;z-index:10;width:' + (size[0] - 2) + 'px;height:' + (size[1] - 2) + 'px; float: left; background : black"></div>').hide();
-		this.choiseSetCardPanel.build=false;
-		
-		$('#startWindow').css("width", ""+(size[0] - 2) + "px");
-		$('#startWindow').css("height", "" + (size[1] - 2) + "px");
 
-        $('#poleCell').css("width", ""+(size[0] - 2) + "px");
-		$('#poleCell').css("height", "" + (size[1] - 2) + "px");
-		
-	    this.poleGame.append($('<div id="place" style="float:left;">').append(centerLine)).append(this.choiseSetCardPanel);
-		$('#waitGwin').hide();
-		
-		this.buildCell();
-    },
-    getSizePl:function(countCard){
-        var cCardInW=(countCard-4)/4+2;
-        var cCardInH=cCardInW;
-        var razmP=this.pageS[2];
-        if(this.pageS[2]>this.pageS[3]){
-            razmP=this.pageS[3];
+        //var fullPlace = $('<div id="fullPlace" class="centerPlace" style="position:relative;width:' + (size[0] - 2) + 'px;height:' + (size[1] - 2) + 'px;display: inline; float: left; background : black"></div>');
+
+        //fullPlace.append(choiseSetCardPanel)
+
+        this.choiseSetCardPanel = $('<div id="choiseSetCardPanel" class="centerPlace" style="position:absolute;z-index:10;width:' + (size[0] - 2) + 'px;height:' + (size[1] - 2) + 'px; float: left; background : black"></div>').hide();
+        this.choiseSetCardPanel.build = false;
+
+        $('#startWindow').css("width", "" + (size[0] - 2) + "px");
+        $('#startWindow').css("height", "" + (size[1] - 2) + "px");
+        
+		$('#selectSetCard').css("width", "" + (size[0] - 2) + "px");
+        $('#selectSetCard').css("height", "" + (size[1] - 2) + "px");
+        
+		$('#transferDevice').css("width", "" + (size[0] - 2) + "px");
+        $('#transferDevice').css("height", "" + (size[1] - 2) + "px");
+
+        $('#poleCell').css("width", "" + (size[0] - 2) + "px");
+        $('#poleCell').css("height", "" + (size[1] - 2) + "px");
+
+        var setC = $('#setCardPanel').find('.setCard');
+        setC.find('label').text(data.cardset[0]);
+        setC.find('input').val(data.cardset[0]);
+        for (var i = 1; i < data.cardset.length; i++) {
+            var sclone = setC.clone();
+            sclone.find('label').text(data.cardset[i]);
+            sclone.find('input').val(data.cardset[i]);
+            $('#setCardPanel').append(sclone);
         }
-        var shMc=Math.floor(razmP/(cCardInW+1.2));
-        var shBc=Math.floor(shMc+shMc*0.6);
-        razmP=shMc*(cCardInW-2)+2*shBc;
-        var shCPl=shMc*(cCardInW-2);
-        this.actSize={cCardInW:cCardInW,cCardInH:cCardInH,razmP:razmP,shMc:shMc,shBc:shBc,shCPl:shCPl,fontsize:Math.round(shMc/8)};
+		
+		$('#TransferComplete').on('click', function(){
+			if(thisEl.currentUser.pass==null || thisEl.currentUser.pass==$('.passTransfer').val()){
+				$('#transferDevice').hide();
+				thisEl.currentUser.approve = true;
+				thisEl.loadgamedata(thisEl.currentdata);
+			}
+		});
+		
+		$(document).on('click', '#buttonStartSelCard', function () {
+			  
+			thisEl.actionsUser("CHOISE_SET_CARD", "CHOISE_SET_CARD".toLowerCase() + "Obr");
+        });
+
+        this.poleGame.append($('<div id="place" style="float:left;">').append(centerLine)).append(this.choiseSetCardPanel);
+        $('#waitGwin').hide();
+
+        this.buildCell();
+    },
+    getSizePl: function (countCard) {
+        var cCardInW = (countCard - 4) / 4 + 2;
+        var cCardInH = cCardInW;
+        var razmP = this.pageS[2];
+        if (this.pageS[2] > this.pageS[3]) {
+            razmP = this.pageS[3];
+        }
+        var shMc = Math.floor(razmP / (cCardInW + 1.2));
+        var shBc = Math.floor(shMc + shMc * 0.6);
+        razmP = shMc * (cCardInW - 2) + 2 * shBc;
+        var shCPl = shMc * (cCardInW - 2);
+        this.actSize = {
+            cCardInW: cCardInW,
+            cCardInH: cCardInH,
+            razmP: razmP,
+            shMc: shMc,
+            shBc: shBc,
+            shCPl: shCPl,
+            fontsize: Math.round(shMc / 8)
+        };
         return this.actSize;
-    },	
-	buildSystemControl: function () {
+    },
+    buildSystemControl: function () {
         var thisEl = this;
         this.createBut('THROW_CUBE');
 
@@ -705,8 +756,8 @@ GameImaginarium.prototype = {
     },
 
     loginfo: function (text) {
-        this.infoGame.prepend('<hr style="color:orange; width:60px;"/>');
-        this.infoGame.prepend('<div>' + text + '</div>');
+       // this.infoGame.prepend('<hr style="color:orange; width:60px;"/>');
+       // this.infoGame.prepend('<div>' + text + '</div>');
     },
     getUserByName: function (name) {
         for (var y = 0; y < this.gamers.length; y++) {
@@ -748,22 +799,25 @@ GameImaginarium.prototype = {
         }
     },
     synhroGame: function (data) {
-		if (data != null) {
-			if(data.room != null){
-				this.room.maxCountUser = data.room.maxCountUser;
-			}
-			var users=data.listUsers;
-			for (var i = 0; i < users.length; i++) {
-				var gamer = this.getUserByName(users[i].name);
-				if (gamer == null) {
-					var num = this.gamers.length;
-					this.gamers[num] = new Gamer(users[i], this, num + 1);
-					gamer = this.gamers[num];
-				}
-				this.listCell[gamer.user.indexPosition].goOn(gamer);
-				this.userPanel.append(gamer.vid);
-			}
-		} 
+        if (data != null) {
+            if (data.room != null) {
+                this.room.maxCountUser = data.room.maxCountUser;
+            }
+            var users = data.listUsers;
+            for (var i = 0; i < users.length; i++) {
+                var gamer = this.getUserByName(users[i].name);
+                if (gamer == null) {
+                    var num = this.gamers.length;
+                    this.gamers[num] = new Gamer(users[i], this, num + 1);
+                    gamer = this.gamers[num];
+                }
+                if (gamer.user.indexPosition == null) {
+                    gamer.user.indexPosition = 0;
+                }
+                this.listCell[gamer.user.indexPosition].goOn(gamer);
+                //this.userPanel.append(gamer.vid);
+            }
+        }
         //$('.userOwner').remove();
         //for (var i = 0; i < this.listCard.length; i++) {
         //    if (this.listCard[i].obj.userOwner != null) {
@@ -771,14 +825,15 @@ GameImaginarium.prototype = {
         //        this.listCard[i].buyFirm(g);
         //    }
         //}
+		this.startloadgamedata();
     },
 
     buildCell: function () {
-        for(var ind=0; ind<39; ind++){
-			this.listCell[ind] = new Cell(this, ind);
-			$('#poleCell').append(this.listCell[ind].vid);
-		}
-        
+        for (var ind = 0; ind < 39; ind++) {
+            this.listCell[ind] = new Cell(this, ind);
+            $('#poleCell').append(this.listCell[ind].vid);
+        }
+
     },
     createBut: function (butName) {
         this.buttons['' + butName] = this._createBut(butName);
@@ -789,7 +844,7 @@ GameImaginarium.prototype = {
             thisEl.actionsUser(butName, butName.toLowerCase() + "Obr");
         });
     },
-    
+
     buildChangePanel: function () {
         var thisEl = this;
         var ochf = {};
@@ -827,7 +882,7 @@ GameImaginarium.prototype = {
     },
     updPanelSum: function (action, ind) {
         var isum = 0;
-        this.panelSum.text(isum);     
+        this.panelSum.text(isum);
     },
     throw_cubeObr: function (data, fishka, ind) {
         var thisEl = this;
@@ -857,16 +912,28 @@ GameImaginarium.prototype = {
             thisEl.go_sellObr(data, fishka);
         }, 2000);
     },
-    actionsUser: function (actions, functObr) {
+    actionsUser: function (action, functObr) {
+		var dataReq = {};
+		
         var thisEl = this;
-        var datas = null;
-        var typeReq = "GET";
-        var datat = "json";
+        dataReq.datas = null;
+        dataReq.typeReq = "GET";
+        dataReq.datat = "json";
+		dataReq.action = action;
         this.numError = 0;
-        jQuery.ajaxSettings.traditional = false;
-        if (actions == 'PUT_FIRM' | actions == 'REDEEM_FIRM' | actions == 'BUY_FILIAL' | actions == 'SELL_FILIAL') {
+		
+		if (action == "CHOISE_SET_CARD")
+		{			
+			dataReq.datas = {'setCard': $('.inputSetCard:checked').toArray().map(item => item.value)};
+		}
+		
+        //jQuery.ajaxSettings.traditional = false;
+		
+		/*
+		
+        if (action == 'PUT_FIRM' | action == 'REDEEM_FIRM' | action == 'BUY_FILIAL' | action == 'SELL_FILIAL') {
             if (this.listSelectFirm.length == 0) {
-                this.getPossibleFirm(actions);
+                this.getPossibleFirm(action);
                 return;
             } else {
                 datas = {
@@ -874,13 +941,13 @@ GameImaginarium.prototype = {
                 };
             }
         }
-        if (actions == 'CHANGE_FIRM') {
+        if (action == 'CHANGE_FIRM') {
             if (this.listSelectFirm.length == 0 & this.listSelectFirm2.length == 0) {
                 if (this.changePanel.vid.is(':visible')) {
                     this.loginfo("Для обмена нужно выбрать хотябы одну фирму с любой стороны");
                     return;
                 }
-                this.getPossibleFirm(actions);
+                this.getPossibleFirm(action);
                 return;
             } else {
                 jQuery.ajaxSettings.traditional = true;
@@ -905,40 +972,34 @@ GameImaginarium.prototype = {
                 //                alert(datas);
             }
         }
-        if (actions == 'SEND_MESSAGE') {
-            datas = {
+        
+        
+		 */
+		 
+		 if (action == 'SEND_MESSAGE') {
+            dataReq.datas = {
                 'message': this.messageField.val()
             };
             this.messageField.val("");
-            typeReq = "POST";
+            dataReq.typeReq = "POST";
         }
-        if (actions == 'GAME_END') {
+		 
+		 if (action == 'GAME_END') {
             this.buttons['GAME_CLOSE'].show();
-            this.butGE.hide();
+            //this.butGE.hide();
         }
         this.hideAllBut();
         this.keyLoad = 0;
-        $.ajax({
-            url: predictURL + "/games/monopoly/actions/" + actions.toLowerCase(),
-            dataType: datat,
-            data: datas,
-            //            contentType: "application/json",
-            type: typeReq
-        }).done(function (data) {
-            thisEl.keyLoad = 2000;
-            thisEl.loadgamedata();
-            if (actions == 'GAME_END') {
-                thisEl.buttons['GAME_CLOSE'].removeAttr('disabled').css('font-weight', 'bold');
-            }
-        }).error(function () {
-            if (thisEl.numError < 10) {
-                thisEl.numError += 1;
-            }
-            setTimeout(function () {
-                thisEl.actionsUser(actions, functObr)
-            }, 3000 * thisEl.numError);
-        });
+       
+		this.dataGameLoader.actions(this, "actionCallBack", dataReq);
     },
+	actionCallBack:function(data){
+		this.keyLoad = 2000;
+		this.loadgamedata();
+		if (data.action == 'GAME_END') {
+		    this.buttons['GAME_CLOSE'].removeAttr('disabled').css('font-weight', 'bold');
+		}
+	},
     setFishkaI: function (fishka, step) {
         var ind = fishka.posit - step;
         if (ind < 0) {
@@ -984,6 +1045,34 @@ function arrToString(namePr, arrm) {
     return
 }
 
-$(document).ready(function() {
-	new GameImaginarium(langRu, false);
+class Util{
+  static getRandom(min,max){
+       return min + Math.floor((max - min) * Math.random());
+  }
+  static addUnicAll(mainArr, additArr){
+       //Array.prototype.push.apply(mainArr, additArr);
+       for(const ell of additArr){
+          if(!this.isElementInArray(mainArr, ell)){
+             mainArr[mainArr.length] = ell;
+          }
+       }
+  }
+  static isElementInArray( arr, element){
+       for(const ell of arr){
+         if(JSON.stringify(ell) === JSON.stringify(element)){
+            return true;
+         }
+       }
+       return false;
+  }
+  static clear(arr){
+      arr.splice(0, arr.length);
+  }
+  static removeElementFromArray(arr,element){
+     arr.splice(arr.indexOff(element), 1);
+  }
+}
+
+$(document).ready(function () {
+    new GameImaginarium(langRu, false);
 });

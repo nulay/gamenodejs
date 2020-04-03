@@ -19,7 +19,7 @@
     <script type="application/javascript" src="pole.js"></script>
 </head>
 
-<body class="container">
+<body class="">
 
 <style type="text/css">
 body{margin: 0;padding: 0;}
@@ -70,7 +70,7 @@ a.button9:active {
     <div id="startWindow" style="position:absolute;z-index:1000; background:black;opacity: 0.8;float:left;">
         <div style="color: white;font-size: 10pt;margin: 0 auto;padding-top: 20%;px;width: 100%;">
 		    <div>Выбирите количество игроков: <a href="#" id="minusPlayer" class="button9 buttonsmall">-</a><span id="countPlayers" style="padding:0 10px 0 10px">1</span><a href="#" id="plusPlayer" class="button9 buttonsmall">+</a></div>
-		    <div id="playerPanel">
+		    <div id="playerPanel" style="padding-right:30px">
 			    <div align="right" class="playerField">Введите имя <span class="numPlayer">1</span> игрока: <input class="namePlayer" type="text" size="15" style="background:black; color:#FFFFFF;font-size:10px;"/><span class="passPanel" style="display:none;"> пароль: <input class="passPlayer" type="password" size="15" style="background:black; color:#FFFFFF;font-size:10px;"/><span></div>
 		    </div>
             <div style="padding:20px;"><label style=" font-size:10px;"><input id="passSwitch" type="checkbox"> Включить пароли</label></div>
@@ -78,13 +78,23 @@ a.button9:active {
 		    <div id="errorPlace" style="padding:10px;color:red;"></div>
 	    </div>
     </div>
-	<div id="poleCell" style="position:absolute;z-index:500; background:black;opacity: 0.8;float:left;">
+	<div id="selectSetCard" style="position:absolute;z-index:1001; background:black;opacity: 0.8;float:left;display:none;">
+        <div style="color: white;font-size: 10pt;margin: 0 auto;padding-top: 20%;px;width: 100%;">
+		    <div>Выберите наборы карт для игры:</div>
+		    <div id="setCardPanel" style="padding-right:30px">
+			    <div align="right" class="setCard"><label>Base</label><input type="checkbox" name="setCard" class="inputSetCard" value="Base"></div>
+		    </div>
+            <div style="padding:20px;"><a href="#" id="buttonStartSelCard" class="button9">Start</a></div>
+		    <div id="errorPlace" style="padding:10px;color:red;"></div>
+	    </div>
+    </div>
+	<div id="poleCell" style="position:absolute;z-index:500;float:left;">
         
     </div>
-    <div id="transferDevice" style="position:absolute;z-index:1000;left:0;top:0; background:black; height:1000px;width: 100%;display:none">
-        <div style="color: white;font-size: 10pt;margin: 0 auto;padding: 300px;text-align: center;width: 500px;">
-            <div>Передайте устройство игроку : <span class="namePlayerTransfer"></span> <div>пароль: <input class="passTransfer" type="text" size="15" style="background:black; color:#FFFFFF;font-size:20px;display:none;"/></div></div>
-            <div style="padding:20px;"><input id="TransferComplete" type="button" value="Complete" style=" font-size:30px;"></div>
+    <div id="transferDevice" style="position:absolute;z-index:1002; background:black;opacity: 0.8;float:left;display:none">
+        <div style="color: white;font-size: 10pt;margin: 0 auto;padding-top: 20%;px;width: 100%;">
+            <div>Передайте устройство игроку : <span class="namePlayerTransfer"></span> <div id="passNeed" style="display:none;">пароль: <input class="passTransfer" type="pass" size="15" style="background:black; color:#FFFFFF;font-size:20px;"/></div></div>
+            <div style="padding:20px;"><a id="TransferComplete" type="button" class="button9" style="font-size:20px;">Complete</a></div>
             <div id="errorPlacetransferDevice" style="padding:10px;color:red;"></div>
         </div>
     </div>
