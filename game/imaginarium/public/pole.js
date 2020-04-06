@@ -395,14 +395,23 @@ DataGameNoLoad.prototype.actions = function (obj, collbackNameFunction, dataReq)
 		    StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_VOTE", el);
 			for(var i = 0; i < StartGame.listUsers.length; i++){
 			   StartGame.createAction(StartGame.listUsers[i].name, "MOVE_USER");
+			   
 			}		
+			
 		}
 	}
 	if(dataReq.action == "NEXT_TOUR"){
 		//проверяем окончание игры
 					
 		var isNext = StartGame.nextUser();
-				
+		var win = false;
+		for(var i = 0; i < StartGame.listUsers.length; i++){
+			if(StartGame.listUsers[i].indexPosition>=39){
+			   StartGame.createAction(StartGame.listUsers[i].name, "WIN");
+			   win=true;
+			}
+		}	
+		if (win) return;		
 		StartGame.giveOneCardsForUsers();
 		
 		var data={"listCard":StartGame.currentUser.listCard, 'soltSet': StartGame.currentUser.listSoltSet, 'assosiation': StartGame.currentAssosiation};
@@ -780,9 +789,10 @@ GameImaginarium.prototype = {
 							//list card with  namevotedusers
 							this.showAllVote(data.listAction[i].infoAction);
 						}						
-                        if (data.listAction[i].action == "WAIT_ASSOSIATION") {
-
-                            thisEl.vaitAssosiation(data.listAction[i].infoAction); //nameuser
+                        if (data.listAction[i].action == "WIN") {
+                            $('#win').show();
+                            $('.winBlock label').text($('.winBlock label').text()+" "+"Поздравляю игрок "+gamerA.user.name+" выиграл!!!");
+							
                         }
 
                     }
@@ -876,6 +886,9 @@ GameImaginarium.prototype = {
         $('#selectCard').css("width", "" + (size[0] - 2) + "px");
         $('#selectCard').css("height", "" + (size[1] - 2) + "px");
 		
+		$('#win').css("width", "" + (size[0] - 2) + "px");
+        $('#win').css("height", "" + (size[1] - 2) + "px");
+		
 		this.pageS[4] = Math.floor(size[0] / 3);
 		this.pageS[5] = Math.floor(this.pageS[4] * 1.5);
 
@@ -962,7 +975,7 @@ GameImaginarium.prototype = {
         });
 		
 		$('.voteUser').hide();
-		
+		$(document).on('click','#winBut',function(){$('#win').hide();});
 		$(document).on('click', '#readyVoteButton', function () {		
 			thisEl.selInd = thisEl.selIndT;
 			thisEl.selIndT = null;		
