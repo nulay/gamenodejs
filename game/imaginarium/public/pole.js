@@ -511,7 +511,7 @@ var StartGame = {
 	},
     showStartWindow: function (obj, collbackNameFunction) {
         this.addOnePlayer();
-		
+		this.addOnePlayer();
         if (this.skipNeed())
             return;
         var thisEl = this;
@@ -597,7 +597,7 @@ var StartGame = {
 	},
     removeOnePlayer: function () {
         var el = $(".playerField");
-        if (el.length == 2) {
+        if (el.length == 3) {
             this.showError("We have minimum players!");
             return;
         }
