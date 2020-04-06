@@ -293,23 +293,121 @@ DataGameNoLoad.prototype.loadgamedata = function (obj, collbackNameFunction) {
     }
 }
 DataGameNoLoad.prototype.actions = function (obj, collbackNameFunction, dataReq) {
-    if(dataReq.datat.action = "CHOISE_SET_CARD"){	
-        var data={};	
-		var listCard = [];
+    if(dataReq.action == "CHOISE_SET_CARD"){	
+        var listCard = [];
 		for (var i = 0; i < dataReq.datas.setCard.length; i++) {
-		    for (var y = 0; y < 96; y++) {
+		    for (var y = 1; y < 97; y++) {
 		        var card = {};
 		        card.src = "cards/"+dataReq.datas.setCard[i] + '/' + ((y < 10) ? '00' + y : '0' + y) + '.jpg';
 		        listCard[listCard.length] = card;
 		    }
 		}
 		StartGame.listCard = shuffle(listCard);
-		data.listCard = StartGame.listCard.slice(0);		
+		//data.listCard = StartGame.listCard.slice(0);		
 		
 		StartGame.giveCardsForUsers();
 		
-		StartGame.createAction(StartGame.currentUser.name, "PUSH_CARD",StartGame.currentUser.listCard);
+		var data={"listCard":StartGame.currentUser.listCard, 'soltSet': StartGame.currentUser.listSoltSet};
+		
+		StartGame.createAction(StartGame.currentUser.name, "PUSH_CARD",data);
 		//obj[collbackNameFunction]();
+	}
+	if(dataReq.action == "PUSH_CARD"){
+		var listCard = [];
+		
+		StartGame.selectedCard=[];	
+		StartGame.currentAssosiation = dataReq.datas.assosiation;
+		
+		var selectCard = StartGame.currentUser.listCard[dataReq.datas.selectCard];
+		selectCard.main=true;
+		selectCard.user=StartGame.currentUser.name;
+		
+		StartGame.currentUser.listCard.splice(dataReq.datas.selectCard, 1);
+			
+		StartGame.selectedCard[StartGame.selectedCard.length] = selectCard;
+		
+		for(var i=0; i<dataReq.datas.soltCards.length;i++){
+			var selectCard = StartGame.currentUser.listSoltSet[i][dataReq.datas.soltCards[i]];
+			
+			StartGame.currentUser.listSoltSet[i].splice(dataReq.datas.soltCards[i], 1);
+			
+			StartGame.selectedCard[StartGame.selectedCard.length] = selectCard;
+		}
+		
+		StartGame.indexMain = StartGame.currentUserInd;
+		
+		var isNext = StartGame.nextUser();
+		
+		if(isNext){
+			 var data={"listCard":StartGame.currentUser.listCard, 'soltSet': StartGame.currentUser.listSoltSet, 'assosiation': StartGame.currentAssosiation};
+			 StartGame.createAction(StartGame.currentUser.name, "PUSH_ASSOCIATE_CARD", data);
+		}else{
+			StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_CARD", StartGame.selectedCard);
+		}
+	}
+	if(dataReq.action == "PUSH_ASSOCIATE_CARD"){
+		
+		var listCard = [];
+		
+		var selectCard = StartGame.currentUser.listCard[dataReq.datas.selectCard];
+		selectCard.main=false;
+		selectCard.user=StartGame.currentUser.name;
+		
+		StartGame.currentUser.listCard.splice(dataReq.datas.selectCard, 1);
+		
+		StartGame.selectedCard[StartGame.selectedCard.length] = selectCard;
+				
+		var isNext = StartGame.nextUser();
+		
+		if(isNext){
+			 var data={"listCard":StartGame.currentUser.listCard, 'soltSet': StartGame.currentUser.listSoltSet, 'assosiation': StartGame.currentAssosiation};
+			 StartGame.createAction(StartGame.currentUser.name, "PUSH_ASSOCIATE_CARD", data);
+		}else{
+			StartGame.nextUser(); //перематываем ведущего
+			
+			StartGame.selectedCard = shuffle(StartGame.selectedCard);	
+			StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_CARD", StartGame.selectedCard);
+		}
+	}
+	if(dataReq.action == "USER_VOTE"){
+		var data={};	
+		var listCard = [];
+				
+		var selectCard = StartGame.selectedCard[dataReq.datas.selectCard];
+		if(selectCard.voteUser == null){
+			selectCard.voteUser = [];
+		}
+		if(selectCard.user == StartGame.currentUser.name){
+			//обманщик вызываем пока не исправится :)
+			StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_CARD_AGAIN", StartGame.selectedCard);
+			return;
+		}else{
+			selectCard.voteUser[selectCard.voteUser.length] = StartGame.currentUser.name;
+		}
+						
+		var isNext = StartGame.nextUser();
+		
+		if(isNext){			
+		     StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_CARD", StartGame.selectedCard);
+		}else{			
+		    StartGame.calculateResult();
+			var el={"listCard":StartGame.selectedCard, 'assosiation': StartGame.currentAssosiation};
+		    StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_VOTE", el);
+			for(var i = 0; i < StartGame.listUsers.length; i++){
+			   StartGame.createAction(StartGame.listUsers[i].name, "MOVE_USER");
+			}		
+		}
+	}
+	if(dataReq.action == "NEXT_TOUR"){
+		//проверяем окончание игры
+					
+		var isNext = StartGame.nextUser();
+				
+		StartGame.giveOneCardsForUsers();
+		
+		var data={"listCard":StartGame.currentUser.listCard, 'soltSet': StartGame.currentUser.listSoltSet, 'assosiation': StartGame.currentAssosiation};
+			 
+		StartGame.createAction(StartGame.currentUser.name, "PUSH_CARD", data);
 	}
 }
 
@@ -317,20 +415,94 @@ var StartGame = {
     skeepneed: true,
 	listUsers:[],
 	listAction:[],
-	listCard:[],
+	listCard:[],	
+	selectedCard:[],
+	countSolts : 1,
 	giveCardsForUsers:function(){
 		for(var i=0;i<this.listUsers.length;i++){
 			for(var y=0;y<6;y++){
 				if(this.listUsers[i].listCard == null){ 
 					this.listUsers[i].listCard = [];
+					this.listUsers[i].listSoltSet = [];
 				}
 				this.listUsers[i].listCard[this.listUsers[i].listCard.length] = this.listCard[this.listCard.length-1];
 				this.listCard.splice(this.listCard.length-1, 1);
+				this.addSoltSet(this.listUsers[i]);
+			}
+		}
+	},
+	addSoltSet(user){
+		for(var z=0;z<this.countSolt;z++){
+			var card=this.listCard[this.listCard.length-1];
+			card.solt=true;
+			if(user.listSoltSet[z]==null){
+				user.listSoltSet[z] = [];
+			}
+			if(user.listSoltSet[z].length<7){
+				user.listSoltSet[z][user.listSoltSet[z].length] = card;
+				this.listCard.splice(this.listCard.length-1, 1);
+			}
+		}
+	},
+	calculateResult:function(){
+		for(var i=0;i<this.selectedCard.length;i++){
+			var card = this.selectedCard[i];
+			if(card.solt){
+				continue;
+			}
+			var mainUser = this.listUsers[this.indexMain];
+			if(card.main){
+				if(card.voteUser == null || card.voteUser.length == 0){
+					mainUser.indexPosition = mainUser.indexPosition - 2;//ведущий на 2 хода назад
+					if(mainUser.indexPosition<0){
+						mainUser.indexPosition = 0;
+					}					
+				}else{					
+					if(card.voteUser.length == this.listUsers.length - 1){
+						mainUser.indexPosition = mainUser.indexPosition - 3;//ведущий на 3 хода назад	
+						if(mainUser.indexPosition<0){
+							mainUser.indexPosition = 0;
+						}
+						return;
+					}else{
+						mainUser.indexPosition = mainUser.indexPosition + card.voteUser.length + 3;
+						for(var y = 0; y < card.voteUser.length;y++){
+							var user = this.getUserByName(card.voteUser[y]);
+							user.indexPosition += 3;
+						}
+					}						
+				}				
+			}else{				
+			   if(card.voteUser!=null){
+					var user = this.getUserByName(card.user);
+					user.indexPosition += card.voteUser.length;	
+			   }				
+			}
+		}
+	},
+	getUserByName:function(name){
+		for(var i=0;i<this.listUsers.length; i++){
+			if(this.listUsers[i].name == name){
+				return this.listUsers[i];
+			}
+		}
+		return null;
+	},
+	giveOneCardsForUsers:function(){
+		for(var i=0;i<this.listUsers.length;i++){
+			for(var y=0;y<1;y++){
+				if(this.listUsers[i].listCard == null){ 
+					this.listUsers[i].listCard = [];
+				}
+				this.listUsers[i].listCard[this.listUsers[i].listCard.length] = this.listCard[this.listCard.length-1];
+				this.listCard.splice(this.listCard.length-1, 1);
+				this.addSoltSet(this.listUsers[i]);
 			}
 		}
 	},
     showStartWindow: function (obj, collbackNameFunction) {
         this.addOnePlayer();
+		
         if (this.skipNeed())
             return;
         var thisEl = this;
@@ -339,6 +511,12 @@ var StartGame = {
         });
         $(document).on('click', '#plusPlayer', function () {
             thisEl.addOnePlayer()
+        });
+		$(document).on('click', '#minusSolt', function () {
+            thisEl.removeSolt()
+        });
+        $(document).on('click', '#plusSolt', function () {
+            thisEl.addSolt()
         });
         $(document).on('click', '#buttonStart', function () {
             thisEl.startGame(obj, collbackNameFunction);
@@ -351,7 +529,16 @@ var StartGame = {
             }
         });
         $('.playerField').show();
-    },	
+    },		
+    nextUser() {
+        this.currentUserInd += 1;
+        if (this.currentUserInd >= this.maxCountUser) {
+            this.currentUserInd = 0;
+        }
+		
+        this.currentUser = this.listUsers[this.currentUserInd];
+		return !(this.indexMain == this.currentUserInd);
+    },
     skipNeed: function () {
         if (this.skeepneed) {
             var listPlayerEl = $(".namePlayer");
@@ -369,17 +556,48 @@ var StartGame = {
             this.showError("We have maximum players!");
             return;
         }
+		if(el.length>1){
+			$("#countSolts").text(0);
+			this.countSolt = 0;
+		}
         var plF = $(el[0]).clone();
-        plF.find(".numPlayer").text(el.length + 1);
+        plF.find(".numPlayer").text(el.length + 1);		
         $('#playerPanel').append(plF);
+		
+		plF.find(".namePlayer").val("Player " + ($(".namePlayer").length));
         $('#countPlayers').text(el.length + 1);
     },
+	addSolt:function(){
+		this.countSolt =  parseInt($("#countSolts").text());
+        if (this.countSolt == 3) {
+            this.showError("We have maximum solt!");
+            return;
+        }        
+		this.countSolt++;
+		$('#countSolts').text(this.countSolt);		
+	},
+	removeSolt:function(){
+		var pl = $(".playerField");        
+		this.countSolt = parseInt($("#countSolts").text());
+        if (pl.length == 2 && this.countSolt == 1 || pl.length>2 && this.countSolt==0) {
+            this.showError("We have minimum solt!");
+            return;
+        }
+		this.countSolt--;
+        $('#countSolts').text(this.countSolt);		
+	},
     removeOnePlayer: function () {
         var el = $(".playerField");
         if (el.length == 2) {
             this.showError("We have minimum players!");
             return;
         }
+		if(el.length == 3){
+			if(this.countSolt<1){
+				this.countSolt=1;
+				$("#countSolts").text(this.countSolt);
+			}
+		}
         $(el[el.length - 1]).remove();
         $('#countPlayers').text(el.length - 1);
     },
@@ -410,10 +628,8 @@ var StartGame = {
         $('#startWindow').hide();
         this.listUsers = data.listUsers;
 		this.createAction(this.listUsers[0].name, "CHOISE_SET_CARD", ["Base", "Ariadna", "Himera", "Pandora"]);
-		this.listUsers[0].approve = false;
 		for(var i = 1; i<this.listUsers.length;i++){
-			this.createAction(this.listUsers[i].name, "WAIT");
-			this.listUsers[i].approve = false;
+			this.createAction(this.listUsers[i].name, "WAIT");			
 		}
         obj[collbackNameFunction](data);
     },
@@ -426,13 +642,6 @@ var StartGame = {
 		this.listAction[this.listAction.length]=action;
 		return action;
 	},
-    nextUser() {
-        this.currentUserInd += 1;
-        if (this.currentUserInd >= this.maxCountUser) {
-            this.currentUserInd = 0;
-        }
-        this.currentUser = this.listUsers[this.currentUserInd];
-    },
     getAllUser() {
         var listPlayerEl = $(".namePlayer");
 
@@ -459,11 +668,12 @@ GameImaginarium.prototype = {
     infoGame: '',
     poleGame: $('#poleGame'),
     buttons: [],
-    timeLoad: 10000,
+    timeLoad: 2000,
     currentUser: null,
     online: true,
     dataGameLoader: null,
 	rootPath:"",
+	currentUserApprove : false,
     initialize: function (lang, online) {
         this.pageS = getPageSize();
         if (lang) {
@@ -516,16 +726,16 @@ GameImaginarium.prototype = {
                             }
                         }
                         if (t) {
-                            thisEl.dataGameLoader.loadUser(this, "getStartGamers");
+                            thisEl.dataGameLoader.loadUser(thisEl, "getStartGamers");
                         }
                     }
                 } else {}
-                if (thisEl.currentUser == null) {
-                    thisEl.currentUser = data.userRoom;
-                }
+                
+                thisEl.currentUser = data.userRoom;
+                
                 thisEl.showButton(data);
-				if(data.listAction.length>0 && !this.online && !thisEl.currentUser.approve){
-					this.showTransfer(data);
+				if(data.listAction.length>0 && !thisEl.online && !thisEl.currentUserApprove){
+					thisEl.showTransfer(data);
 					return;
 				}
                 for (var i = 0; i < data.listAction.length; i++) {
@@ -542,27 +752,34 @@ GameImaginarium.prototype = {
                             thisEl.throw_cubeObr(data.listAction[i].infoAction, gamerA.fishka);
                         }
                         if (data.listAction[i].action == "PUSH_CARD") {
-							
-							thisEl.showCard(data.listAction[i].infoAction);
-                            //thisEl.addCard();
-                            //thisEl.setAssosiation(data.listAction[i].infoAction);
+							thisEl.soltCards=[];
+							playAudio("sounds/selectcard.mp3");
+							thisEl.showCard(data.listAction[i].infoAction.listCard);
+							thisEl.soltSet = data.listAction[i].infoAction.soltSet;
+							$('.entAss').show();
                         }
                         if (data.listAction[i].action == "PUSH_ASSOCIATE_CARD") {
 
-                            thisEl.addCard();
+                            thisEl.showCard(data.listAction[i].infoAction.listCard);
+							$('.choseAss').show();
+							$('.placeAssotiation').text(data.listAction[i].infoAction.assosiation);
                         }
                         if (data.listAction[i].action == "SHOW_ALL_CARD") {
-
-                            thisEl.showCard(data.listAction[i].infoAction); //list ind + imgpath
+                            thisEl.showCard(data.listAction[i].infoAction);							
+							$('.choseMainCard').show();							
+							$('.placeAssotiation').text(data.listAction[i].infoAction.assosiation);
                         }
-                        if (data.listAction[i].action == "USER_VOTE") {
-
-                            thisEl.userVote(data.listAction[i].infoAction); //nameUser
-                        }
+						if (data.listAction[i].action == "SHOW_ALL_CARD_AGAIN") {
+                            playAudio("sounds/yourcard.mp3");
+                            thisEl.showCard(data.listAction[i].infoAction);							
+							$('.choseMainCard').show();
+							$('.placeAssotiation').text(data.listAction[i].infoAction.assosiation);
+                        }                        
                         if (data.listAction[i].action == "SHOW_ALL_VOTE") {
-
-                            thisEl.showVote(data.listAction[i].infoAction); //list card with  namevotedusers
-                        }
+							//show cards and switch to user 
+							//list card with  namevotedusers
+							this.showAllVote(data.listAction[i].infoAction);
+						}						
                         if (data.listAction[i].action == "WAIT_ASSOSIATION") {
 
                             thisEl.vaitAssosiation(data.listAction[i].infoAction); //nameuser
@@ -572,13 +789,46 @@ GameImaginarium.prototype = {
                 }
             }
         }
-
-    },	
-	showCard: function (data) {	
+    },		
+	showAllVote: function (data) {
+		this.selInd = null;
+		$('.voteBlock').show();
+		$('.placeAssotiation').text(data.assosiation);
+		$('#selectCard').show();
+		$('.voteUser').empty();
+	    var elForCard = $('#selectCard .card img');
+		$('#selectCard .card a').hide();
+		for(var i = 0; i < data.listCard.length; i++){
+			$(elForCard[i]).attr("src" , this.rootPath+"/"+data.listCard[i].src);
+			$(elForCard[i]).parent().find('.voteUser').show();
+			if(data.listCard[i].main){
+				$(elForCard[i]).parent().find('.voteUser').append('<div style="font-weight:bold;">Карта ведущего</div>');
+			}
+			if(data.listCard[i].voteUser!=null){
+				for(var y=0;y<data.listCard[i].voteUser.length;y++){
+					$(elForCard[i]).parent().find('.voteUser').append('<div>'+data.listCard[i].voteUser[y]+'</div>');
+				}
+			}
+		}
+	},
+	showCard: function (data) {		
+		this.selInd = null;
 		$('#selectCard').show();
 	    var elForCard = $('#selectCard .card img');
-		for(var i = 0;i<data.length;i++){
+		$('#selectCard .card a').hide();
+		for(var i = 0; i < data.length; i++){
 			$(elForCard[i]).attr("src" , this.rootPath+"/"+data[i].src);
+			$(elForCard[i]).parent().find('a').show();
+		}
+	},
+	showCardForSolt:function () {
+        data = this.soltSet[this.soltCards.length];
+		$('#selectCard').show();
+	    var elForCard = $('#selectCard .card img');
+		$('#selectCard .card a').hide();
+		for(var i = 0; i < data.length; i++){
+			$(elForCard[i]).attr("src" , this.rootPath+"/"+data[i].src);
+			$(elForCard[i]).parent().find('a').show();
 		}
 	},
 	showTransfer: function (data) {		
@@ -594,10 +844,6 @@ GameImaginarium.prototype = {
         if (data != null) {
 			this.rootPath = data.rootPath;
             thisEl.buildPlace(data, getMaxSizeInnerBlock(567, 794, this.pageS[2], this.pageS[3]));
-
-            //thisEl.buildSystemControl();
-            // thisEl.getStartGamers();
-            // thisEl.startloadgamedata();
         }
     },
     buildPlace: function (data, size) {
@@ -612,11 +858,6 @@ GameImaginarium.prototype = {
 
         var centerLine = $('<div style="display: inline; clear: left;">');
         centerLine.append('<div id="centerPl" class="centerPlace" style="position:relative;width:' + (size[0] - 2) + 'px;height:' + (size[1] - 2) + 'px;display: inline; float: left;"><img src="' + data.pole.src + '" width="' + (size[0] - 2) + 'px" height="' + (size[1] - 2) + 'px"/></div>');
-
-        //var fullPlace = $('<div id="fullPlace" class="centerPlace" style="position:relative;width:' + (size[0] - 2) + 'px;height:' + (size[1] - 2) + 'px;display: inline; float: left; background : black"></div>');
-
-        //fullPlace.append(choiseSetCardPanel)
-
         this.choiseSetCardPanel = $('<div id="choiseSetCardPanel" class="centerPlace" style="position:absolute;z-index:10;width:' + (size[0] - 2) + 'px;height:' + (size[1] - 2) + 'px; float: left; background : black"></div>').hide();
         this.choiseSetCardPanel.build = false;
 
@@ -635,39 +876,29 @@ GameImaginarium.prototype = {
         $('#selectCard').css("width", "" + (size[0] - 2) + "px");
         $('#selectCard').css("height", "" + (size[1] - 2) + "px");
 		
-		var widthCard = Math.floor(size[0] / 3);
-		var haightCard = Math.floor(widthCard * 1.5);
+		this.pageS[4] = Math.floor(size[0] / 3);
+		this.pageS[5] = Math.floor(this.pageS[4] * 1.5);
 
 		$('#selectCard .card img').css("width", "" + (Math.floor(size[0] / 3)) + "px");
-		$('#selectCard .card').on("mouseenter", function (ev) {
+		$('#selectCard .card img').on("mouseenter", function (ev) {
 		   $(ev.currentTarget).css("border","2px solid gray");
 		})
 		.on("mouseleave", function (ev) {
 		     $(ev.currentTarget).css("border","");
 		});
-		$('#selectCard .card').on("dblclick", function (el) {
-		    if ($(el.currentTarget).hasClass("big")) {
-		        $(el.currentTarget).removeClass("big");
-		        
-				$(el.currentTarget).animate({"left" : thisEl.posC.l,"top":thisEl.posC.t});
-		        $(el.target).animate({
-		            "width": widthCard+"px"
-		        },"slow");
-				$(el.currentTarget).css({"width" : ""});
-				$(el.currentTarget).animate({"z-index":"1005"});
-			}else {
-				thisEl.posC={};
-				
-				$(el.currentTarget).addClass("big");
-		        $(el.currentTarget).css("z-index","1050");
-				thisEl.posC.t = $(el.currentTarget).css("top");
-				thisEl.posC.l = $(el.currentTarget).css("left");
-				$(el.currentTarget).animate({"left" : "0px","top":"0px"});
-		        $(el.target).animate({
-		            "width": Math.floor(size[0]-size[0]*0.08)+"px",					
-		        },"slow");	
-                $(el.currentTarget).animate({"width" : "100%"});		
-		    }
+		
+		$('.selectCardB').on("click", function (ev) {
+			var sizeEl = Math.floor(size[0] - size[0]*0.3);
+			thisEl.resizeCard($(ev.currentTarget).parent().parent(),$(ev.currentTarget).parent().parent().find('img'), sizeEl);
+			$('#readyassosiation').show();
+			$('#readysam').show();
+			$('#playercard').show();
+			$('#readyVoteButton').show();			
+		    thisEl.selIndT = $('.selectCardB').toArray().indexOf($(ev.currentTarget)[0]);			
+		});
+		$('#selectCard .card img').on("dblclick", function (ev) {			
+			var sizeEl = Math.floor(size[0] - size[0]*0.06);			
+			thisEl.resizeCard($(ev.currentTarget).parent(),ev.currentTarget, sizeEl);		    
 		});
 		
         var setC = $('#setCardPanel').find('.setCard');
@@ -683,21 +914,126 @@ GameImaginarium.prototype = {
 		$('#TransferComplete').on('click', function(){
 			if(thisEl.currentUser.pass==null || thisEl.currentUser.pass==$('.passTransfer').val()){
 				$('#transferDevice').hide();
-				thisEl.currentUser.approve = true;
+				thisEl.currentUserApprove = true;
 				thisEl.loadgamedata(thisEl.currentdata);
 			}
 		});
 		
+		$('#readyassosiation').on('click', function(){
+			if(thisEl.selInd == null){
+				thisEl.selInd = thisEl.selIndT;									
+			}else{
+				thisEl.soltCards[thisEl.soltCards.length] = thisEl.selIndT;				
+			}		
+			thisEl.selIndT = null;					
+			if(thisEl.soltSet.length != thisEl.soltCards.length){				
+				thisEl.resizeCard($('#selectCard .card.big')[0],$('#selectCard .card.big img')[0], 0);
+				$('.cardimg').attr("src", thisEl.rootPath + "emptycard.jpg");
+				thisEl.showCardForSolt();	
+				
+			}else{
+				thisEl.actionsUser("PUSH_CARD", "PUSH_CARD".toLowerCase() + "Obr");
+				$('.cardimg').attr("src", thisEl.rootPath + "emptycard.jpg");
+				$('#selectCard').hide();
+			}			
+		});
+		
+		$('#readysam').on('click', function(){
+			thisEl.selInd = thisEl.selIndT;
+			thisEl.selIndT = null;
+			thisEl.actionsUser("PUSH_ASSOCIATE_CARD", "PUSH_ASSOCIATE_CARD".toLowerCase() + "Obr");
+			$('#selectCard').hide();
+			$('.cardimg').attr("src",thisEl.rootPath + "emptycard.jpg");
+		});
+		
+		$('#playercard').on('click', function(){
+			thisEl.selInd = thisEl.selIndT;
+			thisEl.selIndT = null;
+			thisEl.actionsUser("USER_VOTE", "USER_VOTE".toLowerCase() + "Obr");
+			$('#selectCard').hide();
+			$('.cardimg').attr("src",thisEl.rootPath + "emptycard.jpg");
+		});
+		
 		$(document).on('click', '#buttonStartSelCard', function () {
+			thisEl.selInd = thisEl.selIndT;
+			thisEl.selIndT = null;
 			thisEl.actionsUser("CHOISE_SET_CARD", "CHOISE_SET_CARD".toLowerCase() + "Obr");
 			$('#selectSetCard').hide();
         });
+		
+		$('.voteUser').hide();
+		
+		$(document).on('click', '#readyVoteButton', function () {		
+			thisEl.selInd = thisEl.selIndT;
+			thisEl.selIndT = null;		
+			$('#selectCard').hide();
+			thisEl.callbackAfterMove = "afterreadyVoteButton";
+			thisEl.moveUser();
+			//for(var i =0; i<thisEl.gamers.length;i++){
+				
+			//	thisEl.go_sellObr(thisEl.gamers[i].user,thisEl.gamers[i].fishka);
+			//}
+        });
+		
+		$(document).on('click', 'a.button9', function(){playAudio("sounds/click.mp3");});
 
         this.poleGame.append($('<div id="place" style="float:left;">').append(centerLine)).append(this.choiseSetCardPanel);
         $('#waitGwin').hide();
 
         this.buildCell();
     },
+	afterreadyVoteButton:function(){
+		this.actionsUser("NEXT_TOUR", "NEXT_TOUR".toLowerCase() + "Obr");
+		playAudio("sounds/nexttour.mp3");
+	},
+	resizeCard: function (el, elImg, sizeEl) {
+	    var thisEl = this;
+	    if ($(el).hasClass("big")) {
+			$('.selectCardB').show();
+			$('#readyassosiation').hide();
+			$('#readysam').hide();
+			$('#choseMainCard').hide();
+			
+	        $(el).removeClass("big");
+
+	        $(el).animate({
+	            "left": thisEl.posC.l,
+	            "top": thisEl.posC.t
+	        });
+			
+	        $(elImg).animate({
+	            "width": thisEl.pageS[4] + "px"
+	        }, "slow");
+			if(sizeEl == 0){
+				$(el).css('left',thisEl.posC.l);
+				$(el).css('top',thisEl.posC.t);
+				$(elImg).css("width",thisEl.pageS[4] + "px");
+			}			
+	        $(el).css({
+	            "width": ""
+	        });
+	        $(el).animate({
+	            "z-index": "1005"
+	        });
+	    } else {
+	        $(el).addClass("big");
+			$('.selectCardB').hide();
+	        thisEl.posC = {};
+	        $(el).css("z-index", "1050");
+	        thisEl.posC.t = $(el).css("top");
+	        thisEl.posC.l = $(el).css("left");
+	        $(el).animate({
+	            "left": "0px",
+	            "top": "0px"
+	        });
+	        $(elImg).animate({
+	            "width": sizeEl + "px",
+	        }, "slow");
+	        $(el).animate({
+	            "width": "100%"
+	        },150);
+	    }
+	},
     getSizePl: function (countCard) {
         var cCardInW = (countCard - 4) / 4 + 2;
         var cCardInH = cCardInW;
@@ -719,80 +1055,6 @@ GameImaginarium.prototype = {
             fontsize: Math.round(shMc / 8)
         };
         return this.actSize;
-    },
-    buildSystemControl: function () {
-        var thisEl = this;
-        this.createBut('THROW_CUBE');
-
-        //this.createBut('GAME_END');
-        this.createBut('GAME_CLOSE');
-        this.buttons['GAME_CLOSE'].hide().click(function () {
-            document.location.href = predictURL + "/";
-        });
-
-        this.butGE = this._createBut('GAME_END');
-
-        var t = Math.round(this.actSize.shCPl / 4);
-        this.infoGame = $('<div id="infoGame" style=";margin:3px 3px 0 3px;text-align:center; font-size:' + this.actSize.fontsize + 'pt;border:1px solid gray;width:' + Math.round(this.actSize.shCPl / 2 - 12) + 'px;height:' + ((t * 2) - 20 - this.actSize.fontsize * 2) + 'px;overflow: auto;color:white;">');
-
-        this.userPanel = $('<div id="userPanel" style="float:left;display:inline-block;text-align:center;width:' + Math.round(this.actSize.shCPl / 2 - 2) + 'px;height:' + t * 2 + 'px;">');
-
-        var topPanel = $('<div style="width:' + this.actSize.shCPl + 'px;height:' + (t * 2 - 2) + 'px;text-align:center;position:relative;">');
-        var bottomPanel = $('<div style="background-color:black;opacity:0.85;font-size:' + this.actSize.fontsize + 'pt; color: white; width:' + this.actSize.shCPl + 'px; height: ' + (t * 2) + 'px;"></div>');
-        this.messageField = $('<input type="text" style="font-size:' + this.actSize.fontsize + 'pt;color:white;background:black;margin:6px 3px 0 0;border:1px solid gray;width:' + (+Math.round(this.actSize.shCPl / 2) - (60 + this.actSize.fontsize * 4)) + 'px;"/>');
-        var buttonSendMess = $('<button style="font-size:' + this.actSize.fontsize + 'pt;float:right;margin:3px 3px 3px 0;width:' + (40 + this.actSize.fontsize * 4) + 'px;">' + this.lang['SEND_MESSAGE'] + '</button>').click(function () {
-                thisEl.actionsUser('SEND_MESSAGE', 'send_messageObr');
-            });
-        var infoPanel = $('<div style="float:left;display:inline-block;text-align:center;width:' + Math.round(this.actSize.shCPl / 2 - 1) + 'px;height:' + t * 2 + 'px;">');
-        infoPanel.append(this.infoGame).append($('<div style="">').append(this.messageField).append(buttonSendMess));
-        bottomPanel.append(this.userPanel).append(infoPanel);
-        this.butPanel = $('<div style="width: ' + this.actSize.shCPl + 'px;height:' + t + 'px;text-align:center;position:absolute;z-index:10;top:0;left:0;">');
-        for (var b in this.buttons) {
-            if (b == 'AUCTION_BUY' || b == 'AUCTION_FOLD') {
-                continue;
-            }
-            this.butPanel.append(this.buttons[b]);
-        }
-        this.imgName = '/resources/images/games/' + this.room.imageFolder + '/';
-        this.butPanel.append(this.butGE);
-        this.panelSelectFirm = $('<div style="background:black;position:absolute;z-index:10;top:0;left:0;width:' + this.actSize.shCPl + 'px;height:' + (t * 2 - 2) + 'px;"></div>').hide();
-        this.panelAuction = $('<div style="background:black;position:absolute;z-index:10;top:0;left:0;width:' + this.actSize.shCPl + 'px;height:' + (t * 2 - 2) + 'px;"></div>').hide();
-        this.panelAuction.append(this.buttons['AUCTION_BUY']).append(this.buttons['AUCTION_FOLD']);
-        this.panelThrowCube = $('<div style="background:black;position:absolute;z-index:10;top:0;left:0;width:' + this.actSize.shCPl + 'px;height:' + (t * 2 - 2) + 'px;text-aligne:center;vertical-aligne:middle;"></div>').hide();
-        this.imgThrowCube1 = $('<img style="vertical-align: middle;" src="' + this.imgName + 'cube/' + 1 + '.png" width="' + Math.round(t) + 'px" height="' + Math.round(t) + 'px"/>');
-        this.imgThrowCube2 = $('<img style="vertical-align: middle;" src="' + this.imgName + 'cube/' + 2 + '.png" width="' + Math.round(t) + 'px" height="' + Math.round(t) + 'px"/>');
-        this.panelThrowCube.append(this.imgThrowCube1).append(this.imgThrowCube2).append('<div style="display: inline-block; height: 100%; vertical-align: middle;"></div>');
-        var butPut = $('<button value="' + this.lang['PUT_FIRM'] + '">' + this.lang['PUT_FIRM'] + '</button>').click(function () {
-                thisEl.actionsUser('PUT_FIRM', 'put_firmObr');
-                thisEl.cancalSelectFirm();
-            }).hide();
-        var butRed = $('<button value="' + this.lang['REDEEM_FIRM'] + '">' + this.lang['REDEEM_FIRM'] + '</button>').click(function () {
-                thisEl.actionsUser('REDEEM_FIRM', 'redeem_firmObr');
-                thisEl.cancalSelectFirm();
-            }).hide();
-        var butBuyF = $('<button value="' + this.lang['BUY_FILIAL'] + '">' + this.lang['BUY_FILIAL'] + '</button>').click(function () {
-                thisEl.actionsUser('BUY_FILIAL', 'buy_filialObr');
-                thisEl.cancalSelectFirm();
-            }).hide();
-        var butPutF = $('<button value="' + this.lang['SELL_FILIAL'] + '">' + this.lang['SELL_FILIAL'] + '</button>').click(function () {
-                thisEl.actionsUser('SELL_FILIAL', 'sell_filialObr');
-                thisEl.cancalSelectFirm();
-            }).hide();
-        this.buttonsWinBAY = {
-            'PUT_FIRM': butPut,
-            'REDEEM_FIRM': butRed,
-            'BUY_FILIAL': butBuyF,
-            'SELL_FILIAL': butPutF
-        };
-        var butPutCancal = $('<button value="' + this.lang['CANCAL'] + '">' + this.lang['CANCAL'] + '</button>').click(function () {
-                thisEl.cancalSelectFirm();
-            });
-        this.poleF = $('<div style="width:' + Math.round(this.actSize.shCPl / 2) + 'px;height:' + (t * 2 - 30) + 'px; overflow: auto; border:1px solid white;margin:1px;"></div>');
-        this.panelSum = $('<div style="color: white; width:' + Math.round(this.actSize.shCPl / 2) + 'px;height:25px; overflow: auto; border:1px solid white;margin:1px;"></div>')
-            this.panelSelectFirm.append($('<div style="width:' + Math.round(this.actSize.shCPl / 2) + 'px;height:' + (t * 2 - 2) + 'px;float:left;margin:3px;"></div>').append(this.poleF).append(this.panelSum)).append($('<div></div>').append(butPut).append(butRed).append(butBuyF).append(butPutF).append(butPutCancal));
-        topPanel.append(this.buildChangePanel()).append(('<div style="background-color:black;opacity:0.85;width: ' + this.actSize.shCPl + 'px;height:' + (t * 2) + 'px;text-align:center;position:absolute;z-index:1;top:0;left:0;">')).append(this.butPanel).append(this.panelSelectFirm).append(this.panelAuction).append(this.panelThrowCube);
-        $('#centerPl').append($('<div id="systContr" style="position:absolute;left: 0;top:0; z-index: 10; width: ' + this.actSize.shCPl + 'px;height:' + this.actSize.shCPl + 'px;">').
-            append(topPanel).append(bottomPanel));
     },
 
     loginfo: function (text) {
@@ -822,6 +1084,13 @@ GameImaginarium.prototype = {
         }
     },
     hideAllBut: function () {
+		$('.entAss').hide();
+		$('.choseAss').hide();
+		$('.choseMainCard').hide();
+		$('.voteBlock').hide();
+		$('.voteUser').hide();
+		$('#selectCard').hide();
+		$('#readyButton').hide();
         for (var b in this.buttons) {
             this.buttons[b].attr('disabled', 'disabled').css('font-weight', 'normal');
         }
@@ -841,9 +1110,9 @@ GameImaginarium.prototype = {
             this.showHidebut(show, this.buttons[b]);
         }
         if (data.availAction.length > 1) {
-            this.timeLoad = 10000;
+            this.timeLoad = 2000;
         } else {
-            this.timeLoad = 10000;
+            this.timeLoad = 2000;
         }
     },
     synhroGame: function (data) {
@@ -863,16 +1132,8 @@ GameImaginarium.prototype = {
                     gamer.user.indexPosition = 0;
                 }
                 this.listCell[gamer.user.indexPosition].goOn(gamer);
-                //this.userPanel.append(gamer.vid);
             }
         }
-        //$('.userOwner').remove();
-        //for (var i = 0; i < this.listCard.length; i++) {
-        //    if (this.listCard[i].obj.userOwner != null) {
-        //        var g = this.getUserByName(this.listCard[i].obj.userOwner.name);
-        //        this.listCard[i].buyFirm(g);
-        //    }
-        //}
 		this.startloadgamedata();
     },
 
@@ -891,73 +1152,9 @@ GameImaginarium.prototype = {
         return $('<button style="vertical-align: top;font-size:' + this.actSize.fontsize + 'pt;width:' + (Math.round(this.actSize.shCPl / 4) - 2) + 'px;height:' + Math.round((this.actSize.shCPl / 3) / 4) + 'px;" value="' + this.lang[butName] + '">' + this.lang[butName] + '</button>').click(function () {
             thisEl.actionsUser(butName, butName.toLowerCase() + "Obr");
         });
-    },
-    buildChangePanel: function () {
-        var thisEl = this;
-        var ochf = {};
-        var t = Math.round(this.actSize.shCPl / 2);
-        ochf.vid = $('<div style="float:clear;background:black;position:absolute;z-index:12;top:0;left:0;width:' + (this.actSize.shCPl) + 'px;height:' + t + 'px;"></div>').hide();
-        var panelChMy = $('<div style="width:' + (this.actSize.shCPl / 2) + 'px;height:' + (t - 2) + 'px;float:left;"></div>');
-        var panelCh2 = $('<div style="width:' + (this.actSize.shCPl / 2) + 'px;height:' + (t - 2) + 'px;float:left;"></div>');
-        ochf.mySelect = $('<div style="border:1px solid gray;margin: 3px;height:' + (t - 100) + 'px;overflow:auto;"></div>');
-        ochf.myMoney = $('<input type="text" style="background: black; color:#ffffff;">');
-        panelChMy.append('<div style="height:22px;">Вы</div>').append(ochf.mySelect).append($('<div style="padding: 3px;">').append(ochf.myMoney));
-        ochf.userSelect = $('<select style="background: black; color:#ffffff;margin: 3px;">');
-        ochf.userSelect.change(function () {
-            for (var i = 0; i < thisEl.listCell.length; i++) {
-                thisEl.listCell[i].canSelectCancal2();
-            }
-            thisEl.listSelectFirm2 = [];
-            thisEl.changePanel.apponentSelect.empty();
-            thisEl.getPossibleFirm("CHANGE_FIRM", this.value);
-        });
-        ochf.apponentSelect = $('<div style="border:1px solid gray;margin: 3px;height:' + (t - 100) + 'px;overflow:auto;">');
-        ochf.apponentMoney = $('<input type="text" style="background: black; color:#ffffff;">');
-        ochf.panelBut = $('<div>')
-            .append($('<button>ok</button>').click(function () {
-                    thisEl.actionsUser("CHANGE_FIRM", "change_firmObr");
-                    thisEl.cancalChangeFirm();
-                }))
-            .append($('<button>Отмена</button>').click(function () {
-                    thisEl.cancalChangeFirm();
-                }));
-        panelCh2.append($('<div style="height:22px;">').append(ochf.userSelect)).append(ochf.apponentSelect).append($('<div style="padding: 3px;">').append(ochf.apponentMoney)).append(ochf.panelBut);
-
-        ochf.vid.append(panelChMy).append(panelCh2);
-        this.changePanel = ochf;
-        return ochf.vid;
-    },
-    updPanelSum: function (action, ind) {
-        var isum = 0;
-        this.panelSum.text(isum);
-    },
-    throw_cubeObr: function (data, fishka, ind) {
-        var thisEl = this;
-        if (!ind) {
-            ind = 0;
-            this.panelThrowCube.show();
-        }
-        this.imgThrowCube1.attr('src', this.imgName + 'cube/' + this.getRandomInt(1, 6) + '.png');
-        this.imgThrowCube2.attr('src', this.imgName + 'cube/' + this.getRandomInt(1, 6) + '.png');
-        if (ind < 10) {
-            ind += 1;
-            setTimeout(function () {
-                thisEl.throw_cubeObr(data, fishka, ind)
-            }, 100);
-        } else {
-            this.imgThrowCube1.attr('src', this.imgName + 'cube/' + data[0] + '.png');
-            this.imgThrowCube2.attr('src', this.imgName + 'cube/' + data[1] + '.png');
-            //this.go_sellObr2(data,fishka);
-        }
-    },
+    },    
     getRandomInt: function (min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
-    },
-    startGoSellFunction: function (data, fishka) {
-        var thisEl = this;
-        setTimeout(function () {
-            thisEl.go_sellObr(data, fishka);
-        }, 2000);
     },
     actionsUser: function (action, functObr) {
 		var dataReq = {};
@@ -969,61 +1166,36 @@ GameImaginarium.prototype = {
 		dataReq.action = action;
         this.numError = 0;
 		
-		if (action == "CHOISE_SET_CARD")
-		{			
+		if (action == "CHOISE_SET_CARD"){			
 			dataReq.datas = {'setCard': $('.inputSetCard:checked').toArray().map(item => item.value)};
 		}
+		if (action == "PUSH_CARD"){			
+			dataReq.datas = {'selectCard' : thisEl.selInd, 'assosiation': $('#assosiationInp').val(),'soltCards':thisEl.soltCards};
+			$('#assosiationInp').val("");
+			this.resizeCard($('#selectCard .card.big')[0],$('#selectCard .card.big img')[0], 0);			
+			this.currentUserApprove = false;
+		}
+		if (action == "PUSH_ASSOCIATE_CARD")
+		{			
+			dataReq.datas = {'selectCard' : thisEl.selInd};			
+			this.resizeCard($('#selectCard .card.big')[0],$('#selectCard .card.big img')[0], 0);			
+			this.currentUserApprove = false;
+		}
 		
-        //jQuery.ajaxSettings.traditional = false;
+		if (action == "USER_VOTE")
+		{			
+			dataReq.datas = {'selectCard' : thisEl.selInd};			
+			this.resizeCard($('#selectCard .card.big')[0],$('#selectCard .card.big img')[0], 0);			
+			this.currentUserApprove = false;
+		}
 		
-		/*
-		
-        if (action == 'PUT_FIRM' | action == 'REDEEM_FIRM' | action == 'BUY_FILIAL' | action == 'SELL_FILIAL') {
-            if (this.listSelectFirm.length == 0) {
-                this.getPossibleFirm(action);
-                return;
-            } else {
-                datas = {
-                    'indFirm': this.listSelectFirm
-                };
-            }
-        }
-        if (action == 'CHANGE_FIRM') {
-            if (this.listSelectFirm.length == 0 & this.listSelectFirm2.length == 0) {
-                if (this.changePanel.vid.is(':visible')) {
-                    this.loginfo("Для обмена нужно выбрать хотябы одну фирму с любой стороны");
-                    return;
-                }
-                this.getPossibleFirm(action);
-                return;
-            } else {
-                jQuery.ajaxSettings.traditional = true;
-                typeReq = "POST";
-                datat = "html";
-                var money1 = parseInt(this.changePanel.myMoney.val());
-                if (isNaN(money1)) {
-                    money1 = 0;
-                }
-                var money2 = parseInt(this.changePanel.apponentMoney.val());
-                if (isNaN(money2)) {
-                    money2 = 0;
-                }
-                //                'indFirmUserChanger': this.listSelectFirm,'indFirm': this.listSelectFirm2,
-                datas = {
-                    'indFirmUserChanger': this.listSelectFirm,
-                    'indFirm': this.listSelectFirm2,
-                    'moneyUserChanger': money1,
-                    'money': money2,
-                    'userName': this.changePanel.userSelect.val()
-                };
-                //                alert(datas);
-            }
-        }
-        
-        
-		 */
-		 
-		 if (action == 'SEND_MESSAGE') {
+		if (action == "NEXT_TOUR")
+		{							
+			this.resizeCard($('#selectCard .card.big')[0],$('#selectCard .card.big img')[0], 0);
+			this.currentUserApprove = false;
+		}
+     
+		if (action == 'SEND_MESSAGE') {
             dataReq.datas = {
                 'message': this.messageField.val()
             };
@@ -1048,20 +1220,47 @@ GameImaginarium.prototype = {
 		}
 		
 	},
-    setFishkaI: function (fishka, step) {
-        var ind = fishka.posit - step;
-        if (ind < 0) {
-            ind = this.listCell.length + ind;
+	moveUser:function(){
+		this.moveGamers=[];
+		for(var i=0;i<this.gamers.length;i++){
+			if(this.gamers[i].user.indexPosition - this.gamers[i].fishka.posit!=0){
+				this.moveGamers[this.moveGamers.length] = this.gamers[i];
+			}
+		}
+		this._moveUser();
+    },
+	_moveUser:function(){
+		if(this.moveGamers.length > 0){
+			var us=this.moveGamers[this.moveGamers.length-1];
+			this.go_sellObr(us.user,us.fishka);
+			this.moveGamers.splice(this.moveGamers.length-1,1);
+		}else{
+			this[this.callbackAfterMove]();
+		}
+	},
+	go_sellObr:function(user,fishka){
+        var step=user.indexPosition - fishka.posit;
+        fishka.posit = user.indexPosition;
+		var maxCountStep = 39;
+        if(fishka.posit > maxCountStep){
+            fishka.posit = maxCountStep;
         }
+		var forward=step>0;
+        this.setFishkaI(fishka,Math.abs(step),forward);
+    },
+    setFishkaI: function (fishka, step, forward) {        
+        var ind = (forward)?fishka.posit - step:fishka.posit+step;        
         this.listCell[ind].goOnFishka(fishka);
-        if (step > 0) {
+		playAudio("sounds/step.mp3");
+        if (step != 0) {
             var thisEl = this;
             setTimeout(function () {
-                thisEl.setFishkaI(fishka, step - 1)
-            }, 200);
-        } else {
-            this.panelThrowCube.hide();
-        }
+                thisEl.setFishkaI(fishka, step - 1, forward)
+				
+            }, 500);
+        }else{
+			this._moveUser();
+		}
     },
     win: function (ind) {
         var thisEl = this;
@@ -1119,6 +1318,12 @@ class Util{
   static removeElementFromArray(arr,element){
      arr.splice(arr.indexOff(element), 1);
   }
+}
+
+function playAudio(src){
+		var myAudio = new Audio;
+		myAudio.src = src;
+		myAudio.play();
 }
 
 $(document).ready(function () {

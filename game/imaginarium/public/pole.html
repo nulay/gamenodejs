@@ -22,8 +22,17 @@
 <body class="">
 
 <style type="text/css">
-body{margin: 0;padding: 0;
-overflow-y:hidden;}
+body{
+  margin: 0;padding: 0;
+  overflow:hidden;
+  color:white;
+}
+
+input{
+   background:black; 
+   color:#FFFFFF;
+   
+}
 
 a.button9 {
   position: relative;
@@ -63,7 +72,19 @@ a.button9:active {
 .playerField{
   padding-top: 10px;
 }
+img.displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto }
+span.displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto 
+}
+label{
+    color:white;
 
+}
 </style>
 <div id="poleGame" style="margin: 0 auto; width: 1819px;">
     <div id="waitGwin" style="display:none;position:absolute;z-index:1000;left:0;top:0; background:black; height:1000px;opacity: 0.8;width: 100%;">
@@ -75,6 +96,7 @@ a.button9:active {
 		    <div id="playerPanel" style="padding-right:30px">
 			    <div align="right" class="playerField">Введите имя <span class="numPlayer">1</span> игрока: <input class="namePlayer" type="text" size="15" style="background:black; color:#FFFFFF;font-size:10px;"/><span class="passPanel" style="display:none;"> пароль: <input class="passPlayer" type="password" size="15" style="background:black; color:#FFFFFF;font-size:10px;"/><span></div>
 		    </div>
+			<div>Добавить набор запутывания: <a href="#" id="minusSolt" class="button9 buttonsmall">-</a><span id="countSolts" style="padding:0 10px 0 10px">1</span><a href="#" id="plusSolt" class="button9 buttonsmall">+</a></div>
             <div style="padding:20px;"><label style=" font-size:10px;"><input id="passSwitch" type="checkbox"> Включить пароли</label></div>
 		    <div style="padding:20px;"><a href="#" id="buttonStart" class="button9">Start</a></div>
 		    <div id="errorPlace" style="padding:10px;color:red;"></div>
@@ -92,13 +114,19 @@ a.button9:active {
     </div>
 	<div id="selectCard" style="position:absolute;z-index:1002; background:black;float:left;display:none;">
         <div>		    
-		    <div class="card card1" style="position: absolute; z-index:1005;background:black;"><img src=""></div>
-			<div class="card card2" style="position: absolute; z-index:1005;background:black; left:33%;"><img src=""></div>
-            <div class="card card3" style="position: absolute; z-index:1005;background:black; left:66%;"><img src=""></div>
-			<div class="card card4" style="position: absolute; z-index:1005;background:black; top:36%"><img src=""></div>
-			<div class="card card5" style="position: absolute; z-index:1005;background:black; top:36%;left:33%;"><img src=""></div>
-			<div class="card card6" style="position: absolute; z-index:1005;background:black; top:36%;left:66%"><img src=""></div>
+		    <div class="card card1" style="position: absolute; z-index:1005;background:black;"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;background:black;top:85%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB" style="font-size:12px;">Выбрать</a></div></div>
+			<div class="card card2" style="position: absolute; z-index:1005;background:black; left:33%;"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;background:black;top:85%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB" style="font-size:12px;">Выбрать</a></div></div>
+            <div class="card card3" style="position: absolute; z-index:1005;background:black; left:66%;"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;background:black;top:85%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB" style="font-size:12px;">Выбрать</a></div></div>
+			<div class="card card4" style="position: absolute; z-index:1005;background:black; top:39%"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;background:black;top:85%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB" style="font-size:12px;">Выбрать</a></div></div>
+			<div class="card card5" style="position: absolute; z-index:1005;background:black; top:39%;left:33%;"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;background:black;top:85%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB" style="font-size:12px;">Выбрать</a></div></div>
+			<div class="card card6" style="position: absolute; z-index:1005;background:black; top:39%;left:66%"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;background:black;top:85%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB" style="font-size:12px;">Выбрать</a></div></div>
 	    </div>
+		
+		<div style="padding-top:115%;"><span class = "displayed" ><a href="#" id="showgame" class="button9" style="font-size:17px;">Show game</a></span></div>
+		<div style="padding-top:5%;" class="entAss"><span class = "displayed" ><label>Введите ассоциацию : </label><input id="assosiationInp" style="margin-left:7px" type="text"><a href="#" id="readyassosiation" class="button9 readyButton" style="font-size:13px;margin-left:7px;display:none;">Ready</a></span></div>
+		<div style="padding-top:5%;" class="choseAss"><span class = "displayed" ><label>Выбирете карту на ассоциацию : </label><span class="placeAssotiation"></span><a href="#" id="readysam" class="button9 readyButton" style="font-size:13px;margin-left:7px;display:none;">Ready</a></span></div>
+		<div style="padding-top:5%;" class="choseMainCard"><span class = "displayed" ><label>Определите карту ведущего, ассоциация : </label><span class="placeAssotiation"></span><a href="#" id="playercard" class="button9 readyButton" style="font-size:13px;margin-left:7px;display:none;">Ready</a></span></div>
+		<div style="padding-top:5%;" class="voteBlock"><span class = "displayed" ><label>Aссоциация была: </label><span class="placeAssotiation"></span><a href="#" id="readyVoteButton" class="button9 readyButton" style="font-size:13px;margin-left:7px;display:none;">Ready</a></span></div>
     </div>
 	<div id="poleCell" style="position:absolute;z-index:500;float:left;">
         
@@ -111,6 +139,7 @@ a.button9:active {
         </div>
     </div>
 </div>
+
 </body>
 
 </html>
