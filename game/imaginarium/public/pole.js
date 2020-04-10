@@ -459,8 +459,8 @@ var StartGame = {
 			if(card.solt){
 				continue;
 			}
-			var mainUser = this.listUsers[this.indexMain];
-			if(card.main){
+                        var mainUser = this.listUsers[this.indexMain];
+      			if(card.main){
 				if(card.voteUser == null || card.voteUser.length == 0){
 					mainUser.indexPosition = mainUser.indexPosition - 2;//ведущий на 2 хода назад
 					if(mainUser.indexPosition<0){
@@ -487,6 +487,7 @@ var StartGame = {
 					user.indexPosition += card.voteUser.length;	
 			   }				
 			}
+                     
 		}
 	},
 	getUserByName:function(name){
@@ -597,7 +598,7 @@ var StartGame = {
 	},
     removeOnePlayer: function () {
         var el = $(".playerField");
-        if (el.length == 2) {
+        if (el.length == 3) {
             this.showError("We have minimum players!");
             return;
         }
