@@ -597,7 +597,7 @@ var StartGame = {
 	},
     removeOnePlayer: function () {
         var el = $(".playerField");
-        if (el.length == 3) {
+        if (el.length == 2) {
             this.showError("We have minimum players!");
             return;
         }
@@ -909,7 +909,7 @@ GameImaginarium.prototype = {
 			$('#readyVoteButton').show();			
 		    thisEl.selIndT = $('.selectCardB').toArray().indexOf($(ev.currentTarget)[0]);			
 		});
-		$('#selectCard .card img').on("dblclick", function (ev) {			
+		$('#selectCard .card img').on("click", function (ev) {			
 			var sizeEl = Math.floor(size[0] - size[0]*0.06);			
 			thisEl.resizeCard($(ev.currentTarget).parent(),ev.currentTarget, sizeEl);		    
 		});
