@@ -684,6 +684,7 @@ GameImaginarium.prototype = {
     dataGameLoader: null,
 	rootPath:"",
 	currentUserApprove : false,
+	cardPosition : [{},{"left":"33%"},{"left":"66%"},{"top":"39%"},{"top":"39%","left":"33%"},{"top":"39%","left":"66%"}],
     initialize: function (lang, online) {
         this.pageS = getPageSize();
         if (lang) {
@@ -801,23 +802,30 @@ GameImaginarium.prototype = {
             }
         }
     },		
-	showAllVote: function (data) {
+	showAllVote: function (data) {		
 		this.selInd = null;
 		$('.voteBlock').show();
 		$('.placeAssotiation').text(data.assosiation);
 		$('#selectCard').show();
-		$('.voteUser').empty();
-	    var elForCard = $('#selectCard .card img');
+		$('.voteUser').empty();	    
 		$('#selectCard .card a').hide();
+		var elR = $('#selectCard .cardPlace');
+		var cardel = $('#selectCard .card1');
+		cardel.removeClass("card1");
+		elR.empty();
 		for(var i = 0; i < data.listCard.length; i++){
-			$(elForCard[i]).attr("src" , this.rootPath+"/"+data.listCard[i].src);
-			$(elForCard[i]).parent().find('.voteUser').show();
+			var elForCard = cardel.clone();
+			elForCard.css(this.cardPosition[i]);
+			elForCard.addClass("card"+(i+1));
+			elR.append(elForCard)
+			$(elForCard).find('img').attr("src" , this.rootPath+"/"+data.listCard[i].src);
+			$(elForCard).find('.voteUser').show();
 			if(data.listCard[i].main){
-				$(elForCard[i]).parent().find('.voteUser').append('<div style="font-weight:bold;">Карта ведущего</div>');
+				$(elForCard).find('.voteUser').append('<div style="font-weight:bold;">Карта ведущего</div>');
 			}
 			if(data.listCard[i].voteUser!=null){
 				for(var y=0;y<data.listCard[i].voteUser.length;y++){
-					$(elForCard[i]).parent().find('.voteUser').append('<div>'+data.listCard[i].voteUser[y]+'</div>');
+					$(elForCard).find('.voteUser').append('<div>'+data.listCard[i].voteUser[y]+'</div>');
 				}
 			}
 		}
@@ -825,21 +833,35 @@ GameImaginarium.prototype = {
 	showCard: function (data) {		
 		this.selInd = null;
 		$('#selectCard').show();
-	    var elForCard = $('#selectCard .card img');
+	    var elR = $('#selectCard .cardPlace');
+		var cardel = $('#selectCard .card1');
+		cardel.removeClass("card1");
+		elR.empty();
 		$('#selectCard .card a').hide();
 		for(var i = 0; i < data.length; i++){
-			$(elForCard[i]).attr("src" , this.rootPath+"/"+data[i].src);
-			$(elForCard[i]).parent().find('a').show();
+			var elForCard = cardel.clone();
+			elForCard.css(this.cardPosition[i]);
+			elForCard.addClass("card"+(i+1));
+			elR.append(elForCard)
+			$(elForCard).find('img').attr("src" , this.rootPath+"/"+data[i].src);
+			$(elForCard).find('a').show();
 		}
 	},
 	showCardForSolt:function () {
         data = this.soltSet[this.soltCards.length];
-		$('#selectCard').show();
-	    var elForCard = $('#selectCard .card img');
+		$('#selectCard').show();	    
+		var elR = $('#selectCard .cardPlace');
+		var cardel = $('#selectCard .card1');
+		cardel.removeClass("card1");
+		elR.empty();
 		$('#selectCard .card a').hide();
 		for(var i = 0; i < data.length; i++){
-			$(elForCard[i]).attr("src" , this.rootPath+"/"+data[i].src);
-			$(elForCard[i]).parent().find('a').show();
+			var elForCard = cardel.clone();
+			elForCard.css(this.cardPosition[i]);
+			elForCard.addClass("card"+(i+1));
+			elR.append(elForCard)
+			$(elForCard).find('img').attr("src" , this.rootPath+"/"+data[i].src);
+			$(elForCard).find('a').show();
 		}
 	},
 	showTransfer: function (data) {		
@@ -894,14 +916,14 @@ GameImaginarium.prototype = {
 		this.pageS[5] = Math.floor(this.pageS[4] * 1.5);
 
 		$('#selectCard .card img').css("width", "" + (Math.floor(size[0] / 3)) + "px");
-		$('#selectCard .card img').on("mouseenter", function (ev) {
+		$('#selectCard').on("mouseenter",".card img", function (ev) {
 		   $(ev.currentTarget).css("border","2px solid gray");
 		})
 		.on("mouseleave", function (ev) {
 		     $(ev.currentTarget).css("border","");
 		});
 		
-		$('.selectCardB').on("click", function (ev) {
+		$('#selectCard').on("click", ".selectCardB", function (ev) {
 			var sizeEl = Math.floor(size[0] - size[0]*0.3);
 			thisEl.resizeCard($(ev.currentTarget).parent().parent(),$(ev.currentTarget).parent().parent().find('img'), sizeEl);
 			$('#readyassosiation').show();
@@ -910,7 +932,7 @@ GameImaginarium.prototype = {
 			$('#readyVoteButton').show();			
 		    thisEl.selIndT = $('.selectCardB').toArray().indexOf($(ev.currentTarget)[0]);			
 		});
-		$('#selectCard .card img').on("click", function (ev) {			
+		$('#selectCard').on("click", ".card img", function (ev) {			
 			var sizeEl = Math.floor(size[0] - size[0]*0.06);			
 			thisEl.resizeCard($(ev.currentTarget).parent(),ev.currentTarget, sizeEl);		    
 		});
@@ -1002,6 +1024,11 @@ GameImaginarium.prototype = {
 	},
 	resizeCard: function (el, elImg, sizeEl) {
 	    var thisEl = this;
+		
+		if(thisEl.datec != null && thisEl.datec+1000 > new Date().getTime()){
+			return; //double click
+		} 
+		thisEl.datec = new Date().getTime();
 	    if ($(el).hasClass("big")) {
 			$('.selectCardB').show();
 			$('#readyassosiation').hide();

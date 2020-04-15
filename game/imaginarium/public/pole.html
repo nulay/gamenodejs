@@ -56,7 +56,7 @@ a.button9 {
   background-size: 200% 100%, auto, 100% 2px, 100% 2px, 100% 1px, 100% 1px;
   background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
   box-shadow: rgba(0,0,0,.5) 3px 10px 10px -10px;
-  font-size:20px
+  font-size:25px
 }
 a.buttonsmall{
   padding: 0.2em 0.5em;
@@ -85,25 +85,37 @@ label{
     color:white;
 
 }
+
+textMessage{
+color: white;
+font-size: 40px;
+margin: 0 auto;
+padding: 300px;
+text-align: center;
+width: 500px;
+}
+passPlayer, namePlayer{
+	background:black; color:#FFFFFF;font-size:10px;
+}
 </style>
 <div id="poleGame" style="margin: 0 auto; width: 1819px;">
     <div id="waitGwin" style="display:none;position:absolute;z-index:1000;left:0;top:0; background:black; height:1000px;opacity: 0.8;width: 100%;">
-        <div style="color: white;font-size: 20pt;margin: 0 auto;padding: 300px;text-align: center;width: 500px;">Ожидание игроков!!</div>
+        <div class="textMessage">Ожидание игроков!!</div>
     </div>
     <div id="startWindow" style="position:absolute;z-index:1000; background:black;opacity: 0.8;float:left;">
-        <div style="color: white;font-size: 10pt;margin: 0 auto;padding-top: 20%;px;width: 100%;">
+        <div style="color: white;font-size: 20px;margin: 0 auto;padding-top: 20%;px;width: 100%;">
 		    <div>Выбирите количество игроков: <a href="#" id="minusPlayer" class="button9 buttonsmall">-</a><span id="countPlayers" style="padding:0 10px 0 10px">1</span><a href="#" id="plusPlayer" class="button9 buttonsmall">+</a></div>
 		    <div id="playerPanel" style="padding-right:30px">
-			    <div align="right" class="playerField">Введите имя <span class="numPlayer">1</span> игрока: <input class="namePlayer" type="text" size="15" style="background:black; color:#FFFFFF;font-size:10px;"/><span class="passPanel" style="display:none;"> пароль: <input class="passPlayer" type="password" size="15" style="background:black; color:#FFFFFF;font-size:10px;"/><span></div>
+			    <div align="right" class="playerField">Введите имя <span class="numPlayer">1</span> игрока: <input class="namePlayer" type="text" size="15"/><span class="passPanel" style="display:none;"> пароль: <input class="passPlayer" type="password" size="15" /><span></div>
 		    </div>
 			<div style="display:none;">Добавить набор запутывания: <a href="#" id="minusSolt" class="button9 buttonsmall">-</a><span id="countSolts" style="padding:0 10px 0 10px">1</span><a href="#" id="plusSolt" class="button9 buttonsmall">+</a></div>
-            <div style="padding:20px;"><label style=" font-size:10px;"><input id="passSwitch" type="checkbox"> Включить пароли</label></div>
+            <div style="padding:20px;"><label style=" font-size:20px;"><input id="passSwitch" type="checkbox"> Включить пароли</label></div>
 		    <div style="padding:20px;"><a href="#" id="buttonStart" class="button9">Start</a></div>
 		    <div id="errorPlace" style="padding:10px;color:red;"></div>
 	    </div>
     </div>
 	<div id="selectSetCard" style="position:absolute;z-index:1001; background:black;opacity: 0.8;float:left;display:none;">
-        <div style="color: white;font-size: 10pt;margin: 0 auto;padding-top: 20%;px;width: 100%;">
+        <div style="color: white;font-size: 20px;margin: 0 auto;padding-top: 20%;px;width: 100%;">
 		    <div>Выберите наборы карт для игры:</div>
 		    <div id="setCardPanel" style="padding-right:30px">
 			    <div align="right" class="setCard"><label>Base</label><input type="checkbox" checked name="setCard" class="inputSetCard" value="Base"></div>
@@ -113,13 +125,9 @@ label{
 	    </div>
     </div>
 	<div id="selectCard" style="position:absolute;z-index:1002; background:black;float:left;display:none;">
-        <div>		    
-		    <div class="card card1" style="position: absolute; z-index:1005;background:black;"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;background:black;top:85%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB" style="font-size:12px;">Выбрать</a></div></div>
-			<div class="card card2" style="position: absolute; z-index:1005;background:black; left:33%;"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;background:black;top:85%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB" style="font-size:12px;">Выбрать</a></div></div>
-            <div class="card card3" style="position: absolute; z-index:1005;background:black; left:66%;"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;background:black;top:85%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB" style="font-size:12px;">Выбрать</a></div></div>
-			<div class="card card4" style="position: absolute; z-index:1005;background:black; top:39%"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;background:black;top:85%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB" style="font-size:12px;">Выбрать</a></div></div>
-			<div class="card card5" style="position: absolute; z-index:1005;background:black; top:39%;left:33%;"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;background:black;top:85%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB" style="font-size:12px;">Выбрать</a></div></div>
-			<div class="card card6" style="position: absolute; z-index:1005;background:black; top:39%;left:66%"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;background:black;top:85%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB" style="font-size:12px;">Выбрать</a></div></div>
+        <div class = "cardPlace">		    
+		    <div class="card card1" style="position: absolute; z-index:1005;background:black;"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;background:black;top:85%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB" style="font-size:15px;">Выбрать</a></div></div>
+			
 	    </div>
 		
 		<div style="padding-top:115%;"><span class = "displayed" ><a href="#" id="showgame" class="button9" style="font-size:17px;">Show game</a></span></div>
@@ -132,7 +140,7 @@ label{
         
     </div>
     <div id="transferDevice" style="position:absolute;z-index:1002; background:black;opacity: 0.8;float:left;display:none">
-        <div style="color: white;font-size: 10pt;margin: 0 auto;padding-top: 20%;px;width: 100%;">
+        <div style="color: white;font-size: 20px;margin: 0 auto;padding-top: 20%;px;width: 100%;">
             <div>Передайте устройство игроку : <span class="namePlayerTransfer"></span> <div id="passNeed" style="display:none;">пароль: <input class="passTransfer" type="pass" size="15" style="background:black; color:#FFFFFF;font-size:20px;"/></div></div>
             <div style="padding:20px;"><a id="TransferComplete" type="button" class="button9" style="font-size:20px;">Complete</a></div>
             <div id="errorPlacetransferDevice" style="padding:10px;color:red;"></div>
