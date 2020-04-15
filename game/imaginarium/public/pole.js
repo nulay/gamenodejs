@@ -919,7 +919,7 @@ GameImaginarium.prototype = {
 		$('#selectCard').on("mouseenter",".card img", function (ev) {
 		   $(ev.currentTarget).css("border","2px solid gray");
 		})
-		.on("mouseleave", function (ev) {
+		.on("mouseleave",".card img", function (ev) {
 		     $(ev.currentTarget).css("border","");
 		});
 		
