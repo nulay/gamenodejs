@@ -39,7 +39,7 @@ function  getPageSize(){
     return [pageWidth,pageHeight,windowWidth,windowHeight];
 }
 
-function getMaxSizeInnerBlock(widthInner, heightInner, elWidth, elHeight) {
+function getMaxSizeInnerBlockInProportion(widthInner, heightInner, elWidth, elHeight) {
     if (widthInner < elWidth) {
         var t = elWidth / widthInner;
         widthInner = elWidth;
@@ -134,7 +134,7 @@ var langEn = {
 
 var Fishka = Class.create();
 Fishka.prototype = {
-    colorF: ["red", "darkblue", "yellow", "lightblue"],
+    colorF: ["red", "black", "yellow", "lightblue","white","green","darkblue"],
     colorText: ["white;", "white;", "black", "black"],
     initialize: function (numF, posit, name, size, countUser) {
         this.numF = numF;
@@ -144,18 +144,23 @@ Fishka.prototype = {
         this.countUser = countUser;
         this.build();
     },
-    build: function () {
-        var r = Math.round(this.size[0] / this.countUser);
-        this.vid = $('<div style="border-radius:' + r + 'px;display:inline;margin:auto;text-align:center;width:' + r + 'px;height:' + r + 'px; background-color: ' + this.colorF[this.numF - 1] + ';border: 3px solid white;"><span style="color:' + this.colorText[this.numF - 1] + 'font-weight:bold;font-size:' + 10 + 'pt;">' + this.numF + '</span></div>')
+    build: function () {		
+		var w = this.size[0];
+		var countFishkaInRow = (this.countUser<5)?this.countUser:4;
+        var r = Math.floor(Math.floor(w / 7) / countFishkaInRow);
+        this.vid = $('<div style="border-radius:' + r + 'px;display:inline-block;margin:auto;text-align:center;width:' + r + 'px;height:' + r + 'px; background-color: ' + this.colorF[this.numF - 1] + ';border: 3px solid white;"><span style="color:' + this.colorText[this.numF - 1] + 'font-weight:bold;text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">' + this.numF + '</span></div>')
         this.vid.hide().show();
-    }
+		
+		var infoG = this.vid.clone();		
+		$("#gameInfo").append($('<div style="display:inline-block;padding:10px">').append(infoG).append("<label style='margin-left: 10px;'>"+this.name+"</label>"))
+	}
 }
 
 var Gamer = Class.create();
 Gamer.prototype = {
     initialize: function (user, game, num) {
         this.user = user;
-        this.fishka = new Fishka(num, user.indexPosition, user.name, game.pageS, game.room.maxCountUser);
+        this.fishka = new Fishka(num, user.indexPosition, user.name, game.sizeEl.sizeGamePlace, game.room.maxCountUser);
         this.game = game;
         this.build();
     },
@@ -176,12 +181,11 @@ Cell.prototype = {
     initialize: function (gameM, ind) {
         this.gameM = gameM;
         this.ind = ind;
-        this.buildCell();
+        this.buildCell();		
     },
-    buildCell: function () {
-        this.h = this.gameM.pageS[1] - 2;
-        this.w = this.gameM.pageS[0] - 2;
-        this.vid = $('<div style="position:absolute;text-aligne:center;">').css('float', 'left').css('height', Math.round(this.h / 15) + 'px').css('width', Math.round(this.w / 7) + 'px').css('left', this.procentPosition[this.ind][1] + '%').css('top', this.procentPosition[this.ind][0] + '%');
+    buildCell: function () {        
+		var sizeCell = this.gameM.sizeEl.sizeCell;		
+        this.vid = $('<div style="position:absolute;text-aligne:center;">').css('float', 'left').css('height', sizeCell.h + 'px').css('width', sizeCell.w + 'px').css('left', this.procentPosition[this.ind][1] + '%').css('top', this.procentPosition[this.ind][0] + '%');
         this.poleForFishka = $('<div style="display:inline-block;vertical-align: middle;"></div>');
         this.vid.append(this.poleForFishka);
         return this.vid;
@@ -258,7 +262,15 @@ DataGameNoLoad.prototype.loadDataGame = function (obj, collbackNameFunction) {
     var data = new Object();
     var rootPath = "images/"; //resources/images/games/imaginarium/
     data.pole = new Object();
-    data.cardset = ["Base", "Ariadna", "Himera", "Pandora"];
+    data.setCard = [{"name":"Base", "countCard" : 96, "type":"jpg"}, 
+	{"name":"Ariadna", "countCard" : 98, "type":"jpg"}, 
+	{"name":"Himera", "countCard" : 98, "type":"jpg"}, 
+	{"name":"Pandora", "countCard" : 98, "type":"jpg"}, 
+	{"name":"5yers", "countCard" : 98, "type":"png"},
+	{"name":"Persephone", "countCard" : 98, "type":"png"},
+	{"name":"Childhood", "countCard" : 98, "type":"png"},
+	{"name":"Soyuzmultfilm", "countCard" : 98, "type":"png"},
+	{"name":"Odissea", "countCard" : 98, "type":"png"}];
     data.pole.src = rootPath + "pole.jpg";
 	data.rootPath = rootPath;
     if (data != null) {
@@ -292,13 +304,25 @@ DataGameNoLoad.prototype.loadgamedata = function (obj, collbackNameFunction) {
         obj[collbackNameFunction](data);
     }
 }
+
+DataGameNoLoad.prototype.getSelectedCard = function () {	
+	var selC = [];
+	for (var i = 0; i < StartGame.selectedCard.length; i++) {
+	    if (StartGame.selectedCard[i].user != StartGame.currentUser.name) {
+	        selC[selC.length] = StartGame.selectedCard[i];
+	    }
+	}
+	return shuffle(selC);
+}
+
 DataGameNoLoad.prototype.actions = function (obj, collbackNameFunction, dataReq) {
     if(dataReq.action == "CHOISE_SET_CARD"){	
         var listCard = [];
 		for (var i = 0; i < dataReq.datas.setCard.length; i++) {
-		    for (var y = 1; y < 97; y++) {
+		    for (var y = 1; y < dataReq.datas.setCard[i].countCard+1; y++) {
 		        var card = {};
-		        card.src = "cards/"+dataReq.datas.setCard[i] + '/' + ((y < 10) ? '00' + y : '0' + y) + '.jpg';
+		        card.src = "cards/"+dataReq.datas.setCard[i].name + '/' + ((y < 10) ? '00' + y : '0' + y) + '.'+dataReq.datas.setCard[i].type;
+				card.name = dataReq.datas.setCard[i].name+"_"+y;
 		        listCard[listCard.length] = card;
 		    }
 		}
@@ -342,7 +366,7 @@ DataGameNoLoad.prototype.actions = function (obj, collbackNameFunction, dataReq)
 			 var data={"listCard":StartGame.currentUser.listCard, 'soltSet': StartGame.currentUser.listSoltSet, 'assosiation': StartGame.currentAssosiation};
 			 StartGame.createAction(StartGame.currentUser.name, "PUSH_ASSOCIATE_CARD", data);
 		}else{
-			StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_CARD", StartGame.selectedCard);
+			StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_CARD", this.getSelectedCard());
 		}
 	}
 	if(dataReq.action == "PUSH_ASSOCIATE_CARD"){
@@ -363,10 +387,8 @@ DataGameNoLoad.prototype.actions = function (obj, collbackNameFunction, dataReq)
 			 var data={"listCard":StartGame.currentUser.listCard, 'soltSet': StartGame.currentUser.listSoltSet, 'assosiation': StartGame.currentAssosiation};
 			 StartGame.createAction(StartGame.currentUser.name, "PUSH_ASSOCIATE_CARD", data);
 		}else{
-			StartGame.nextUser(); //перематываем ведущего
-			
-			StartGame.selectedCard = shuffle(StartGame.selectedCard);	
-			StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_CARD", StartGame.selectedCard);
+			StartGame.nextUser(); //перематываем ведущего			
+			StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_CARD", this.getSelectedCard());
 		}
 	}
 	if(dataReq.action == "USER_VOTE"){
@@ -374,12 +396,19 @@ DataGameNoLoad.prototype.actions = function (obj, collbackNameFunction, dataReq)
 		var listCard = [];
 				
 		var selectCard = StartGame.selectedCard[dataReq.datas.selectCard];
+		for (var i = 0; i < StartGame.selectedCard.length; i++) {
+			if (StartGame.selectedCard[i].name == dataReq.datas.nameSelectCard) {
+				selectCard = StartGame.selectedCard[i];
+				break;
+			}
+		}
+		
 		if(selectCard.voteUser == null){
 			selectCard.voteUser = [];
 		}
 		if(selectCard.user == StartGame.currentUser.name){
 			//обманщик вызываем пока не исправится :)
-			StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_CARD_AGAIN", StartGame.selectedCard);
+			StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_CARD_AGAIN", this.getSelectedCard());
 			return;
 		}else{
 			selectCard.voteUser[selectCard.voteUser.length] = StartGame.currentUser.name;
@@ -388,16 +417,14 @@ DataGameNoLoad.prototype.actions = function (obj, collbackNameFunction, dataReq)
 		var isNext = StartGame.nextUser();
 		
 		if(isNext){			
-		     StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_CARD", StartGame.selectedCard);
+		     StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_CARD", this.getSelectedCard());
 		}else{			
 		    StartGame.calculateResult();
 			var el={"listCard":StartGame.selectedCard, 'assosiation': StartGame.currentAssosiation};
 		    StartGame.createAction(StartGame.currentUser.name, "SHOW_ALL_VOTE", el);
 			for(var i = 0; i < StartGame.listUsers.length; i++){
-			   StartGame.createAction(StartGame.listUsers[i].name, "MOVE_USER");
-			   
-			}		
-			
+			   StartGame.createAction(StartGame.listUsers[i].name, "MOVE_USER");			   
+			}					
 		}
 	}
 	if(dataReq.action == "NEXT_TOUR"){
@@ -669,7 +696,7 @@ var StartGame = {
 
 var GameImaginarium = Class.create();
 GameImaginarium.prototype = {
-    pageS: null,
+    sizeEl: {},
     gamers: [],
     listCell: [],
     room: {},
@@ -684,9 +711,12 @@ GameImaginarium.prototype = {
     dataGameLoader: null,
 	rootPath:"",
 	currentUserApprove : false,
-	cardPosition : [{},{"left":"33%"},{"left":"66%"},{"top":"39%"},{"top":"39%","left":"33%"},{"top":"39%","left":"66%"}],
-    initialize: function (lang, online) {
-        this.pageS = getPageSize();
+	cardPosition : [{},{"left":"33%"},{"left":"66%"},{"top":"37%"},{"top":"37%","left":"33%"},{"top":"37%","left":"66%"}],
+	setCard : null,
+    initialize: function (lang, online) {		
+        this.sizeEl.pageS = getPageSize();
+		this.sizeEl.sizeGamePlace = getMaxSizeInnerBlockInProportion(567, 794, this.sizeEl.pageS[2], this.sizeEl.pageS[3]);
+        this.sizeEl.sizeCell = this.calculateSizeCell();        
         if (lang) {
             this.lang = lang;
         }
@@ -700,7 +730,6 @@ GameImaginarium.prototype = {
         this.dataGameLoader.loadUser(this, "synhroGame");       
     },
     migEl: null,
-    changeViewer: function (data) {},
     setMigEl: function (el) {
         var t = this.migEl;
         this.migEl = el;
@@ -708,6 +737,12 @@ GameImaginarium.prototype = {
             t.fadeIn('slow');
         }
     },
+	calculateSizeCell: function (){
+		var sizeCell = {};		
+		sizeCell.w = Math.floor(this.sizeEl.sizeGamePlace[0] / 5);
+		sizeCell.h = Math.ceil(sizeCell.w/2);
+		return sizeCell;
+	},
     blink: function () {
         var thisEl = this;
         $(this.migEl).fadeOut('slow', function () {
@@ -801,7 +836,7 @@ GameImaginarium.prototype = {
                 }
             }
         }
-    },		
+    },
 	showAllVote: function (data) {		
 		this.selInd = null;
 		$('.voteBlock').show();
@@ -832,12 +867,13 @@ GameImaginarium.prototype = {
 	},
 	showCard: function (data) {		
 		this.selInd = null;
+		this.setCardSelect = data;
 		$('#selectCard').show();
 	    var elR = $('#selectCard .cardPlace');
 		var cardel = $('#selectCard .card1');
 		cardel.removeClass("card1");
 		elR.empty();
-		$('#selectCard .card a').hide();
+		$('#selectCard .card a').hide();		
 		for(var i = 0; i < data.length; i++){
 			var elForCard = cardel.clone();
 			elForCard.css(this.cardPosition[i]);
@@ -867,6 +903,7 @@ GameImaginarium.prototype = {
 	showTransfer: function (data) {		
 		$('#transferDevice').show();
 		$('.namePlayerTransfer').text(this.currentUser.name);
+		$('#nameGamer').text(this.currentUser.name);
 		this.currentdata = data;		
 	},
     choiseSetCard: function (data) {
@@ -875,19 +912,24 @@ GameImaginarium.prototype = {
     loadPlace: function (data) {
         var thisEl = this;
         if (data != null) {
-			this.rootPath = data.rootPath;
-            thisEl.buildPlace(data, getMaxSizeInnerBlock(567, 794, this.pageS[2], this.pageS[3]));
+			this.rootPath = data.rootPath;			
+            thisEl.buildPlace(data);
         }
     },
-    buildPlace: function (data, size) {
+    buildPlace: function (data) {
 		var thisEl = this;
         $('body').css('background', 'black');
         var gC = 1;
+		
+		var size = this.sizeEl.sizeGamePlace;
 
         var topline = $('<div>');
         this.poleGame = $('#poleGame');
         this.poleGame.css('width', (size[0] - 2) + 'px');
-        this.poleGame.css('font-size', 10 + 'pt');
+		var fontSize = Math.ceil(this.sizeEl.sizeGamePlace[0] / 25) + 'px';
+        $('#poleGame').css("font-size", fontSize);
+		
+		$('input').css("font-size", fontSize);		
 
         var centerLine = $('<div style="display: inline; clear: left;">');
         centerLine.append('<div id="centerPl" class="centerPlace" style="position:relative;width:' + (size[0] - 2) + 'px;height:' + (size[1] - 2) + 'px;display: inline; float: left;"><img src="' + data.pole.src + '" width="' + (size[0] - 2) + 'px" height="' + (size[1] - 2) + 'px"/></div>');
@@ -907,21 +949,24 @@ GameImaginarium.prototype = {
         $('#poleCell').css("height", "" + (size[1] - 2) + "px");
 		
         $('#selectCard').css("width", "" + (size[0] - 2) + "px");
-        $('#selectCard').css("height", "" + (size[1] - 2) + "px");
+        $('#selectCard').css("height", "" + (size[1] - 2) + "px"); 
+		
+		$('#infoGame').css("width", "" + (size[0] - 2) + "px");
+        $('#infoGame').css("height", "" + (size[1] - 2) + "px");
 		
 		$('#win').css("width", "" + (size[0] - 2) + "px");
         $('#win').css("height", "" + (size[1] - 2) + "px");
 		
-		this.pageS[4] = Math.floor(size[0] / 3);
-		this.pageS[5] = Math.floor(this.pageS[4] * 1.5);
+		this.sizeEl.pageS[4] = Math.floor(size[0] / 3);
+		this.sizeEl.pageS[5] = Math.floor(this.sizeEl.pageS[4] * 1.5);
 
 		$('#selectCard .card img').css("width", "" + (Math.floor(size[0] / 3)) + "px");
-		$('#selectCard').on("mouseenter",".card img", function (ev) {
+		/**$('#selectCard').on("mouseenter",".card img", function (ev) {
 		   $(ev.currentTarget).css("border","2px solid gray");
 		})
 		.on("mouseleave",".card img", function (ev) {
 		     $(ev.currentTarget).css("border","");
-		});
+		});*/
 		
 		$('#selectCard').on("click", ".selectCardB", function (ev) {
 			var sizeEl = Math.floor(size[0] - size[0]*0.3);
@@ -937,13 +982,16 @@ GameImaginarium.prototype = {
 			thisEl.resizeCard($(ev.currentTarget).parent(),ev.currentTarget, sizeEl);		    
 		});
 		
-        var setC = $('#setCardPanel').find('.setCard');
-        setC.find('label').text(data.cardset[0]);
-        setC.find('input').val(data.cardset[0]);
-        for (var i = 1; i < data.cardset.length; i++) {
-            var sclone = setC.clone();
-            sclone.find('label').text(data.cardset[i]);
-            sclone.find('input').val(data.cardset[i]);
+        var setC = $('#setCardPanel').find('.setCard');  
+        thisEl.setCard = data.setCard;
+        for (var i = 0; i < data.setCard.length; i++) {
+			var sclone = setC
+			if(i != 0){
+              sclone = setC.clone();
+			  sclone.find('input').prop('checked', false);
+			}
+			sclone.find('input').val(i);
+            sclone.find('label').text(data.setCard[i].name);            
             $('#setCardPanel').append(sclone);
         }
 		
@@ -990,6 +1038,18 @@ GameImaginarium.prototype = {
 			$('.cardimg').attr("src",thisEl.rootPath + "emptycard.jpg");
 		});
 		
+		$(document).on('click', '#buttonCloseInfo', function () {
+			$('#infoGame').hide();
+		});
+		
+		$(document).on('click', '#poleForSign', function () {
+			if($('#infoGame').is(':visible')){
+				$('#infoGame').hide();
+			}else{
+				$('#infoGame').show();
+			}
+		});
+		
 		$(document).on('click', '#buttonStartSelCard', function () {
 			thisEl.selInd = thisEl.selIndT;
 			thisEl.selIndT = null;
@@ -1012,12 +1072,30 @@ GameImaginarium.prototype = {
         });
 		
 		$(document).on('click', 'a.button9', function(){playAudio("sounds/click.mp3");});
+		$(document).on('click', '#showgame', function(){$('#selectCard').hide();$("#poleForButClose").show();});
+		$(document).on('click', '#buttonShowSelectCard', function(){$('#selectCard').show();$("#poleForButClose").hide();});
 
         this.poleGame.append($('<div id="place" style="float:left;">').append(centerLine)).append(this.choiseSetCardPanel);
         $('#waitGwin').hide();
 
         this.buildCell();
+		this.buildInfoSign();
     },
+	buildInfoSign:function(){
+		var h = this.sizeEl.sizeGamePlace[1] - 2;
+        var w = this.sizeEl.sizeGamePlace[0] - 2;
+		$("#rule").css("height",h - Math.round(h*0.4));
+		var vidhelpButton = $('<div style="position:absolute;text-aligne:center; z-index:100000;">').css('height', Math.round(h / 15) + 'px').css('width', Math.round(w / 7) + 'px').css('left', w - Math.round(w / 20)).css('top', "10px");
+        var helpButton = $('<a href="#" id="poleForSign" class="button9">?</a>');
+        vidhelpButton.append(helpButton);
+		$('#poleGame').append(vidhelpButton);
+		
+		
+		var vidgoToCardButton = $('<div id = "poleForButClose" style="display:none; position:absolute;text-aligne:center; z-index:501;">').css('float', 'left').css('height', Math.round(h / 15) + 'px').css('width', Math.round(w / 7) + 'px').css('left', Math.round(w / 2.6)).css('top', h-Math.round(h / 10));
+        var goToCardButton = $('<div style="display:inline-block;vertical-align: middle; color:white;"><a href="#" id="buttonShowSelectCard" class="button9">ShowCard</a></div>');
+        vidgoToCardButton.append(goToCardButton);
+		$('#poleGame').append(vidgoToCardButton);
+	},	
 	afterreadyVoteButton:function(){
 		this.actionsUser("NEXT_TOUR", "NEXT_TOUR".toLowerCase() + "Obr");
 		playAudio("sounds/nexttour.mp3");
@@ -1043,12 +1121,12 @@ GameImaginarium.prototype = {
 	        });
 			
 	        $(elImg).animate({
-	            "width": thisEl.pageS[4] + "px"
+	            "width": thisEl.sizeEl.pageS[4] + "px"
 	        }, "slow");
 			if(sizeEl == 0){
 				$(el).css('left',thisEl.posC.l);
 				$(el).css('top',thisEl.posC.t);
-				$(elImg).css("width",thisEl.pageS[4] + "px");
+				$(elImg).css("width",thisEl.sizeEl.pageS[4] + "px");
 			}			
 	        $(el).css({
 	            "width": ""
@@ -1078,9 +1156,9 @@ GameImaginarium.prototype = {
     getSizePl: function (countCard) {
         var cCardInW = (countCard - 4) / 4 + 2;
         var cCardInH = cCardInW;
-        var razmP = this.pageS[2];
-        if (this.pageS[2] > this.pageS[3]) {
-            razmP = this.pageS[3];
+        var razmP = this.sizeEl.pageS[2];
+        if (this.sizeEl.pageS[2] > this.sizeEl.pageS[3]) {
+            razmP = this.sizeEl.pageS[3];
         }
         var shMc = Math.floor(razmP / (cCardInW + 1.2));
         var shBc = Math.floor(shMc + shMc * 0.6);
@@ -1093,7 +1171,7 @@ GameImaginarium.prototype = {
             shMc: shMc,
             shBc: shBc,
             shCPl: shCPl,
-            fontsize: Math.round(shMc / 8)
+            fontsize: Math.ceil(this.sizeEl.sizeGamePlace[0] / 25)
         };
         return this.actSize;
     },
@@ -1177,7 +1255,6 @@ GameImaginarium.prototype = {
         }
 		this.startloadgamedata();
     },
-
     buildCell: function () {
         for (var ind = 0; ind < 39; ind++) {
             this.listCell[ind] = new Cell(this, ind);
@@ -1190,7 +1267,7 @@ GameImaginarium.prototype = {
     },
     _createBut: function (butName) {
         var thisEl = this;
-        return $('<button style="vertical-align: top;font-size:' + this.actSize.fontsize + 'pt;width:' + (Math.round(this.actSize.shCPl / 4) - 2) + 'px;height:' + Math.round((this.actSize.shCPl / 3) / 4) + 'px;" value="' + this.lang[butName] + '">' + this.lang[butName] + '</button>').click(function () {
+        return $('<button style="vertical-align: top;font-size:' + this.actSize.fontsize + 'px;width:' + (Math.round(this.actSize.shCPl / 4) - 2) + 'px;height:' + Math.round((this.actSize.shCPl / 3) / 4) + 'px;" value="' + this.lang[butName] + '">' + this.lang[butName] + '</button>').click(function () {
             thisEl.actionsUser(butName, butName.toLowerCase() + "Obr");
         });
     },    
@@ -1208,7 +1285,12 @@ GameImaginarium.prototype = {
         this.numError = 0;
 		
 		if (action == "CHOISE_SET_CARD"){			
-			dataReq.datas = {'setCard': $('.inputSetCard:checked').toArray().map(item => item.value)};
+		    var arr = $('.inputSetCard:checked').toArray().map(item => item.value);
+			var arrR = [];
+			for(var i=0; i<arr.length ;i++){
+				arrR[i] = this.setCard[arr[i]];
+			}
+			dataReq.datas = {'setCard': arrR};
 		}
 		if (action == "PUSH_CARD"){			
 			dataReq.datas = {'selectCard' : thisEl.selInd, 'assosiation': $('#assosiationInp').val(),'soltCards':thisEl.soltCards};
@@ -1225,7 +1307,7 @@ GameImaginarium.prototype = {
 		
 		if (action == "USER_VOTE")
 		{			
-			dataReq.datas = {'selectCard' : thisEl.selInd};			
+			dataReq.datas = {'nameSelectCard' : thisEl.setCardSelect[thisEl.selInd].name};			
 			this.resizeCard($('#selectCard .card.big')[0],$('#selectCard .card.big img')[0], 0);			
 			this.currentUserApprove = false;
 		}
@@ -1310,7 +1392,7 @@ GameImaginarium.prototype = {
             this.panelWin = $('<div style="background:black;position:absolute;z-index:40;top:0;left:0;width:' + this.actSize.shCPl + 'px;height:' + (this.actSize.shCPl - 2) + 'px; text-align:center;"></div>');
             $('#systContr').append(this.panelWin);
             this.imgWin = $('<img style="" src="' + this.imgName + 'win/' + 1 + '.gif" width="' + Math.round(this.actSize.shCPl / 2) + 'px" height="' + Math.round((this.actSize.shCPl - 2) / 2) + 'px"/>');
-            this.panelWin.append($('<div style="display: inline-block; vertical-align: middle; color: WHITE; padding: 60px;color:white; font-weight: bold;font-size: 20pt;"></div>')
+            this.panelWin.append($('<div style="display: inline-block; vertical-align: middle; color: WHITE; padding: 60px;color:white; font-weight: bold;"></div>')
                 .append('<div>' + this.lang['YOURS_WIN'] + '</div>').append(this.imgWin).append($('<div>' + this.lang['GAME_CLOSE'] + '</div>')
                     .click(function () {
                         document.location.href = predictURL + "/games/monopoly/actions/game_close";
