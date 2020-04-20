@@ -144,12 +144,23 @@ Fishka.prototype = {
         this.countUser = countUser;
         this.build();
     },
-    build: function () {		
+    build: function () {
+        var thisEl=this;		
 		var w = this.size[0];
 		var countFishkaInRow = (this.countUser<5)?this.countUser:4;
         var r = Math.floor(Math.floor(w / 7) / countFishkaInRow);
         this.vid = $('<div style="border-radius:' + r + 'px;display:inline-block;margin:auto;text-align:center;width:' + r + 'px;height:' + r + 'px; background-color: ' + this.colorF[this.numF - 1] + ';border: 3px solid white;"><span style="color:' + this.colorText[this.numF - 1] + 'font-weight:bold;text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">' + this.numF + '</span></div>')
         this.vid.hide().show();
+		this.vid.click(function(){
+			var userName = $("<div style='font-size:90px;font-weight:bold;position: absolute;left:"+Math.floor(w/2)+"px;top:"+Math.floor(thisEl.size[1]/2.5)+"px;'>"+thisEl.name+"</div>");
+			$('#poleGame').append(userName);
+			$( userName ).animate({
+				opacity: 0.25,
+				"font-size" : 0
+			}, 2000, function() {
+				userName.remove();
+			});
+		})
 		
 		var infoG = this.vid.clone();		
 		$("#gameInfo").append($('<div style="display:inline-block;padding:10px">').append(infoG).append("<label style='margin-left: 10px;'>"+this.name+"</label>"))
@@ -938,6 +949,9 @@ GameImaginarium.prototype = {
 
         $('#startWindow').css("width", "" + (size[0] - 2) + "px");
         $('#startWindow').css("height", "" + (size[1] - 2) + "px");
+		
+		//$('#poleHelp').css("width", "" + (size[0] - 2) + "px");
+        // $('#poleHelp').css("height", "" + (size[1] - 2) + "px");
         
 		$('#selectSetCard').css("width", "" + (size[0] - 2) + "px");
         $('#selectSetCard').css("height", "" + (size[1] - 2) + "px");
@@ -1085,16 +1099,15 @@ GameImaginarium.prototype = {
 		var h = this.sizeEl.sizeGamePlace[1] - 2;
         var w = this.sizeEl.sizeGamePlace[0] - 2;
 		$("#rule").css("height",h - Math.round(h*0.4));
-		var vidhelpButton = $('<div style="position:absolute;text-aligne:center; z-index:100000;">').css('height', Math.round(h / 15) + 'px').css('width', Math.round(w / 7) + 'px').css('left', w - Math.round(w / 20)).css('top', "10px");
+		var vidhelpButton = $('<div style="position:absolute;text-aligne:center; z-index:100000;">').css('height', Math.round(h / 15) + 'px').css('width', Math.round(w / 7) + 'px').css('left', w - Math.round(w / 5)).css('top', "10px");
         var helpButton = $('<a href="#" id="poleForSign" class="button9">?</a>');
         vidhelpButton.append(helpButton);
-		$('#poleGame').append(vidhelpButton);
+		$('#poleHelp').append(vidhelpButton);		
 		
-		
-		var vidgoToCardButton = $('<div id = "poleForButClose" style="display:none; position:absolute;text-aligne:center; z-index:501;">').css('float', 'left').css('height', Math.round(h / 15) + 'px').css('width', Math.round(w / 7) + 'px').css('left', Math.round(w / 2.6)).css('top', h-Math.round(h / 10));
-        var goToCardButton = $('<div style="display:inline-block;vertical-align: middle; color:white;"><a href="#" id="buttonShowSelectCard" class="button9">ShowCard</a></div>');
+		var vidgoToCardButton = $('<div id = "poleForButClose" style="display:none; position:absolute;text-aligne:center; z-index:501;">').css('float', 'left').css('height', Math.round(h / 15) + 'px').css('width', Math.round(w / 3) + 'px').css('left', Math.round(w / 3.8)).css('top', h-Math.round(h / 9.5));
+        var goToCardButton = $('<div style="display:inline-block;vertical-align: middle; color:white;"><a href="#" id="buttonShowSelectCard" class="button9">Show card</a></div>');
         vidgoToCardButton.append(goToCardButton);
-		$('#poleGame').append(vidgoToCardButton);
+		$('#poleCell').append(vidgoToCardButton);
 	},	
 	afterreadyVoteButton:function(){
 		this.actionsUser("NEXT_TOUR", "NEXT_TOUR".toLowerCase() + "Obr");
