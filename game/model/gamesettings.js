@@ -1,9 +1,11 @@
-var MonopolyGame = require("./monopolygame");
-var CardFirm = require("./cardfirm");
-var CardPlusMinus = require("./cardplusminus");
-var CardPrison = require("./cardprison");
-var CardCheating = require("./cardcheating");
-var UserMonopoly = require("./usermonopoly");
+var MonopolyGame = require("././monopoly/model/monopolygame");
+var CardFirm = require("././monopoly/model/cardfirm");
+var CardPlusMinus = require("././monopoly/model/cardplusminus");
+var CardPrison = require("././monopoly/model/cardprison");
+var CardCheating = require("././monopoly/model/cardcheating");
+var UserMonopoly = require("././monopoly/model/usermonopoly");
+var UserImaginarium = require("././imaginarium/model/userimaginarium");
+var ImaginariumGame = require("././monopoly/model/imaginariumgame");
 
 class GameSettings{
     static createStandartMonopoly(roomForJoin){
@@ -59,6 +61,27 @@ class GameSettings{
        console.log(monopolyGame);
        return monopolyGame;
     }
+
+    static createStandartImaginarium(roomForJoin){
+           console.log('createStandartImaginarium : '+JSON.stringify(roomForJoin));
+            var listUsers = [];
+
+            for(var i=0;i<roomForJoin.roomUsers.length;i++){
+               var oldUser = roomForJoin.roomUsers[i];
+               var mUser = new UserImaginarium(oldUser, 7);
+               listUsers[listUsers.length]=mUser;
+            }
+           var imaginariumGame=new ImaginariumGame(listCard, startMoney, moneyForCircle, roomForJoin.nameRoom, roomForJoin.maxCountUser, listUsers);
+           monopolyGame.setImageFolder("images/monopoly");
+           monopolyGame.setImageCenter("center.jpg");
+           //monopolyGame.setCredit(10000);
+           monopolyGame.setPenalty_cheating(10000);
+           monopolyGame.setPossibleCredit(startMoney*3);
+
+           monopolyGame.startGameF();
+           console.log(monopolyGame);
+           return monopolyGame;
+        }
 }
 
 module.exports = GameSettings; 

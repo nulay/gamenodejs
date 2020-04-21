@@ -22,10 +22,9 @@ class UserImaginarium extends DefaultUserRoom {
     
     availableAction=[];
 
-    constructor(user, maxCountActiveRoom, money){
+    constructor(user, maxCountActiveRoom){
         super(user,maxCountActiveRoom);
-        
-        this.money = money;
+
         this.actionsAllUser=[];
         
         this.availableAction=[];

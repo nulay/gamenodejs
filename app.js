@@ -8,9 +8,9 @@ var User = require('./user');
 const fs = require("fs");
 var GameRoom = require("./model/gameroom");
 var RoomUser = require("./model/roomuser");
-var MonopolyGame = require("./game/model/monopolygame");
-var GameSettings = require("./game/model/gamesettings");
-var DataForGame = require("./game/model/dataforgame");
+var MonopolyGame = require("./game/monopoly/model/monopolygame");
+var GameSettings = require("./game/monopoly/model/gamesettings");
+var DataForGame = require("./game/monopoly/model/dataforgame");
 
 var mime = {
     html: 'text/html',
@@ -27,7 +27,6 @@ var dirs1 = path.join(__dirname, 'public');
 var dirs2 = path.join(__dirname, 'game/public');
 
 global.rooms = [];
-
 
 // invoke an instance of express application.
 var app = express();
@@ -226,9 +225,15 @@ app.route('/jointoroom')
           var roomUser = new RoomUser(user.name);
 
            if(roomForJoin.addUser(roomUser)){        
-              if (roomForJoin.isStartGame()){   
-                 roomForJoin.game = GameSettings.createStandartMonopoly(roomForJoin);            
-                 console.log(global.rooms[i]);
+              if (roomForJoin.isStartGame()){
+                 if(roomForJoin.typeRoom == 'monopoly'){
+                     roomForJoin.game = GameSettings.createStandartMonopoly(roomForJoin);
+                     console.log(global.rooms[i]);
+                 }
+                 if(roomForJoin.typeRoom == 'monopoly'){
+                     roomForJoin.game = GameSettings.createStandartMonopoly(roomForJoin);
+                     console.log(global.rooms[i]);
+                 }
               }
               res.json({'success':true});
            }else{   

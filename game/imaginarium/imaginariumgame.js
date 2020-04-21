@@ -27,7 +27,7 @@ class ImaginariumGame{
 
     cardset = [];
 
-    constructor(listCard, roomName, maxCountUser,listUsers, cardset) {
+    constructor(listCard, roomName, maxCountUser, listUsers, cardset) {
         this.timeStartGame = new Date().getTime();
         this.listCard = listCard;
         this.roomName = roomName;
