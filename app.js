@@ -276,7 +276,7 @@ app.route('/game/:roomname')
         console.log('game/noroom: '+req.session.curentGameName);
         var room = global.rooms[req.params.roomname];
         console.log('game/noroom: '+room);
-        res.sendFile(__dirname + '/game/'+room.typeRoom+'public/game.html');
+        res.sendFile(__dirname + '/game/' + room.game.url);
     });
 
 // game info room.maxCountUser , data.userRoom.name like curent user
