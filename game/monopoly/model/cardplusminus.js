@@ -1,6 +1,6 @@
-var CardDefault = require("./carddefault");
+var CardDefault = require("./../../carddefault");
 var ActionUser = require("./actionuser");
-var Util = require("./util");
+var Util = require("./../../util");
 class CardPlusMinus extends CardDefault {
     //private List<Integer> possibleShtraf;
     possibleShtraf;

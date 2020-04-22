@@ -1,4 +1,4 @@
-var CardDefault = require("./carddefault");
+var CardDefault = require("./../../carddefault");
 var ActionUser = require("./actionuser");
 class CardCheating extends CardDefault {
     //private int numPrison;
