@@ -1,35 +1,31 @@
 ﻿<html>
 
 <head>
-    <title>Login Here</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css" >
-    <link rel="stylesheet" href="css/jquery-ui.css">
-<!--     <link rel="stylesheet" href="/resources/demos/style.css">-->
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/jquery-ui.js"></script>
+	<title>Login Here</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css" >
+	<link rel="stylesheet" href="../css/jquery-ui.css">
+	<!--     <link rel="stylesheet" href="/resources/demos/style.css">-->
+	<script src="../js/jquery-3.4.1.min.js"></script>
+	<script src="../js/jquery-ui.js"></script>
 
-<!--  <script type="text/javascript" src="../../../public/js/YConsole-compiled.js"></script>
-    <script type="text/javascript">
-           YConsole.activate();
-           console.log("first intercepted log.");
-           YConsole.docking="bottom";
-           YConsole.show();
-    </script>
--->
-    <script type="application/javascript" src="pole.js"></script>
-</head>
-
-<body class="">
-
-<style type="text/css">
+	<!--  <script type="text/javascript" src="../../../public/js/YConsole-compiled.js"></script>
+        <script type="text/javascript">
+               YConsole.activate();
+               console.log("first intercepted log.");
+               YConsole.docking="bottom";
+               YConsole.show();
+        </script>
+    -->
+	<script type="application/javascript" src="pole.js"></script>
+	<style type="text/css">
 body{
   margin: 0;padding: 0;
   overflow:hidden;
   color:white;
 }
 input{
-   background:black; 
-   color:#FFFFFF;   
+   background:black;
+   color:#FFFFFF;
 }
 a.button9 {
   position: relative;
@@ -56,7 +52,7 @@ a.button9 {
 }
 a.buttonsmall{
   padding: 0.2em 0.5em;
- 
+
 }
 a.button9:hover {
   transition: .5s linear;
@@ -75,7 +71,7 @@ img.displayed {
 span.displayed {
     display: block;
     margin-left: auto;
-    margin-right: auto 
+    margin-right: auto
 }
 label{
     color:white;
@@ -92,70 +88,72 @@ textMessage{
 passPlayer, namePlayer{
 	background:black;
 	color:#FFFFFF;
-	
+
 }
 
 #poleGame{margin: 0 auto;}
 </style>
+</head>
+<body class="">
 <div id="poleGame">
-	<div id="poleHelp" style="position:absolute;z-index:150000;float:left;">        
-    </div>
-    <div id="waitGwin" style="display:none;position:absolute;z-index:1000;left:0;top:0; background:black; height:1000px;opacity: 0.8;width: 100%;">
-        <div class="textMessage">Ожидание игроков!!</div>
-    </div>	
-    <div id="startWindow" style="position:absolute;z-index:1000; background:black;opacity: 0.8;float:left;">
-        <div style="color: white; padding-top: 20%;width: 100%;">
-		    <div style="padding:20px;">Выбирите количество игроков: <a href="#" id="minusPlayer" class="button9 buttonsmall">-</a><span id="countPlayers" style="padding:0 10px 0 10px">1</span><a href="#" id="plusPlayer" class="button9 buttonsmall">+</a></div>
-		    <div style="padding:20px;">Введите имена игроков:</div>
+	<div id="poleHelp" style="position:absolute;z-index:150000;float:left;">
+	</div>
+	<div id="waitGwin" style="display:none;position:absolute;z-index:1000;left:0;top:0; background:black; height:1000px;opacity: 0.8;width: 100%;">
+		<div class="textMessage">Ожидание игроков!!</div>
+	</div>
+	<div id="startWindow" style="position:absolute;z-index:1000; background:black;opacity: 0.8;float:left;">
+		<div style="color: white; padding-top: 20%;width: 100%;">
+			<div style="padding:20px;">Выбирите количество игроков: <a href="#" id="minusPlayer" class="button9 buttonsmall">-</a><span id="countPlayers" style="padding:0 10px 0 10px">1</span><a href="#" id="plusPlayer" class="button9 buttonsmall">+</a></div>
+			<div style="padding:20px;">Введите имена игроков:</div>
 			<div id="playerPanel" style="padding-right:30px">
-			    <div align="right" class="playerField"><span class="numPlayer">1</span> игрок: <input class="namePlayer" type="text" size="5"/><span class="passPanel" style="display:none;"> пароль: <input class="passPlayer" type="password" size="5" /><span></div>
-		    </div>
+				<div align="right" class="playerField"><span class="numPlayer">1</span> игрок: <input class="namePlayer" type="text" size="5"/><span class="passPanel" style="display:none;"> пароль: <input class="passPlayer" type="password" size="5"/><span></div>
+			</div>
 			<div style="display:none;">Добавить набор запутывания: <a href="#" id="minusSolt" class="button9 buttonsmall">-</a><span id="countSolts" style="padding:0 10px 0 10px">1</span><a href="#" id="plusSolt" class="button9 buttonsmall">+</a></div>
-            <div style="padding:20px;"><label><input id="passSwitch" type="checkbox"> Включить пароли</label></div>
-		    <div style="padding:20px;"><a href="#" id="buttonStart" class="button9">Start</a></div>
-		    <div id="errorPlace" style="padding:10px;color:red;"></div>
-	    </div>
-    </div>
+			<div style="padding:20px;"><label><input id="passSwitch" type="checkbox"> Включить пароли</label></div>
+			<div style="padding:20px;"><a href="#" id="buttonStart" class="button9">Start</a></div>
+			<div id="errorPlace" style="padding:10px;color:red;"></div>
+		</div>
+	</div>
 	<div id="infoGame" style="position:absolute; z-index:1500; background:black; opacity: 1; float:left; display:none;">
-        <div style="color: white; margin: 0 auto; width: 100%;">
-		    <div id="gameInfo" style="padding:30px;"></div>
+		<div style="color: white; margin: 0 auto; width: 100%;">
+			<div id="gameInfo" style="padding:30px;"></div>
 			<div id="rule" style="overflow-y: scroll;border: 1px solid darkgray;"><div class="code"><h3>Начало</h3><p>Каждый игрок выбирает себе слона и&nbsp;набор карточек для голосования того&nbsp;же цвета, что и&nbsp;слон. Карточек для голосования семь. Вам пригодится столько карточек, сколько человек играет. Если играет 6 человек, карточка с&nbsp;номером 7 вам не&nbsp;нужна.</p><h3>Определение первого хода</h3><p>Вы&nbsp;должны определить, кто будет ходить первым. Вы&nbsp;можете использовать для этого карточки для голосования. Все участники берут свои карточки для голосования, перемешивают и&nbsp;вытягивают любую карточку наугад. Первым начинает ходить тот, кто вытянул карточку с&nbsp;наибольшим числом. Можно использовать любую другую механику для выбора игрока, стартующего первым. Мы, например, разыгрываем это право в&nbsp;шахматы. Дальше игра идет по&nbsp;часовой стрелке.</p><h3>Ход игры</h3> <p>Слоны всех игроков выставляются на&nbsp;игровое поле на&nbsp;облачко 1.</p><p>Колода с&nbsp;<nobr>карточками-иллюстрациями</nobr> перемешивается и&nbsp;каждому игроку выдается на&nbsp;руки по&nbsp;6 карточек.</p><p>Игрок загадывает ассоциацию. </p><p>Каждый ход один из&nbsp;игроков становится ведущим. Ведущий загадывает ассоциацию на&nbsp;одну из&nbsp;своих карточек, говорит эту ассоциацию вслух остальным игрокам и&nbsp;выкладывает на&nbsp;стол загаданную карточку рубашкой вверх. </p><h3>Угадывание карточки ведущего</h3><p>Основная задача игроков&nbsp;— угадать, какую именно из&nbsp;выложенных на&nbsp;столе карточек загадал ведущий, и&nbsp;проголосовать за&nbsp;нее. Каждый игрок выбирает одну карточку для голосования с&nbsp;нужным номером и&nbsp;кладет рубашкой вверх. Ведущий не&nbsp;голосует и&nbsp;не&nbsp;комментирует выложенные на&nbsp;столе картинки. Голосовать за&nbsp;свою собственную картинку нельзя. Когда все приняли решение и&nbsp;проголосовали, карточки для голосования переворачиваются и&nbsp;происходит подсчет очков. </p><h3>Подсчет очков</h3><p>Игроки передвигают свои фишки на&nbsp;игровом поле на&nbsp;количество шагов, соответствующее количеству выигранных очков. </p></div></div>
-		    <div style="padding:20px;"><a href="#" id="buttonCloseInfo" class="button9">Close</a></div>
-	    </div>
-    </div>
+			<div style="padding:20px;"><a href="#" id="buttonCloseInfo" class="button9">Close</a></div>
+		</div>
+	</div>
 	<div id="selectSetCard" style="position:absolute;z-index:1001; background:black;opacity: 0.8;float:left;display:none;">
-        <div style="color: white;margin: 0 auto;padding-top: 20%;px;width: 100%;">
-		    <div>Выберите наборы карт для игры:</div>
-		    <div id="setCardPanel" style="padding-right:30px">
-			    <div align="right" class="setCard"><label>Base</label><input type="checkbox" checked name="setCard" class="inputSetCard" value="Base"></div>
-		    </div>
-            <div style="padding:20px;"><a href="#" id="buttonStartSelCard" class="button9">Start</a></div>
-		    <div id="errorPlace" style="padding:10px;color:red;"></div>
-	    </div>
-    </div>
+		<div style="color: white;margin: 0 auto;padding-top: 20%;px;width: 100%;">
+			<div>Выберите наборы карт для игры:</div>
+			<div id="setCardPanel" style="padding-right:30px">
+				<div align="right" class="setCard"><label>Base</label><input type="checkbox" checked name="setCard" class="inputSetCard" value="Base"></div>
+			</div>
+			<div style="padding:20px;"><a href="#" id="buttonStartSelCard" class="button9">Start</a></div>
+			<div id="errorPlace" style="padding:10px;color:red;"></div>
+		</div>
+	</div>
 	<div id="selectCard" style="position:absolute;z-index:1002; background:black;float:left;display:none;">
-        <div class = "cardPlace">		    
-		    <div class="card card1" style="position: absolute; z-index:1005;background:black;"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;top:80%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB">Выбрать</a></div></div>			
-	    </div>		
-		<div style="padding-top:105%;">Игрок : <span id = "nameGamer"></span></div>		
+		<div class = "cardPlace">
+			<div class="card card1" style="position: absolute; z-index:1005;background:black;"><img class = "cardimg displayed" src=""><div class="battonSel" style="position: absolute; z-index:2005;top:80%;left:5px;"><div class = "voteUser"></div><a type="button" class="button9 selectCardB">Выбрать</a></div></div>
+		</div>
+		<div style="padding-top:105%;">Игрок : <span id = "nameGamer"></span></div>
 		<div style="padding-top:5%;" class="entAss"><span class = "displayed" ><label>Введите ассоциацию : </label><input id="assosiationInp" style="margin-left:7px" size="7" type="text"><a href="#" id="readyassosiation" class="button9 readyButton" style="margin-left:7px;display:none;">Ready</a></span></div>
 		<div style="padding-top:5%;" class="choseAss"><span class = "displayed" ><label>Выбирете карту на ассоциацию : </label><span class="placeAssotiation"></span><a href="#" id="readysam" class="button9 readyButton" style="margin-left:7px;display:none;">Ready</a></span></div>
 		<div style="padding-top:5%;" class="choseMainCard"><span class = "displayed" ><label>Определите карту ведущего, ассоциация : </label><span class="placeAssotiation"></span><a href="#" id="playercard" class="button9 readyButton" style="margin-left:7px;display:none;">Ready</a></span></div>
 		<div style="padding-top:5%;" class="voteBlock"><span class = "displayed" ><label>Aссоциация была: </label><span class="placeAssotiation"></span><a href="#" id="readyVoteButton" class="button9 readyButton" style="margin-left:7px;display:none;">Ready</a></span></div>
 		<div style="padding-top:5%;padding-left:100px;"><span class = "displayed" ><a href="#" id="showgame" class="button9">Show place</a></span></div>
-    </div>
-	<div id="poleCell" style="position:absolute;z-index:500;float:left;">        
-    </div>
-    <div id="transferDevice" style="position:absolute;z-index:1002; background:black;opacity: 0.8;float:left;display:none">
-        <div style="color: white;margin: 0 auto;padding-top: 20%;px;width: 100%;">
-            <div>Передайте устройство игроку : <span class="namePlayerTransfer"></span> <div id="passNeed" style="display:none;">пароль: <input class="passTransfer" type="pass" size="5" style="background:black; color:#FFFFFF;"/></div></div>
-            <div style="padding:20px;"><a id="TransferComplete" type="button" class="button9">Complete</a></div>
-            <div id="errorPlacetransferDevice" style="padding:10px;color:red;"></div>
-        </div>
-    </div>
+	</div>
+	<div id="poleCell" style="position:absolute;z-index:500;float:left;">
+	</div>
+	<div id="transferDevice" style="position:absolute;z-index:1002; background:black;opacity: 0.8;float:left;display:none">
+		<div style="color: white;margin: 0 auto;padding-top: 20%;px;width: 100%;">
+			<div>Передайте устройство игроку : <span class="namePlayerTransfer"></span> <div id="passNeed" style="display:none;">пароль: <input class="passTransfer" type="pass" size="5" style="background:black; color:#FFFFFF;"/></div></div>
+			<div style="padding:20px;"><a id="TransferComplete" type="button" class="button9">Complete</a></div>
+			<div id="errorPlacetransferDevice" style="padding:10px;color:red;"></div>
+		</div>
+	</div>
 	<div id="win" style="position:absolute;z-index:2002; background:black;opacity: 0.8;float:left;display:none">
-        <div style="padding-top:5%;" class="winBlock"><span class = "displayed" ><label> </label><span class="placeAssotiation"></span><a href="#" id="winBut" class="button9 readyButton" style="margin-left:7px;display:none;">Ready</a></span></div>
-    </div>
+		<div style="padding-top:5%;" class="winBlock"><span class = "displayed" ><label> </label><span class="placeAssotiation"></span><a href="#" id="winBut" class="button9 readyButton" style="margin-left:7px;display:none;">Ready</a></span></div>
+	</div>
 </div>
 
 </body>
