@@ -4,7 +4,7 @@ var ActionUser = require("./../../model/actionuser");
 var Util = require("./../../model/util");
 
 class ImaginariumGame{
-    url = "imaginarium/public/pole.html";
+    url = "imaginarium/public/imaginarium/pole.html";
     roomName;
     listUsers = [];
     listViewUser = [];

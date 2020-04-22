@@ -4,7 +4,7 @@ var ActionUser = require("./../../model/actionuser");
 var Util = require("./../../model/util");
 var Auction = require("./auction");
 class MonopolyGame{
-    url = "monopoly/public/game.html";
+    url = "monopoly/public/monopoly/game.html";
 // implements GameMonopoly{
     //игровая комната
     //private Room room;
