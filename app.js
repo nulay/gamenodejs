@@ -25,7 +25,8 @@ var mime = {
 };
 
 var dirs1 = path.join(__dirname, 'public');
-var dirs2 = path.join(__dirname, 'game/public');
+var dirs2 = path.join(__dirname, 'game/monopoly/public');
+var dirs2 = path.join(__dirname, 'game/imaginarium/public');
 
 global.rooms = [];
 
@@ -57,6 +58,7 @@ app.use(session({
 
 app.use(express.static(dirs1));
 app.use(express.static(dirs2));
+app.use(express.static(dirs3));
 
 // This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
@@ -272,11 +274,13 @@ function getRoom(roomName){
 // route for game
 app.route('/game/:roomname')
     .get(sessionCheckerFalse, (req, res) => {
-        req.session.curentGameName=req.params.roomname;
-        console.log('game/noroom: '+req.session.curentGameName);
-        var room = global.rooms[req.params.roomname];
-        console.log('game/noroom: '+room);
-        res.sendFile(__dirname + '/game/' + room.game.url);
+        if(isNaN(req.params.roomname)){
+            req.session.curentGameName=req.params.roomname;
+            console.log('game/noroom: '+req.session.curentGameName);
+            var room = global.rooms[req.params.roomname];
+            console.log('game/noroom: '+room);
+            res.sendFile(__dirname + '/game/' + room.game.url);
+        }
     });
 
 // game info room.maxCountUser , data.userRoom.name like curent user
