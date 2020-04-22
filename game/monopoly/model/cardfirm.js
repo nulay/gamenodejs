@@ -1,6 +1,6 @@
 var CardDefault = require("./../../model/carddefault");
 var Util = require("./../../model/util");
-var ActionUser = require("./actionuser");
+var ActionUser = require("./../../model/actionuser");
 class CardFirm extends CardDefault {
     
     //private int id;

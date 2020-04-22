@@ -1,4 +1,4 @@
-var ActionUser = require("./actionuser");
+var ActionUser = require("./../../model/actionuser");
 
 class Auction {
     //private GameMonopoly gameMonopoly;
