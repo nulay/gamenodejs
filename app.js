@@ -9,7 +9,7 @@ const fs = require("fs");
 var GameRoom = require("./model/gameroom");
 var RoomUser = require("./model/roomuser");
 var MonopolyGame = require("./game/monopoly/model/monopolygame");
-var GameSettings = require("./game/monopoly/model/gamesettings");
+var GameSettings = require("./game/model/gamesettings");
 var DataForGame = require("./game/monopoly/model/dataforgame");
 
 var mime = {
