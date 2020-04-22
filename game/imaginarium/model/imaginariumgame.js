@@ -29,11 +29,10 @@ class ImaginariumGame{
 
     constructor(roomName, maxCountUser, listUsers) {
         this.timeStartGame = new Date().getTime();
-        this.listCard = listCard;
+
         this.roomName = roomName;
         this.listUsers = listUsers       
-        this.maxCountUser = maxCountUser;   
-        this.cardset = cardset;     
+        this.maxCountUser = maxCountUser;
     }
     
      getUserByName(nameUser){
