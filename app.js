@@ -274,7 +274,7 @@ function getRoom(roomName){
 // route for game
 app.route('/game/:roomname')
     .get(sessionCheckerFalse, (req, res) => {
-        if(isNaN(req.params.roomname)){
+        if(!isNaN(req.params.roomname)){
             req.session.curentGameName=req.params.roomname;
             console.log('game/noroom: '+req.session.curentGameName);
             var room = global.rooms[req.params.roomname];
