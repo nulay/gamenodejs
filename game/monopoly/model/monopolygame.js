@@ -1,5 +1,5 @@
 var UserMonopoly = require("./usermonopoly");
-var GameRoom = require("./../../model/gameroom");
+var GameRoom = require("./../../../../model/gameroom");
 var ActionUser = require("./actionuser");
 var Util = require("./../../model/util");
 var Auction = require("./auction");
