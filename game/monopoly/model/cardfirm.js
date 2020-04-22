@@ -1,5 +1,5 @@
 var CardDefault = require("./../../carddefault");
-var Util = require("./../../util");
+var Util = require("./../../model/util");
 var ActionUser = require("./actionuser");
 class CardFirm extends CardDefault {
     
