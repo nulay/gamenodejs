@@ -1,4 +1,4 @@
-var DefaultUserRoom = require("./defaultuserroom");
+var DefaultUserRoom = require("./../../model/defaultuserroom");
 var Util = require("./util");
 class UserMonopoly extends DefaultUserRoom {
 //implements UserMonopoly{

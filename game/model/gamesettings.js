@@ -1,11 +1,11 @@
-var MonopolyGame = require("././monopoly/model/monopolygame");
-var CardFirm = require("././monopoly/model/cardfirm");
-var CardPlusMinus = require("././monopoly/model/cardplusminus");
-var CardPrison = require("././monopoly/model/cardprison");
-var CardCheating = require("././monopoly/model/cardcheating");
-var UserMonopoly = require("././monopoly/model/usermonopoly");
-var UserImaginarium = require("././imaginarium/model/userimaginarium");
-var ImaginariumGame = require("././monopoly/model/imaginariumgame");
+var MonopolyGame = require("./../monopoly/model/monopolygame");
+var CardFirm = require("./../monopoly/model/cardfirm");
+var CardPlusMinus = require("./../monopoly/model/cardplusminus");
+var CardPrison = require("./../monopoly/model/cardprison");
+var CardCheating = require("./../monopoly/model/cardcheating");
+var UserMonopoly = require("./../monopoly/model/usermonopoly");
+var UserImaginarium = require("./../imaginarium/model/userimaginarium");
+var ImaginariumGame = require("./../monopoly/model/imaginariumgame");
 
 class GameSettings{
     static createStandartMonopoly(roomForJoin){

@@ -1,4 +1,4 @@
-var DefaultUserRoom = require("./../defaultuserroom");
+var DefaultUserRoom = require("./../../model/defaultuserroom");
 var Util = require("./../../../module/util");
 class UserImaginarium extends DefaultUserRoom {
     indexPosition=0;
