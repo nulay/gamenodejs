@@ -1,7 +1,7 @@
 var UserImaginarium = require("./userimaginarium");
 var GameRoom = require("./../../../model/gameroom");
 var ActionUser = require("./actionuser");
-var Util = require("./../../module/util");
+var Util = require("./../../model/util");
 
 class ImaginariumGame{
 
