@@ -271,7 +271,7 @@ DataGameNoLoad.prototype.gamers = [];
 DataGameNoLoad.prototype.loadDataGame = function (obj, collbackNameFunction) {
     //here we need pull in place and cards
     var data = new Object();
-    var rootPath = "images/"; //resources/images/games/imaginarium/
+    var rootPath = "/imaginarium/images/"; //resources/images/games/imaginarium/
     data.pole = new Object();
     data.setCard = [{"name":"Base", "countCard" : 96, "type":"jpg"}, 
 	{"name":"Ariadna", "countCard" : 98, "type":"jpg"}, 
