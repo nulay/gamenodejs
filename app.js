@@ -26,7 +26,7 @@ var mime = {
 
 var dirs1 = path.join(__dirname, 'public');
 var dirs2 = path.join(__dirname, 'game/monopoly/public');
-var dirs2 = path.join(__dirname, 'game/imaginarium/public');
+var dirs3 = path.join(__dirname, 'game/imaginarium/public');
 
 global.rooms = [];
 
