@@ -71,16 +71,10 @@ class GameSettings{
                var mUser = new UserImaginarium(oldUser, 7);
                listUsers[listUsers.length]=mUser;
             }
-           var imaginariumGame=new ImaginariumGame(listCard, startMoney, moneyForCircle, roomForJoin.nameRoom, roomForJoin.maxCountUser, listUsers);
-           monopolyGame.setImageFolder("images/monopoly");
-           monopolyGame.setImageCenter("center.jpg");
-           //monopolyGame.setCredit(10000);
-           monopolyGame.setPenalty_cheating(10000);
-           monopolyGame.setPossibleCredit(startMoney*3);
+           var imaginariumGame=new ImaginariumGame(roomForJoin.nameRoom, roomForJoin.maxCountUser, listUsers);
 
-           monopolyGame.startGameF();
-           console.log(monopolyGame);
-           return monopolyGame;
+           console.log(imaginariumGame);
+           return imaginariumGame;
         }
 }
 
