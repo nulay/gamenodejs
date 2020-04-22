@@ -519,7 +519,7 @@ app.route('/games/monopoly/actions')
            if(req.query.action == "vote_card"){               
                curentRoom.game.voteCard(req.query.indcard, req.session.user.name);                
            }
-
+        }
         
     }).post(sessionCheckerFalse, (req, res) => {
         
