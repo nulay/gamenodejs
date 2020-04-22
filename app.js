@@ -11,7 +11,7 @@ var RoomUser = require("./model/roomuser");
 var MonopolyGame = require("./game/monopoly/model/monopolygame");
 var GameSettings = require("./game/model/gamesettings");
 var DataForGame = require("./game/monopoly/model/dataforgame");
-var ImaginariumGame = require("./game/monopoly/model/imaginariumgame");
+var ImaginariumGame = require("./game/imaginarium/model/imaginariumgame");
 
 var mime = {
     html: 'text/html',
@@ -232,7 +232,7 @@ app.route('/jointoroom')
                      console.log(global.rooms[i]);
                  }
                  if(roomForJoin.typeRoom == 'imaginarium'){
-                     roomForJoin.game = GameSettings.createStandartMonopoly(roomForJoin);
+                     roomForJoin.game = GameSettings.createStandartImaginarium(roomForJoin);
                      console.log(global.rooms[i]);
                  }
               }
